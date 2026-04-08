@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+raw/
+extracts/
+wiki/log.md
+.env
+.env.*
+.cache/
+.hf/
+.huggingface/
+.obsidian

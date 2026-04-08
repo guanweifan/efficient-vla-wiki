@@ -2,20 +2,20 @@
 
 ## 当前状态
 - 当前阶段：`Bootstrap Build`
-- 当前 pass：`Pass 1 | Semantic Scan completed`
-- 当前规模：`99 / 99` 篇 `papers`
-- 下一步：`Prepare Pass 2 | Reverse Calibration`
+- 当前 pass：`Pass 2 | Reverse Calibration ready`
+- 已有基础：`99 / 99` 篇 `papers`
+- 下一步：`Launch Pass 2 | wave-001`
 
 ## 层级入口
-- `papers/`：单篇论文的第一版语义页
-- `evidence/`：后续深证据层，当前尚未正式建立
-- `synthesis/`：后续跨论文建模层，当前尚未正式建立
+- `papers/`：已完成第一轮建图的单篇页
+- `evidence/`：后续 `Pass 3` 才会系统建立
+- `synthesis/`：后续 `Pass 4` 才会正式建立
 
-## 本阶段结果
-- 已完成全量 `L1` 建图
-- 已完成 `13` 个 `Pass 1` 波次
-- 单篇页已形成整库 paper layer 基线
+## 当前重点
+- 保持 `papers/` 为主工作面
+- 用较新的论文收紧旧页面术语与 headline 边界
+- 不把 `Pass 2` 误做成新的 `Pass 1` 或提前做成 `Pass 3`
 
 ## 说明
-- `extracts/` 是参考层，不是 wiki 本体
-- 当前冷启动已从 `Pass 1` 转入 `Pass 2` 准备阶段
+- `Pass 1` 已完成 `13` 个波次
+- 当前 `Pass 2` 采用 `1` 个 chief editor + `2` 个 worker 的准备配置

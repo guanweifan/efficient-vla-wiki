@@ -1,9 +1,9 @@
 {
   "mode": "bootstrap",
-  "current_pass": "pass1_semantic_scan_completed",
+  "current_pass": "pass2_reverse_calibration_ready",
   "bootstrap": {
-    "phase": "pass1_semantic_scan_completed",
-    "next_step": "prepare pass2 reverse calibration"
+    "phase": "pass2_reverse_calibration_ready",
+    "next_step": "launch pass2 wave-001"
   },
   "summary": {
     "paper_pages": 99,
@@ -15,5 +15,15 @@
     "wave_count": 13,
     "paper_count": 99
   },
-  "updated_at": "2026-04-08T13:18:22+08:00"
+  "pass2": {
+    "ready": true,
+    "completed": false,
+    "worker_setup": {
+      "chief_editor": 1,
+      "workers": 2,
+      "papers_per_worker": 3,
+      "wave_size": 6
+    }
+  },
+  "updated_at": "2026-04-08T13:29:23+08:00"
 }

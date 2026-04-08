@@ -3,6 +3,16 @@
 ## 状态
 1. 本文件记录正式 `Pass 3` 的任务储备与轮次重点，不是完成账本。
 2. `Pass 3` 由 `chief-editor` 主导，多轮推进；不默认一轮做完全部 evidence mining。
+3. `Pass 3` 既要保证全库覆盖，也要允许重点深挖；两者必须同时被调度。
+
+## 覆盖目标
+1. `P3-Minimum`
+   - 每篇论文至少完成一次真正的 evidence deepening。
+   - “真正的 evidence deepening” 不等于只增加一个页码指针；至少要把一个 headline、表格、图注、wording 或 operating point 拆到更细层级。
+2. `P3-Core`
+   - 高频被比较论文、共享 metric 相关论文、后续建模关键论文，需要完成更高粒度的 table / metric / setting / figure / wording 深挖。
+3. `P3-Shared`
+   - 高优先级共享 metric / benchmark / wording 口径应沉淀为可复用 evidence 页面。
 
 ## 任务分类
 1. `paper-local`
@@ -15,10 +25,18 @@
    - 目标：沉淀共享 metric、共享 benchmark 口径或共享 wording 约束。
    - 约束：只写 source-grounded evidence 与“不可混写项”，不提前滑向 synthesis。
 
+## 两类调度主线
+1. `coverage track`
+   - 默认优先队列。
+   - 每轮优先选择那些尚未完成实质 evidence deepening 的论文。
+2. `priority track`
+   - 选择高频被引用论文、共享 metric、共享 benchmark、关键图表和关键 wording。
+   - 只能与 `coverage track` 并行存在，不能替代它。
+
 ## 轮次重点
 1. 第 1 轮：优先铺设 evidence 骨架，让高价值 `papers/*.md` 有稳定 evidence 落点。
-2. 第 2 轮：优先深挖高价值表格、指标与 operating point。
-3. 第 3 轮：优先深挖 figure / caption / wording。
+2. 第 2 轮：先让尽可能多的论文进入 `P3-Minimum`，同时深挖高价值表格、指标与 operating point。
+3. 第 3 轮：继续推进 `P3-Minimum`，并把重点转向 figure / caption / wording。
 4. 第 4 轮：收口，判断剩余缺口属于继续补证，还是转交 `Pass 3.5 / Pass 4`。
 
 ## 早期高优先级任务簇
@@ -33,3 +51,7 @@
 2. 每轮最多 `1` 个 `cross-paper reusable evidence` task。
 3. `chief-editor` 串行写正式 `wiki/`。
 4. `sidecar` 默认关闭；只有在任务退化为纯锚点采集时才按需引入。
+5. 推荐配比：
+   - `3` 个 `coverage track` task
+   - `1` 个 `priority track` task
+6. 如果当轮包含 `cross-paper reusable evidence`，它优先占用 `priority track` 名额。

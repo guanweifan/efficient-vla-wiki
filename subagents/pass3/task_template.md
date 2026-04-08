@@ -1,10 +1,17 @@
 # Pass 3 Task Template
 
 - `task_id`：
+- `track`：
+  - `coverage`
+  - `priority`
 - `task_class`：
   - `paper-local`
   - `single-paper-evidence`
   - `cross-paper-evidence`
+- `coverage_goal`：
+  - `P3-Minimum`
+  - `P3-Core`
+  - `P3-Shared`
 - `target_pages`：
 - `source_priority`：
   - `raw PDF`

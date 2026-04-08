@@ -97,6 +97,10 @@
 5. `Pass 3 | Evidence Mining`
    - 回到关键图、关键表、关键 claim 与关键 wording。
    - `Pass 3` 不是默认一轮完成；它是一个由 `chief-editor` 主导、可持续多轮推进的 evidence mining 阶段。
+   - `Pass 3` 必须同时管理两条主线：
+     - `coverage track`：确保整库每篇论文都获得至少一次真正的 evidence deepening，而不是只停留在 page-level pointer 或 headline split；
+     - `priority track`：优先深挖那些会影响共享口径、后续建模或高频比较的关键论文与关键证据。
+   - `Pass 3` 不能退化成“只反复深挖少数明星论文”；chief-editor 必须持续维护整库覆盖进度。
    - 这一轮的默认工作单位不是“整篇论文”，而是 `evidence task`，例如：
      - 一个 headline claim 的拆分
      - 一张关键表的 operating point 拆分
@@ -110,11 +114,11 @@
    - 正式模式默认采用：
      - `chief-editor` 串行写入正式 `wiki/`
      - 可选 `sidecar` 只读辅助取证
-   - `Pass 3` 的常见轮次分工是：
-     - 第 1 轮：铺设 evidence 骨架，让高价值 `papers/*.md` 有稳定 evidence 落点；
-     - 第 2 轮：深挖高价值表格、指标与 operating point；
-     - 第 3 轮：深挖 figure / caption / wording；
-     - 第 4 轮：收口，判断哪些缺口属于 `Pass 3`，哪些应转交 `Pass 3.5 / Pass 4`。
+   - `Pass 3` 推荐以多轮 chief-editor 遍历推进，而不是以单轮完成为目标。常见轮次分工是：
+     - 第 1 轮：铺设 evidence 骨架，并明确每篇论文后续可被深挖的 evidence 落点；
+     - 第 2 轮：以 `coverage track` 为主，先让每篇论文至少拥有一个真正打透的 evidence unit，同时在 `priority track` 上挑选少量高价值表格、指标与 operating point 深挖；
+     - 第 3 轮：在保持 `coverage track` 推进的同时，把重点转向 figure / caption / wording；
+     - 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交 `Pass 3.5 / Pass 4`。
    - `sidecar` 的职责只包括：
      - 回原文找页码、table / figure 编号、局部 wording
      - 提供哪些数字 / setting / metric 不能混写的候选判断
@@ -123,6 +127,10 @@
    - `Pass 3` 采用双轨推进：
      - `paper-local hardening`：先把证据补强到对应 `papers/*.md`
      - `reusable evidence extraction`：当证据会被多处复用时，抽出独立 `wiki/evidence/*` 页面
+   - `Pass 3` 的正式推进还应显式区分：
+     - `coverage wave`：优先保证尚未完成实质 evidence deepening 的论文被推进；
+     - `priority wave`：优先处理高频被引用论文、共享 metric、共享 benchmark 与关键图表；
+     - 两类 wave 可以混合，但任何阶段都不应让 `priority wave` 完全吞没 `coverage wave`。
    - 只有满足下列条件之一时，才新建 `wiki/evidence/` 页面：
      - 同一证据会被两个及以上页面复用；
      - 同一表 / 图 / 定义已经开始承载共享 benchmark、共享 metric 或共享 wording；
@@ -131,14 +139,20 @@
      - 只能记录 source-grounded evidence 与“哪些口径不能混写”
      - 不得提前滑向主题级 synthesis
    - `Pass 3` 完成的最低条件是：
+     - 全部 `papers/*.md` 都已完成至少一次真正的 evidence deepening，而不只是停留在 page-level pointer；
      - 全部 `papers/*.md` 都已显式挂接至少一个 `single-paper evidence` 页面；
      - 高优先级共享口径已抽成可复用 `wiki/evidence/metrics/*` 页面；
+     - 高频被比较论文的 headline 已经被拆到 table / metric / setting / figure / wording 之一的更细层级；
      - 剩余未解决项只保留为 page-local `待核`，不再存在未入队的高优先级 bundled headline。
    - 正式早期阶段默认采用：
      - `chief-editor` 单人串行写入；
      - `sidecar` 默认关闭，只有在任务退化为纯锚点采集时才按需引入；
      - 每波控制在 `4` 个 task 左右；
      - 每波最多 `1` 个 `cross-paper evidence` task。
+   - 正式早期的推荐配比是：
+     - `3` 个 `coverage track` task
+     - `1` 个 `priority track` task
+     - 若当轮包含 `cross-paper evidence`，则它优先占用 `priority track` 名额。
    - 正式推进时，不再额外做独立 pilot；改为正式轮次推进，并在每轮结束后做 chief-editor 复盘，再决定下一轮重点。
    - 补足 supporting evidence pages，并把高价值命题从“指针”提升为“锚定证据”。
 6. `Pass 4 | Clustering and Modeling`

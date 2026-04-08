@@ -1,9 +1,9 @@
 {
   "mode": "bootstrap",
-  "current_pass": "pass3_evidence_mining_ready",
+  "current_pass": "pass3_evidence_mining_replanned",
   "bootstrap": {
-    "phase": "pass3_evidence_mining_ready",
-    "next_step": "launch pass3 evidence mining"
+    "phase": "pass3_evidence_mining_replanned",
+    "next_step": "launch pass3 round1 coverage establishment"
   },
   "summary": {
     "paper_pages": 99,
@@ -17,18 +17,20 @@
   },
   "pass2": {
     "completed": true,
-    "wave_count": 17,
-    "worker_setup": {
-      "chief_editor": 1,
-      "workers": 2,
-      "papers_per_worker": 3,
-      "wave_size": 6
-    }
+    "wave_count": 17
   },
   "pass3": {
     "ready": true,
-    "strategy": "initial evidence mining workflow",
-    "queue": "subagents/pass3/backlog.md"
+    "strategy": "coverage_first_multi_round",
+    "tracks": [
+      "coverage",
+      "priority"
+    ],
+    "recommended_wave_size": 4,
+    "recommended_mix": {
+      "coverage_track_tasks": 3,
+      "priority_track_tasks": 1
+    }
   },
-  "updated_at": "2026-04-08T14:31:27+08:00"
+  "updated_at": "2026-04-08T17:35:36+08:00"
 }

@@ -1,9 +1,9 @@
 {
   "mode": "bootstrap",
-  "current_pass": "pass4_completed",
+  "current_pass": "pass5_preparing",
   "bootstrap": {
-    "phase": "pass4_completed",
-    "next_step": "prepare pass5 audit and reflect"
+    "phase": "pass5_preparing",
+    "next_step": "launch pass5 stage1 inventory and retention audit"
   },
   "summary": {
     "paper_pages": 99,
@@ -14,47 +14,54 @@
   },
   "pass4": {
     "completed": true,
-    "target_theme_count": 5,
-    "overview_theme": "efficiency-definition-evolution",
-    "subthemes": [
-      "inference-efficiency-routes",
-      "training-efficiency-routes",
-      "reasoning-efficiency-routes",
-      "deployment-oriented-efficiency"
-    ],
-    "stage1_historical_reconciliation": {
-      "completed": true,
-      "history_chain_pages_completed": 5,
-      "themes_missing_question": 0,
-      "themes_missing_scope": 0,
-      "themes_missing_chronology": 0,
-      "themes_missing_turning_points": 0,
-      "themes_missing_axes": 0
+    "target_theme_count": 5
+  },
+  "pass5": {
+    "ready": true,
+    "strategy": "chief_editor_serial_audit_and_closeout",
+    "scope": {
+      "audit_wiki_core": true,
+      "audit_index_log_status": true,
+      "audit_schema": true,
+      "audit_subagent_docs": true,
+      "audit_skill_docs": true,
+      "audit_non_agent_md_json_docs": true,
+      "history_alignment": true,
+      "build_threads": false
     },
-    "stage2_clustering_setup": {
-      "completed": true,
-      "themes_with_fixed_axes": 5,
-      "themes_with_exclusion_rules": 5,
-      "themes_missing_route_split": 0,
-      "themes_still_in_misc_bucket": 0,
-      "taxonomy_conflict_count": 0
+    "stage1_inventory_and_retention_audit": {
+      "completed": false,
+      "doc_inventory_completed": false,
+      "undecided_docs": 0,
+      "low_value_docs_unresolved": 0,
+      "obsolete_docs_unresolved": 0,
+      "redundant_docs_unresolved": 0
     },
-    "stage3_modeling_and_synthesis": {
-      "completed": true,
-      "synthesis_pages_completed": 5,
-      "synthesis_pages_missing_required_sections": 0,
-      "synthesis_pages_missing_evidence_links": 0,
+    "stage2_wiki_core_audit": {
+      "completed": false,
+      "broken_wiki_links": 0,
+      "paper_pages_missing_evidence_links": 0,
+      "evidence_pages_missing_raw_anchor": 0,
+      "synthesis_claims_without_evidence": 0,
       "unscoped_comparative_claims": 0,
-      "themes_without_boundary_conditions": 0
+      "cross_layer_role_conflicts": 0
     },
-    "stage4_convergence_closeout": {
-      "completed": true,
-      "cross_layer_link_issues": 0,
-      "orphan_shared_evidence_pages": 0,
-      "taxonomy_conflict_count": 0,
-      "open_pass4_structural_gaps": 0,
-      "index_log_status_sync": true
+    "stage3_control_and_docset_convergence": {
+      "completed": false,
+      "index_log_status_sync": true,
+      "index_log_status_errors": 0,
+      "index_log_status_low_value_blocks": 0,
+      "schema_desync_count": 0,
+      "subagent_doc_desync_count": 0,
+      "skill_doc_desync_count": 0,
+      "docset_role_conflicts": 0,
+      "historical_stage_mismatch_count": 0,
+      "historical_docset_desync_count": 0,
+      "historical_low_value_runtime_docs_remaining": 0,
+      "commit_message_style_conflicts": 0,
+      "ambiguous_commit_subjects": 0,
+      "phase_commit_order_conflicts": 0
     }
   },
-  "updated_at": "2026-04-08T21:03:24+08:00"
+  "updated_at": "2026-04-08T21:07:33+08:00"
 }

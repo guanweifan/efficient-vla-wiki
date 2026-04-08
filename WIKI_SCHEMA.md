@@ -229,8 +229,64 @@
        - `index_log_status_sync = true`
      - 只有当剩余问题都已降级为后续维护项，而不再是 `Pass 4` 结构性缺口时，`Pass 4` 才算完成。
 7. `Pass 5 | Audit and Reflect`
-   - 执行 lint。
-   - 把 `threads/` 中高价值、已核证的结论回写到 `wiki/`。
+   - `Pass 5` 的职责不是再扩写新知识层，而是证明当前仓库已经从“构建态”进入“可维护态”。
+   - `Pass 5` 的审计范围包括：
+     - `wiki/papers/`
+     - `wiki/evidence/`
+     - `wiki/synthesis/`
+     - `wiki/index.md`
+     - `wiki/log.md`
+     - `wiki/status.json`
+     - `WIKI_SCHEMA.md`
+     - `subagents/pass1-5/`
+     - `skills/*`
+     - 其他除 `AGENTS.md` 之外、仍在仓库中承担说明或控制作用的 `.md/.json` 文档
+   - `Pass 5` 不负责建立 `threads/`；`threads/` 由用户主导。
+   - `Pass 5` 默认仍由 `chief-editor` 串行推进；`sidecar` 只允许做只读核查，不允许并发写正式页面。
+   - `Pass 5` 分为 4 个阶段：
+     - 第 1 阶段：`Inventory and Retention Audit`
+       - 目标：确认哪些文档必须保留，哪些应精炼、合并或删除。
+       - 审计对象包括 `wiki` 控制文件、schema、subagent 文档、skills 文档与其他 `.md/.json` 说明文件。
+       - 严格验收标准：
+         - `doc_inventory_completed = true`
+         - `undecided_docs = 0`
+         - `low_value_docs_unresolved = 0`
+         - `obsolete_docs_unresolved = 0`
+         - `redundant_docs_unresolved = 0`
+     - 第 2 阶段：`Wiki Core Audit`
+       - 目标：审计 `papers / evidence / synthesis` 三层是否仍然正确、可回链、无结构性冲突。
+       - 严格验收标准：
+         - `broken_wiki_links = 0`
+         - `paper_pages_missing_evidence_links = 0`
+         - `evidence_pages_missing_raw_anchor = 0`
+         - `synthesis_claims_without_evidence = 0`
+         - `unscoped_comparative_claims = 0`
+         - `cross_layer_role_conflicts = 0`
+     - 第 3 阶段：`Control and Docset Convergence`
+       - 目标：收口 `index / log / status / schema / subagent docs / skills docs`，并校正 Git 历史中的阶段表述、控制文件快照与 commit message。
+       - 严格验收标准：
+         - `index_log_status_sync = true`
+         - `index_log_status_errors = 0`
+         - `index_log_status_low_value_blocks = 0`
+         - `schema_desync_count = 0`
+         - `subagent_doc_desync_count = 0`
+         - `skill_doc_desync_count = 0`
+         - `docset_role_conflicts = 0`
+         - `historical_stage_mismatch_count = 0`
+         - `historical_docset_desync_count = 0`
+         - `historical_low_value_runtime_docs_remaining = 0`
+         - `commit_message_style_conflicts = 0`
+         - `ambiguous_commit_subjects = 0`
+         - `phase_commit_order_conflicts = 0`
+     - 第 4 阶段：`Final Closeout`
+       - 目标：确认剩余问题都已降级为维护项，冷启动建库正式结束。
+       - 严格验收标准：
+         - `open_pass5_structural_gaps = 0`
+         - `open_pass5_doc_gaps = 0`
+         - `open_pass5_semantic_gaps = 0`
+         - `remaining_issues_are_maintenance_only = true`
+         - `current_pass = pass5_completed`
+         - `bootstrap.phase = completed`
    - 不把 `Pass 5` 推迟到“全部完成以后”才做；冷启动过程中也应在关键里程碑后插入轻量检查。
 8. `Pass 1` 在模板稳定后允许并行执行；默认编制是：
    - 1 个 chief editor
@@ -258,6 +314,11 @@
    - `subagents/pass4/history_chain_template.md`
    - `subagents/pass4/synthesis_page_template.md`
    - `subagents/pass4/sidecar_prompt.md`
+14. `Pass 5` 的准备文件放在：
+   - `subagents/pass5/README.md`
+   - `subagents/pass5/backlog.md`
+   - `subagents/pass5/audit_checklist.md`
+   - `subagents/pass5/sidecar_prompt.md`
 
 ### 4.2 Incremental Update
 1. 这一模式用于 `raw/` 新增论文后的日常维护，不重跑整库冷启动流程。

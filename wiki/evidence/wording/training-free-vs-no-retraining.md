@@ -23,4 +23,4 @@
 
 ## 边界
 - 当前页只记录 `training-free / no retraining` 的 wording boundary。
-- 若如需比较这些方法在效率路线上各自扮演什么角色，应留到 `Pass 3.5 / Pass 4`。
+- 若如需比较这些方法在效率路线上各自扮演什么角色，应留到 `Pass 4`。

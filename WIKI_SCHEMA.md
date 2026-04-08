@@ -218,6 +218,8 @@
        - `themes_without_boundary_conditions = 0`
    - 第 4 阶段：`Convergence / Closeout`
      - 目标：确认 `papers / evidence / synthesis` 三层已经达到稳定可维护状态。
+     - 这一阶段允许把 `synthesis/` 中已经隐含的层级关系显式写清，例如一个总纲 / 入口页与若干承接它的子主题页。
+     - 主题层级的显式化只能用于收紧结构，不得借机新增正式主题。
      - 严格验收标准：
        - `cross_layer_link_issues = 0`
        - `orphan_shared_evidence_pages = 0`

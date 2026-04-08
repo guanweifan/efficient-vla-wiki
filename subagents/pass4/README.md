@@ -31,6 +31,7 @@
    - 退出条件：所有主题页补齐 `synthesis_page_template.md` 的必需段落，且 `unscoped_comparative_claims = 0`。
 4. `Convergence / Closeout`
    - 收口 taxonomy、链接和跨层口径。
+   - 这一阶段允许把 `synthesis/` 中已经隐含的总纲/子主题层级显式写清，但不得新增正式主题。
    - 退出条件：`cross_layer_link_issues = 0`、`orphan_shared_evidence_pages = 0`、`open_pass4_structural_gaps = 0`。
 
 ## 阶段退出原则

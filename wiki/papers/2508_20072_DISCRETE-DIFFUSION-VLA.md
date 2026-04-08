@@ -36,6 +36,9 @@
 - OOD 与解码策略证据：[[raw/2508_20072_DISCRETE-DIFFUSION-VLA.pdf]] 第 9-10 页 Tables 4-7。这里说明 discrete diffusion 对 vision-language ability retention、adaptive decoding order 和 secondary re-masking 的增益。
 - 推理速度：[[raw/2508_20072_DISCRETE-DIFFUSION-VLA.pdf]] 第 11 页 Table 8 与相邻文字。这里给出 `68.8 ms` vs. `136.2 ms` 的 latency 对比，并明确是一台 `H800` 上的 action-chunk 级速度测试。
 
+## Evidence Links
+- [[wiki/evidence/claims/2508_20072_DISCRETE-DIFFUSION-VLA-headline-split.md|2508_20072_DISCRETE-DIFFUSION-VLA-headline-split]]
+
 ## 待核点
 - headline benchmark 数字跨多个环境与指标：`LIBERO` 是 success rate，`SimplerEnv–Fractal` 同时有 visual matching 与 overall，`SimplerEnv–Bridge` 是 overall；后续不能把它们压成一个单一“泛化性能”结论。
 - `68.8 ms / 2× faster than AR` 的速度结论来自 `LIBERO-Goal`、`7B backbone`、单张 GPU 的 action-chunk latency，对比对象也包含 one-shot parallel 和 optimized continuous diffusion；后续不能把它泛化成所有场景下的统一加速倍数。

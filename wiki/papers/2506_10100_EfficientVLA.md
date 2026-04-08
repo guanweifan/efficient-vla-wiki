@@ -33,6 +33,11 @@
 - 主实验结果：[[raw/2506_10100_EfficientVLA.pdf]] 第 7-8 页 Table 2 与相关文字。这里是 `CogACT` 在 `SIMPLER` 上对比各 baseline 的主结果，也是 headline numeric claim 的主要证据来源。
 - 效率与可扩展性补充：[[raw/2506_10100_EfficientVLA.pdf]] 第 8 页 Table 3 / Fig. 3；第 9 页 Table 4。这里分别对应速度-FLOPs-成功率折中、不同设置下的可扩展性，以及 token reduction ratio / cache interval 的敏感性。
 
+## Evidence Links
+- [[wiki/evidence/claims/2506_10100_EfficientVLA-headline-split.md|2506_10100_EfficientVLA-headline-split]]
+- [[wiki/evidence/metrics/runtime-vs-task-metrics.md|runtime-vs-task-metrics]]
+- [[wiki/evidence/metrics/retention-ratio-vs-speed-performance.md|retention-ratio-vs-speed-performance]]
+
 ## 待核点
 - `FLOPs 降到 28.9%` 与 `71.1% reduction` 在论文里是同一件事的两种写法；后续进入 evidence/synthesis 时需要统一成单一口径，避免重复写成两个独立结论。
 - headline 结果主要锚定在 `CogACT + SIMPLER` 的特定配置，不能提前泛化成“diffusion-based VLA 普遍都能达到 1.93× 加速”。

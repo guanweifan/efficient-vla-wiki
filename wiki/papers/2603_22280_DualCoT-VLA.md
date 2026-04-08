@@ -38,6 +38,9 @@
 - **Table 2 / RoboCasa GR1 results**：第 10 页。适合后续补 `55.1% across 24 tasks` 的具体 benchmark 语境及各类 task 的分布。
 - **Table 3 / Table 4 / real-world section**：第 11 页及前后。适合后续补 `83.2 ms` latency、visual-only vs linguistic-only vs dual-stream 的互补性，以及 real-world baselines 对比。
 
+## Evidence Links
+- [[wiki/evidence/claims/2603_22280_DualCoT-VLA-headline-split.md|2603_22280_DualCoT-VLA-headline-split]]
+
 ## 待核点
 - `98.8%`、`55.1%`、`83.2 ms` 分别对应 LIBERO、RoboCasa GR1 和单卡 H100 latency analysis；后续需要避免把这些数字误写成同一层面的综合结论。
 - 论文同时强调 `parallel CoT`、`visual-linguistic CoT`、`implicit latent reasoning` 三种 framing；后续 taxonomy 需要统一其主定位。

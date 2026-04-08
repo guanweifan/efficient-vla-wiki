@@ -41,6 +41,9 @@
 - **Figure 4 / Sec. 3.3**：第 6-7 页。适合后续补 Packed Forward 与 Unified KV Ring Buffer 的实现细节。
 - **Table 1 / Table 2 / Figure 5**：第 8-10 页。适合后续补端到端性能、功能正确性验证、以及不同 workload 下的 sensitivity analysis。
 
+## Evidence Links
+- [[wiki/evidence/claims/2512_20276_ActionFlow-headline-split.md|2512_20276_ActionFlow-headline-split]]
+
 ## 待核点
 - `2.55×`、`1.25 -> 3.20 FPS`、`7.62 -> 19.45 FPS`、`4.06×` 等数字来自不同硬件和 workload；后续需要拆清哪些属于默认 headline，哪些属于 sensitivity analysis。
 - 论文围绕 OpenVLA-7B 展开，虽然方法表述更一般，但当前证据仍主要来自单一模型；后续需要决定在主题页里保留多强的泛化语气。

@@ -35,6 +35,10 @@
 - **TABLE II (p.7)**：SO-ARM 101 实机结果锚点，用来核对 ID、partially OOD、fully OOD 三类任务下的真实执行/拒绝表现。
 - **Conclusion / limitations**：后续若补 `L2`，这里是 “almost perfect rejection rate” 和 rigid classification boundary 局限性的最好入口。
 
+## Evidence Links
+- [[wiki/evidence/claims/2603_05147_ActThinkAbstain-headline-split.md|2603_05147_ActThinkAbstain-headline-split]]
+- [[wiki/evidence/wording/model-agnostic-vs-validated-compatibility.md|model-agnostic-vs-validated-compatibility]]
+
 ## 待核点
 
 - `80%` F1、`5%` 训练数据、模拟中的 success / prevented failures，以及 real-robot 的执行结果目前仍是 bundled headline，后续需要拆到 detector quality、routing outcome 和 downstream task result 三个层面。

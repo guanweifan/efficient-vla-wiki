@@ -40,6 +40,9 @@
 - **Figure 6 + real-robot section**：第 7-8 页。适合后续补 Lego Disassembly 与 Towel Folding 上的 success / throughput 对比，以及 async vs sync vs π0.5 的差异。
 - **VLM benchmark section**：后续章节。适合后续补它与底层预训练 VLM 的对齐关系，以及是否保留了通用视觉语言能力。
 
+## Evidence Links
+- [[wiki/evidence/claims/2602_12684_Xiaomi-Robotics-0-headline-split.md|2602_12684_Xiaomi-Robotics-0-headline-split]]
+
 ## 待核点
 - `98.7%`、`85.5% / 74.7% / 79.2%`、`4.75 / 4.80`、真实机器人 throughput 都来自不同 benchmark 与不同指标；后续需要拆清各自的比较对象和评价方式。
 - 论文同时使用 `Xiaomi-Robotics-0`、`advanced VLA model`、`open-sourced VLA model with real-time execution` 等 framing；后续 taxonomy 需要统一其主定位。

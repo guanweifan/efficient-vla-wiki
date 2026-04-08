@@ -51,6 +51,9 @@
 - `PDF p.9-10` Table 7：
   - AR、Jacobi、independent diffusion、JD3P 的 decoding mechanism 对比在这里；`4.3× faster decoding speed` 与 `4.64` average length 的效率-性能对比应回到这张表，而不是只引用 abstract 里的 `4×` headline。
 
+## Evidence Links
+- [[wiki/evidence/claims/2511_01718_UNIFIED-DIFFUSION-VLA-headline-split.md|2511_01718_UNIFIED-DIFFUSION-VLA-headline-split]]
+
 ## 待核点
 - `4× faster inference` 是 abstract headline，而正文更具体的 decoding analysis 给出的是 `JD3P` 相对 AR 约 `4.3×`；后续引用时需统一 headline vs table value，并避免把 decoding speed 误写成跨 benchmark 的统一 wall-clock latency。
 - `SOTA` 分别落在 CALVIN、LIBERO、SimplerEnv 上，但比较基线并不完全一致；后续若写成统一“全 benchmark 全面领先”，需要保留 benchmark-specific caveat。

@@ -49,6 +49,9 @@
 - Real-world 与效率结果：[[raw/2602_20200_OptimusVLA.pdf]] 第 6-7 页 Fig. 3、Fig. 5 与相邻正文。这里对应 Generalization / Long-horizon suites 的 real-world 结果、`2.9×` inference speedup，以及 `NFE` 从 `10` 降到 `3.2 / 3.4` 的比较。
 - 组件归因：[[raw/2602_20200_OptimusVLA.pdf]] 第 6-7 页 Table 4、Table 5。这里说明去掉 `GPM` 或 `LCM` 带来的性能下降，以及 memory size / retrieved trajectory 数量对 `LIBERO-Long` 的影响。
 
+## Evidence Links
+- [[wiki/evidence/claims/2602_20200_OptimusVLA-headline-split.md|2602_20200_OptimusVLA-headline-split]]
+
 ## 待核点
 - `98.6% / 13.5% / 38% / 42.9% / 52.4% / 2.9×` 分别来自不同 benchmark 与不同口径，后续不能压成一个无条件统一 headline。
 - `2.9× inference speedup` 与 `NFE` 减少强相关，但具体口径依赖与 `π0 / π0.5` 的比较设置；后续若写效率结论，需要保留 benchmark 和 baseline 条件。

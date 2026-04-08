@@ -44,6 +44,9 @@
 - `PDF p.7` Table 3 / Table 4 + Fig. 5：
   - 与 ground-truth foreground mask pruning 的对比、效率分析、以及不同方法保留 token 的可视化都在这里。
 
+## Evidence Links
+- [[wiki/evidence/claims/2507_23318_FastDriveVLA-headline-split.md|2507_23318_FastDriveVLA-headline-split]]
+
 ## 待核点
 - “SOTA” 的比较范围是 nuScenes open-loop planning benchmark 上的当前 baselines 与指定 base model，不应外推成 closed-loop driving 或更广泛 driving stack 的无条件优势。
 - “plug-and-play” 更准确地说是：对共享 visual encoder 的 VLA 模型可直接接入，而不是对任意视觉前端都零代价迁移。

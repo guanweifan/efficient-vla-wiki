@@ -31,6 +31,10 @@
 - **Table 4 (p.9)**：real-world `1.70x` speedup 且 success rate 不明显崩溃的主证据入口。
 - **Figure 13 / extended tables (pp.9-12)**：适合后续补不同设备上的 speedup，例如 RTX 3090 与更广的 hardware-scalability 叙事。
 
+## Evidence Links
+- [[wiki/evidence/claims/2509_05614_SpecPrune-VLA-headline-split.md|2509_05614_SpecPrune-VLA-headline-split]]
+- [[wiki/evidence/wording/training-free-vs-no-retraining.md|training-free-vs-no-retraining]]
+
 ## 待核点
 
 - 论文报告了多种 speedup 数字（`1.45x`、`1.31x`、`1.46x`、`1.57x`、`1.70x`、以及 `2.09x` 的 LLM-only inference）；后续 evidence work 需要把 end-to-end latency 与 LLM-only latency 分开，并为每个数字标注具体硬件与 baseline。

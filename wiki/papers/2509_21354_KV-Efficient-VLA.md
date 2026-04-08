@@ -46,6 +46,10 @@
 - `PDF p.7` Table 1：
   - OpenVLA / CogACT / HybridVLA 及其 KV-Efficient 版本的 `Infer. Speed (Hz)`、`Total-FLOPs (T)` 与 speedup 对照都在这里。
 
+## Evidence Links
+- [[wiki/evidence/claims/2509_21354_KV-Efficient-VLA-headline-split.md|2509_21354_KV-Efficient-VLA-headline-split]]
+- [[wiki/evidence/wording/model-agnostic-vs-validated-compatibility.md|model-agnostic-vs-validated-compatibility]]
+
 ## 待核点
 - `1.34×` 是三种 baseline 平均 speedup；单个模型的提升不同，后续不能写成统一无条件倍数。
 - 理论 `1.61×` attention-level speedup 与经验 `1.34×` inference speedup 不是同一指标，后续引用时需要明确区分 theoretical vs empirical。

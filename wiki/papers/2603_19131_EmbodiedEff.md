@@ -34,6 +34,9 @@
 - **TABLE III (p.6)**：FAST tokenizer 的 action compression 主表，用来核对 “更快完成” 与 “jerk 更高” 之间的 trade-off。
 - **TABLE IV (p.6) / TABLE V (p.6)**：分别对应 in-context prompting 与 supervised fine-tuning 的 embodied-efficiency 影响，用来核对 jerk、action rate 与 completion time 的联动变化。
 
+## Evidence Links
+- [[wiki/evidence/claims/2603_19131_EmbodiedEff-headline-split.md|2603_19131_EmbodiedEff-headline-split]]
+
 ## 待核点
 
 - `13.6%`、`46.2%`、`34.5%`、`13.2%`、`25.8%` 等 headline 数字目前仍是 bundled summary，后续需要拆到具体 intervention、模型与 benchmark。

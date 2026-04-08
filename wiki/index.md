@@ -2,20 +2,21 @@
 
 ## 当前状态
 - 当前阶段：`Bootstrap Build`
-- 当前 pass：`Pass 3 | Evidence Mining replanned`
+- 当前 pass：`Pass 3 | Evidence Mining completed`
 - 当前规模：`99 / 99` 篇 `papers`
-- 下一步：`Launch Pass 3 | Round 1 Coverage Establishment`
+- `evidence/claims`：`99`
+- 共享 evidence：`5`
+- 下一步：`Prepare Pass 4 | Historical Reconciliation, Clustering and Modeling`
 
 ## 层级入口
-- `papers/`：已完成建图与逆序校准的单篇页
-- `evidence/`：即将建立的证据层
+- `papers/`：单篇论文页
+- `evidence/`：单篇证据页与共享口径页
 - `synthesis/`：后续主题建模层
 
 ## 本阶段结果
-- `Pass 3` 已重规划为全库覆盖优先的多轮证据挖掘
-- 正式工作单位从“整篇论文”收紧为 `evidence task`
-- 当前已明确 `coverage track` 与 `priority track`
+- 已完成整库 evidence mining 与 closeout
+- `papers + evidence` 双层结构已建立
+- 高频 table / metric / figure / wording 证据已进入正式 evidence layer
 
 ## 说明
-- `Pass 3` 不再默认并发写正式页面
-- 早期轮次优先保证整库覆盖，再做少量高价值深挖
+- 后续重点不再是新增 evidence 覆盖，而是建立历史理解链与主题建模

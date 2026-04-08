@@ -37,6 +37,9 @@
 - 稀疏率与模块消融：[[raw/2511_10518_SemanticVLA.pdf]] 第 8-9 页 Tables 4-6。这里可回查 `SemanticVLA-Lite`、`8×/16×` 稀疏率 tradeoff，以及 `SD-Pruner / SH-Fuser / SA-Coupler` 的增益归因。
 - 效率与真实机器人结果：[[raw/2511_10518_SemanticVLA.pdf]] 第 6-7 页 Tables 2-3；附录 Table 9。前者对应真实机器人 success / throughput，后者才是 `training cost`、`latency`、`GPU memory` 这类效率 headline 的直接出处。
 
+## Evidence Links
+- [[wiki/evidence/claims/2511_10518_SemanticVLA-headline-split.md|2511_10518_SemanticVLA-headline-split]]
+
 ## 待核点
 - `3.0× training cost` 与 `2.7× inference latency` 的 headline 实际来自附录效率表，并依赖具体 real-world setup、baseline 和 token compression 设置；后续不能脱离 Table 9 的比较对象单独引用。
 - 论文同时存在 `SemanticVLA` 与 `SemanticVLA-Lite` 两个主变体，且 `Lite` 更偏极致效率、主模型更偏 Pareto 最优；后续如写单一 headline，需要显式说明到底是在强调主模型还是 `Lite`。

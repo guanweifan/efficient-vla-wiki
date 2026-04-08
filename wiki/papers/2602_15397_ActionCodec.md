@@ -43,6 +43,10 @@
 - `PDF p.10+` Fig. 10 / Table 4 / cross-embodiment discussion：
   - cross-embodiment transfer、pre-training / co-training、以及 real-world robotic deployment 相关证据可从这里继续补。
 
+## Evidence Links
+- [[wiki/evidence/claims/2602_15397_ActionCodec-headline-split.md|2602_15397_ActionCodec-headline-split]]
+- [[wiki/evidence/wording/model-agnostic-vs-validated-compatibility.md|model-agnostic-vs-validated-compatibility]]
+
 ## 待核点
 - `95.5%` 是 `SmolVLM2-2.2B + ActionCodec` 在**无 robotics pre-training**条件下的 headline；`97.4%` 则显式依赖 `advanced architectural enhancements`，后续不能把它写成纯 tokenizer 单因素结果。
 - “without robotics pre-training” 不等于“没有进一步的 robotics fine-tuning / benchmark-specific adaptation”；后续引用时要避免把这一点过度外推。

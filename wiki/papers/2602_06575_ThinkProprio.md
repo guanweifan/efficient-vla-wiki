@@ -44,6 +44,9 @@
 - 效率结果：[[raw/2602_06575_ThinkProprio.pdf]] 第 5-6 页 Table 4 与 Table 5。这里对应 `15/100` 与 `6/34` token retention、`22 ms vs 52 ms` latency、以及 `1899 MB vs 1848 MB` 的 VRAM 对比。
 - 关键消融：[[raw/2602_06575_ThinkProprio.pdf]] 第 6-7 页 Tables 6-8。这里说明 `text tokenization` 优于 `MLP projector`，`instruction + proprio` 联合 query 优于单独 `Hl` 或 `Hp`，以及为什么 `Hctx` 能弥补激进 token selection 的上下文损失。
 
+## Evidence Links
+- [[wiki/evidence/claims/2602_06575_ThinkProprio-headline-split.md|2602_06575_ThinkProprio-headline-split]]
+
 ## 待核点
 - `58% lower latency` 主要锚定 `CALVIN ABC→D` 上 `22 ms vs 52 ms` 的 end-to-end inference setting，不应直接泛化到所有 benchmark 与部署环境。
 - `ThinkProprio` 的 real-world 结果在正文里被明确描述为有限范围的 sanity check，不是广泛 real-world generalization 证明；后续不应把它写成强 real-robot benchmark 论文。

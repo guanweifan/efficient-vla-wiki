@@ -47,6 +47,9 @@
 - `PDF p.6-7` Sec. 3.3 / Sec. 4.2：
   - 从 latent planning 到 diffusion Transformer-based action model 的桥接，以及 training datasets / evaluation benchmarks 的范围说明在这里。
 
+## Evidence Links
+- [[wiki/evidence/claims/2601_09708_Fast-ThinkAct-headline-split.md|2601_09708_Fast-ThinkAct-headline-split]]
+
 ## 待核点
 - `89.3% latency reduction` 与 `9.3× faster` 主要是相对具体 reasoning VLA baseline 的效率 headline，后续引用时要明确比较对象，而不是泛化成对所有 VLA 的统一提升。
 - 主文当前最容易直接抓到的是 Fig. 3 的 benchmark 结果；若后续需要每个 LIBERO 子套件或 SimplerEnv 的精确数值，应回图表或附录进一步核定。

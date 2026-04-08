@@ -36,6 +36,9 @@
 - **Table 2 / Table 3**：第 6-7 页。适合后续补 `STC+SRC`、`No Guidance`、`STC-Only`、`SRC-Only` 的 ablation，以及超参数 `k`、`w` 的 trade-off。
 - **Figure 4 / Figure 5**：第 8-9 页。适合后续补 instruction-conditioned attention 与 STC / SRC 分工的可视化证据。
 
+## Evidence Links
+- [[wiki/evidence/claims/2511_18950_COMPRESSOR-VLA-headline-split.md|2511_18950_COMPRESSOR-VLA-headline-split]]
+
 ## 待核点
 - `59% FLOPs reduction`、`over 3x token compression`、`97.1% -> 97.3% average success rate` 都绑定在 `OpenVLA-OFT + LIBERO` 这组主设置；后续如果横向比较，不应把它们与 `CogACT/π0` 或 real-robot 结果混成一个统一 headline。
 - 文中同时有 `competitive success rate` 与 `superior efficiency-performance trade-off` 两种较强措辞；当前更稳的写法是“在 OpenVLA-OFT + LIBERO 上保持同级甚至略优平均 success，同时显著压缩计算”，chief editor 可决定最终保留多强的 performance 语气。

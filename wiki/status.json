@@ -1,13 +1,15 @@
 {
   "mode": "bootstrap",
-  "current_pass": "pass3_evidence_mining_replanned",
+  "current_pass": "pass3_evidence_mining_completed",
   "bootstrap": {
-    "phase": "pass3_evidence_mining_replanned",
-    "next_step": "launch pass3 round1 coverage establishment"
+    "phase": "pass3_evidence_mining_completed",
+    "next_step": "prepare pass4 historical reconciliation clustering and modeling"
   },
   "summary": {
     "paper_pages": 99,
-    "evidence_pages": 0,
+    "single_paper_evidence_pages": 99,
+    "shared_metric_pages": 3,
+    "shared_wording_pages": 2,
     "synthesis_pages": 0
   },
   "pass1": {
@@ -20,17 +22,13 @@
     "wave_count": 17
   },
   "pass3": {
-    "ready": true,
+    "completed": true,
+    "round_count": 4,
     "strategy": "coverage_first_multi_round",
-    "tracks": [
-      "coverage",
-      "priority"
-    ],
-    "recommended_wave_size": 4,
-    "recommended_mix": {
-      "coverage_track_tasks": 3,
-      "priority_track_tasks": 1
-    }
+    "p3_minimum_completed_papers": 99,
+    "single_paper_evidence_pages": 99,
+    "shared_metric_pages": 3,
+    "shared_wording_pages": 2
   },
-  "updated_at": "2026-04-08T17:35:36+08:00"
+  "updated_at": "2026-04-08T20:07:21+08:00"
 }

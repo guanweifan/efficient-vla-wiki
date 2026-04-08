@@ -45,6 +45,9 @@
 - 闭环可行性论证：[[raw/2603_03380_LiteVLA-Edge.pdf]] 第 4-5 页 closed-loop simulation evaluation 与 discussion。这里解释为什么 `150 ms` 被视为从 deliberative 转向 reactive / visual servoing 的阈值。
 - 有效性边界：[[raw/2603_03380_LiteVLA-Edge.pdf]] 第 5 页 threats to validity 与 conclusion。这里明确论文只 claim deployability、timing feasibility 和 software integration，而不是 broad task-level superiority。
 
+## Evidence Links
+- [[wiki/evidence/claims/2603_03380_LiteVLA-Edge-headline-split.md|2603_03380_LiteVLA-Edge-headline-split]]
+
 ## 待核点
 - `150.5 ms / 6.6 Hz` 是特定 deployment configuration（Jetson AGX Orin、`n_ctx=512`、最多 `12` 输出 token、全 `42` 层 offload）的结果，不应无条件泛化到所有 embedded hardware。
 - 论文强调 `~220% improvement over previous baselines`，但比较对象主要是早期 LiteVLA / extreme-edge setup 与 design-space 位置，不是同条件下对所有 VLA 的 head-to-head task benchmark。

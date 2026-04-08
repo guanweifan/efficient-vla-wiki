@@ -45,6 +45,9 @@
 - 真实机器人 interaction / perception / generalization：[[raw/2601_22153_DynamicVLA.pdf]] 第 6-8 页 Fig. 4、Fig. 5、Fig. 6。这里可回查六个 interaction task、六个 perception task、四个 generalization task 的 real-world success rate。
 - 组件与速度消融：[[raw/2601_22153_DynamicVLA.pdf]] 第 8-9 页 Table II；第 12 页 implementation details。这里说明 `0.4B` 容量、`FastViT`、`CI`、`LAAS` 的各自贡献，以及 `1.8 GB / 88 Hz` 的部署信息。
 
+## Evidence Links
+- [[wiki/evidence/claims/2601_22153_DynamicVLA-headline-split.md|2601_22153_DynamicVLA-headline-split]]
+
 ## 待核点
 - `47.06%` 是 `DOM` simulation benchmark 上九个子维度的平均 success rate，不应被误读成任一单任务或 real-world 平均表现。
 - `88 Hz` 与 `1.8 GB` 来自 `RTX A6000` 上的 inference setting；这更像模型级推理能力，不等于整个真实机器人闭环系统在所有平台上的端到端控制频率。

@@ -38,6 +38,9 @@
 - **Table 3 + Figure 4 / Figure 5**：第 7-8 页。适合后续补 graph / loss / routing threshold 的 ablation，以及 layer activation 与 trajectory comparison。
 - **Limitations / Failure Analysis**：第 9 页与附录 E。适合后续补 teacher dependency、temporal awareness 缺失、以及 teacher-inherited failures 这些边界条件。
 
+## Evidence Links
+- [[wiki/evidence/claims/2511_18082_ActDistill-headline-split.md|2511_18082_ActDistill-headline-split]]
+
 ## 待核点
 - `over 50% computation reduction`、`up to 1.67× speedup`、`comparable or superior performance` 已经拆到 `OpenVLA/LIBERO` 与 `CogACT/SIMPLER` 两组设置；chief editor 后续仍需要决定单篇首页统一保留 `computation` 还是 `FLOPs/latency` 作为 headline 口径。
 - 论文在不同地方同时使用 `computation`、`FLOPs`、`speedup`、`latency`，后续需要统一这些效率指标在单篇页中的口径，并避免把 `relative FLOPs` 与 wall-clock latency 混成一句。

@@ -38,6 +38,9 @@
 - **Table 1 / Table 2**：第 6-7 页。适合后续补在 `pi0.5` 与 `GR00T N1.5` 上的 LIBERO 结果，区分 `p=10`、`p=50` 和不同 task suite。
 - **Table 3 / Table 4**：第 8 页。适合后续补 RoboTwin 与 real-world tasks 上的结果，并区分 “comparable” 和 “strictly better” 的具体场景。
 
+## Evidence Links
+- [[wiki/evidence/claims/2602_21445_AutoHorizon-headline-split.md|2602_21445_AutoHorizon-headline-split]]
+
 ## 待核点
 - `AutoHorizon` 的 headline 优势目前主要体现在相对固定 horizon / random baseline 的比较上；后续需要进一步拆清哪些场景是显著更强，哪些只是 comparable。
 - 论文强调 `negligible computational overhead`，但当前 `L1` 还没有把 overhead 精确钉到具体表格或 wall-clock 数字；后续需要补强。

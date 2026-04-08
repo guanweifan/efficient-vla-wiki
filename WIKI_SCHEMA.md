@@ -38,6 +38,7 @@
    - `pdftotext`
    - `pdftotext -bbox-layout`
    - 只有在需要章节、表格、图片、caption 或局部锚点时，才调用 `Docling/Marker`
+4. `Pass 1` 求全不求深；在建立全局地图时，优先把单篇页面写稳，而不是过早扩写或建模。
 
 ## 3. Evidence Model
 1. 只回到“某一页”通常只算临时态，不算理想态。
@@ -83,6 +84,24 @@
    - 对全量 `raw/*.pdf` 执行 full parse baseline。
    - 目标是建立可定位、可检索、可回读的 `extracts/` 参考层。
    - 默认只写 `extracts/`、`extracts/pass0_status.json` 与 `extracts/pass0_index.jsonl`，不默认写 `wiki/` 页面。
+3. `Pass 1 | Semantic Scan`
+   - 默认按时间顺序从旧到新遍历。
+   - 对每篇论文先建立 `papers/<stem>.md` 的第一版。
+   - 第一版只要求写清 `Claim`、`Methodology Index`、`Data Pointer`，不默认深挖所有细节。
+4. `Pass 1` 在模板稳定后允许并行执行；默认编制是：
+   - 1 个 chief editor
+   - 4 个 worker subagent
+   - 全部使用 `gpt-5.4` + `xhigh`
+5. `Pass 1` 并行时，worker 只负责各自分配到的 `wiki/papers/<stem>.md`；chief editor 负责：
+   - 批次切分
+   - 模板与口径
+   - 抽查与归一化
+   - `wiki/index.md`
+   - `wiki/log.md`
+   - `wiki/status.json`
+   - 所有 `synthesis/` 页面
+6. `Pass 1` 的推荐波次是按时间顺序连续切块；早期波次优先采用每波 8 篇、4 个 worker 各处理 2 篇。
+7. 只有在至少一轮已完成波次证明口径稳定、chief editor 收口成本可控后，才把 `Pass 1` 提升到每波 12 篇、4 个 worker 各处理 3 篇。
 
 ## 6. Tooling Policy
 1. 解析层是参考材料，不是 wiki 本体；当前实现目录是 `extracts/parses/<stem>/`。
@@ -115,3 +134,16 @@
 13. `pdftotext` 与 `bbox-layout` 是精定位兜底层。
 14. `Pass 0` 的脚本需要维护全局状态文件，例如 `extracts/pass0_status.json` 与 `extracts/pass0_index.jsonl`，便于后续 pass 与人工检查。
 15. 默认不保留常规运行日志、`Marker JSON`、`Docling HTML/TXT`、`pdfinfo.txt` 与 `pdfimages.list.txt`；这些属于可再生或低收益产物，应在 parse 后清理。
+16. 在 `Pass 1` 中，默认主阅读路径不是 `Docling/Marker` 全量文本，而是：
+   - `raw PDF`
+   - `pdftotext`
+   - `pdftotext -bbox-layout`
+   - 在需要章节、表格、图片或局部锚点时再查 `Docling/Marker`
+17. `Docling/Marker` 结果默认按特定需求调用，不应作为首轮语义扫描的唯一输入，也不应替代对 `raw/` 的最终核对。
+18. `Pass 1` 使用 subagent 时，worker 默认模型配置可固定为：
+   - `model = gpt-5.4`
+   - `reasoning_effort = xhigh`
+19. `Pass 1` 使用 subagent 时，chief editor 不应把共享文件写权限下放给 worker；共享文件统一由 chief 收口。
+20. `Pass 1` 的 `L1` 页面允许略高于最小模板的信息密度；只要仍停留在单篇层、未越界到 synthesis，且待核点写清，就不必为了“更短”而硬压缩。
+21. `Pass 1` 的 headline 数字主张允许保留在 `Claim` 中，但必须同时保留相应 caveat 或待核点，避免误写成已完全钉实的结构化证据。
+22. 若 worker 接手时发现目标页面已经存在且满足 `L1`，可以选择做轻量审校而不是强行重写；但需明确报告自己实际修改了哪些内容，避免无意义 churn。

@@ -1,0 +1,19 @@
+{
+  "mode": "bootstrap",
+  "current_pass": "pass1_semantic_scan_completed",
+  "bootstrap": {
+    "phase": "pass1_semantic_scan_completed",
+    "next_step": "prepare pass2 reverse calibration"
+  },
+  "summary": {
+    "paper_pages": 99,
+    "evidence_pages": 0,
+    "synthesis_pages": 0
+  },
+  "pass1": {
+    "completed": true,
+    "wave_count": 13,
+    "paper_count": 99
+  },
+  "updated_at": "2026-04-08T13:18:22+08:00"
+}

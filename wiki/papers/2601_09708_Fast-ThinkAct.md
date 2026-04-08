@@ -6,14 +6,16 @@
 - Primary text fallback: [[extracts/parses/2601_09708_Fast-ThinkAct/pdftotext.txt]]
 
 ## Claim
+- 页面定位：这是一篇 **latent planning / reasoning VLA compression** 论文；它的核心贡献是把显式 textual CoT 压缩成可 verbalize 的 latent reasoning，并保留视觉规划 latent。
 - 这篇论文要解决的是：reasoning VLA 虽然能通过显式 chain-of-thought 提升长时程规划、few-shot adaptation 和 failure recovery，但长文本 reasoning trace 带来的推理延迟过高，难以满足 embodied 场景的实时要求。
 - 作者提出 `Fast-ThinkAct`，核心思路是把显式 textual CoT 压缩成 `verbalizable latent reasoning`。它通过一个 textual teacher 生成高质量 reasoning，再用 preference-guided distillation 和 visual trajectory alignment，把语言与视觉规划能力蒸馏到紧凑的连续 latent 与 spatial tokens 中，最后再由 reasoning-enhanced policy learning 把这些 latent planning 转成低层动作。
 - 论文主张：reasoning VLA 的效率瓶颈不一定要通过“直接缩短文本 CoT”来解决；更有效的路线是把 reasoning 压缩为可 verbalize 的 latent thought，并保留 visual planning latent，这样既能保留 planning 能力，也能显著缩短推理时间。
-- headline numeric claims 包括：
-  - 相比现有 reasoning VLA，推理 latency 最多降低约 `89.3%`。
-  - 相比 `ThinkAct-7B`，推理约 `9.3×` 更快。
-  - 在 SimplerEnv-Google、LIBERO 各子任务和 RoboTwin2.0 上整体优于现有 reasoning VLAs。
-  - 在同为 3B 规模下，正文明确给出 Fast-ThinkAct 在 LIBERO 上约 `89.7`，在 SimplerEnv-Google 上约 `68.7`，同时相较 baseline 仍可实现约 `7×` 级别推理加速。
+- headline 数字需要拆开理解：
+  - `89.3%` 是相对现有 reasoning VLA 的 latency reduction；
+  - `9.3×` 是相对 `ThinkAct-7B` 的速度口径；
+  - `89.7`（`LIBERO`）与 `68.7`（`SimplerEnv-Google`）属于 3B 规模下的任务表现；
+  - `RoboTwin2.0` 与 embodied reasoning benchmarks 又是新的验证口径，不应与前述 latency 数字混成单一 superiority claim。
+- 更稳的主张是：`Fast-ThinkAct` 试图在保留 reasoning VLA 规划能力的同时，把显式 textual CoT 压缩成 verbalizable latent planning；它主要是一条 reasoning compression / latent planning 路线，而不是普通的 VLA inference optimization。
 
 ## Methodology Index
 - reasoning VLA
@@ -50,3 +52,4 @@
 - 主文当前最容易直接抓到的是 Fig. 3 的 benchmark 结果；若后续需要每个 LIBERO 子套件或 SimplerEnv 的精确数值，应回图表或附录进一步核定。
 - 论文同时包含 teacher-student distillation、trajectory alignment 和 reasoning-enhanced policy learning 三层机制；后续若把增益全部归因于 latent reasoning 本身，需要谨慎拆分证据。
 - 推理效率提升是相对 reasoning VLAs 而言；若与非-reasoning foundation VLA 比较，结论口径需要单独说明。
+- 若后续把它并入一般 `latent reasoning` 路线，需要保留“核心是可 verbalize 的 latent planning，而不是单纯去掉 CoT token”这一边界。

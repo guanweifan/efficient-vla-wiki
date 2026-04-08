@@ -6,9 +6,16 @@
 - Primary text fallback: [[extracts/parses/2603_03380_LiteVLA-Edge/pdftotext.txt]]
 
 ## Claim
+- 页面定位：这是一篇 **deployment-oriented fully on-device VLA system** 论文；它的核心贡献是嵌入式部署路径与时延可行性，而不是新的 policy objective 或任务泛化方法。
 - 这篇论文要解决的是：多数 VLA 虽然具备统一的 perception-language-action 能力，但仍依赖云端或桌面级 GPU，难以在嵌入式机器人上实现完全离线、低延迟、可闭环的本地控制。
 - 核心主张是：如果采用 compact multimodal backbone，并结合全精度监督式 image-to-action fine-tuning、后训练 `4-bit GGUF` 量化，以及 `llama.cpp` 的 GPU-accelerated runtime，就能在 Jetson Orin-class 硬件上把 VLA 推理压到接近 reactive control 的范围内，同时保持完整的本地 ROS 2 perception–reasoning–action pipeline。
-- 作者提出 `LiteVLA-Edge`，它不是新的 policy objective，而是一条 deployment-oriented、fully on-device 的系统路径。论文 headline claim 是：在 Jetson AGX Orin 上 achieves `150.5 ms` mean end-to-end latency、约 `6.6 Hz` 推理频率，并保持极低 jitter（`σ = 0.125 ms`）；作者把这表述为相对之前 LiteVLA baseline 的约 `220%` improvement，并强调系统完全 offline、闭环可用。来源：[[raw/2603_03380_LiteVLA-Edge.pdf]]，第 1-2 页摘要与引言；第 3-5 页 Table I、Table II 与讨论章节。
+- 作者提出 `LiteVLA-Edge`，它不是新的 policy objective，而是一条 deployment-oriented、fully on-device 的系统路径。
+- headline 数字需要拆开理解：
+  - `150.5 ms` 是特定 Jetson AGX Orin 配置下的 mean end-to-end latency；
+  - 约 `6.6 Hz` 是由该时延导出的推理频率口径；
+  - `σ = 0.125 ms` 描述的是 jitter 稳定性；
+  - 约 `220%` improvement 则是相对早期 LiteVLA baseline / extreme-edge setup 的系统级比较，不是统一 task benchmark 胜率。来源：[[raw/2603_03380_LiteVLA-Edge.pdf]]，第 1-2 页摘要与引言；第 3-5 页 Table I、Table II 与讨论章节。
+- 更稳的主张是：`LiteVLA-Edge` 证明了在 Jetson Orin-class 嵌入式平台上，可以通过 compact backbone、后训练量化和本地 runtime 组合，把 VLA 推理压到可闭环、完全离线的部署区间。
 
 ## Methodology Index
 - LiteVLA-Edge

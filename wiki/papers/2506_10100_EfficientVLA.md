@@ -4,11 +4,13 @@
 - Raw: [[raw/2506_10100_EfficientVLA.pdf]]
 - Extracts manifest: [[extracts/parses/2506_10100_EfficientVLA/manifest.json]]
 - Primary text fallback: [[extracts/parses/2506_10100_EfficientVLA/pdftotext.txt]]
+- Fine-grained locator: [[extracts/parses/2506_10100_EfficientVLA/pdftotext.bbox.html]]
 
 ## Claim
+- 页面定位：这是一篇 **training-free holistic inference acceleration for diffusion VLA** 论文；核心贡献是同时处理语言层、视觉 token 和 diffusion action head 三类冗余，而不是单一模块压缩。
 - 这篇论文要解决的是：diffusion-based VLA 的推理瓶颈并不只来自单一模块，而是同时分布在语言模块、视觉 token 路径和迭代式 diffusion action head 中；如果只做局部优化，很难真正缓解端到端部署成本。
 - 核心主张是：可以用一个 `training-free`、结构化的推理时框架，联合处理三类冗余：语言层间冗余、视觉 token 冗余、以及 diffusion action head 的时间冗余，从而在不重新训练模型的前提下得到系统级加速。
-- 作者提出 `EfficientVLA`，包含三条主路径：基于层间相似性的语言层剪枝、任务感知且兼顾多样性的视觉 token 选择、以及 diffusion action head 的中间特征缓存复用。论文声称在 `CogACT + SIMPLER` 上可实现 `1.93×` 推理加速，并把 FLOPs 降到 baseline 的 `28.9%`，平均成功率仅下降 `0.6%`。来源：[[raw/2506_10100_EfficientVLA.pdf]]，第 1 页摘要；第 7-8 页 Table 2 与相关结果分析。
+- 作者提出 `EfficientVLA`，包含三条主路径：基于层间相似性的语言层剪枝、任务感知且兼顾多样性的视觉 token 选择、以及 diffusion action head 的中间特征缓存复用。论文声称在 `CogACT + SIMPLER` 上可实现 `1.93×` 推理加速，并把 FLOPs 降到 baseline 的 `28.9%`，平均成功率仅下降 `0.6%`；更稳的写法是：这些 headline 都绑定在 `CogACT + SIMPLER` 的特定 operating point 上，而不是对所有 diffusion VLA 的统一加速结论。来源：[[raw/2506_10100_EfficientVLA.pdf]]，第 1 页摘要；第 7-8 页 Table 2 与相关结果分析。
 
 ## Methodology Index
 - training-free acceleration

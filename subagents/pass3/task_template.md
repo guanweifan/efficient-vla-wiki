@@ -1,0 +1,22 @@
+# Pass 3 Task Template
+
+- `task_id`：
+- `task_class`：
+  - `paper-local`
+  - `single-paper-evidence`
+  - `cross-paper-evidence`
+- `target_pages`：
+- `source_priority`：
+  - `raw PDF`
+  - `pdftotext`
+  - `bbox`
+  - `extracts` 局部结果
+- `current_problem`：
+- `target_question`：
+- `expected_output`：
+- `must_anchor_to`：
+  - 页码
+  - table / figure 编号
+  - 必要时局部 locator
+- `non_mix_rules`：
+- `notes`：

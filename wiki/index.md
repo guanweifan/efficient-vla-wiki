@@ -2,20 +2,20 @@
 
 ## 当前状态
 - 当前阶段：`Bootstrap Build`
-- 当前 pass：`Pass 2 | Reverse Calibration ready`
-- 已有基础：`99 / 99` 篇 `papers`
-- 下一步：`Launch Pass 2 | wave-001`
+- 当前 pass：`Pass 3 | Evidence Mining ready`
+- 当前规模：`99 / 99` 篇 `papers`
+- 下一步：`Launch Pass 3`
 
 ## 层级入口
-- `papers/`：已完成第一轮建图的单篇页
-- `evidence/`：后续 `Pass 3` 才会系统建立
-- `synthesis/`：后续 `Pass 4` 才会正式建立
+- `papers/`：已完成建图与逆序校准的单篇页
+- `evidence/`：下一阶段将正式建立的证据层
+- `synthesis/`：后续主题建模层
 
-## 当前重点
-- 保持 `papers/` 为主工作面
-- 用较新的论文收紧旧页面术语与 headline 边界
-- 不把 `Pass 2` 误做成新的 `Pass 1` 或提前做成 `Pass 3`
+## 本阶段结果
+- `Pass 2` 已完成整库 reverse calibration
+- 旧页面的 headline、术语边界与问题定位已被收紧
+- `Pass 3` 的初始工作模式和模板文件已准备完成
 
 ## 说明
-- `Pass 1` 已完成 `13` 个波次
-- 当前 `Pass 2` 采用 `1` 个 chief editor + `2` 个 worker 的准备配置
+- 当前仍以 `papers/` 为正式知识层主入口
+- `Pass 3` 将从关键 claim、图、表与 wording 开始建立 evidence layer

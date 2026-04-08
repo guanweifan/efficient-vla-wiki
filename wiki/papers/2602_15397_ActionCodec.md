@@ -6,13 +6,15 @@
 - Primary text fallback: [[extracts/parses/2602_15397_ActionCodec/pdftotext.txt]]
 
 ## Claim
+- 页面定位：这是一篇 **autoregressive VLA action tokenizer design** 论文；它的核心贡献是重写“什么样的 action tokenizer 更利于 VLA optimization”，而不是提出新的 action head 或部署系统。
 - 这篇论文要解决的是：当前离散动作 tokenization 的设计通常围绕 reconstruction fidelity 展开，但它是否真正有利于 `autoregressive VLA` 的优化、训练效率与泛化，缺少系统回答；因此作者把问题改写为“什么样的 action tokenizer 才适合 VLA optimization”。
 - 作者从 `information-theoretic` 视角提出四条设计原则：更高的 temporal token overlap、更低的 vocabulary redundancy、更强的 multimodal mutual information、以及更高的 token independence；并据此提出 `ActionCodec`，把 action tokenizer 从“重建模块”变成直接服务 VLA 训练动态的设计对象。
 - 论文主张：围绕上述原则设计的 `ActionCodec` 能同时提升训练效率、降低过拟合，并在 simulation 与 real-world benchmark 上带来更强 VLA 表现，而不是只提高动作重建质量。
-- headline numeric claims 包括：
-  - 在 `LIBERO` 上，`SmolVLM2-2.2B` 经 `ActionCodec` fine-tuning 后，在**无 robotics pre-training**条件下达到 `95.5%` success rate。
-  - 结合 `advanced architectural enhancements` 后达到 `97.4%`，作者将其表述为无 robotics pre-training VLA 的新 `SOTA`。
-  - 在训练效率上，`Figure 1` / 结果讨论给出的 headline 是：`ActionCodec` 在仅 `5K` training steps 时达到约 `89.5%` success rate，而 runner-up `FAST` 同步仅约 `38.6%`。
+- headline 数字需要拆开理解：
+  - `95.5%` 对应 `SmolVLM2-2.2B + ActionCodec` 在 **无 robotics pre-training** 条件下的 `LIBERO` success rate；
+  - `97.4%` 显式依赖 `advanced architectural enhancements`，不应被写成纯 tokenizer 单因素结果；
+  - `89.5% @ 5K steps` 对应训练效率 headline，而 `FAST 38.6%` 是同设定下的对照，不应与最终 benchmark 表现混写。
+- 更稳的主张是：`ActionCodec` 试图把 action tokenizer 从“重建 fidelity 模块”改写成“服务 autoregressive VLA optimization 的训练接口”；其收益同时涉及 tokenizer 设计、训练效率和抗过拟合，不应压成单一 SOTA 数字。
 
 ## Methodology Index
 - action tokenization for autoregressive VLA
@@ -46,3 +48,4 @@
 - “without robotics pre-training” 不等于“没有进一步的 robotics fine-tuning / benchmark-specific adaptation”；后续引用时要避免把这一点过度外推。
 - `89.5% @ 5K steps` 与 `FAST 38.6%` 更像训练效率 headline，建立在特定 `LIBERO-Goal` 与 `SmolVLM2` 设置上；若后续写成普适训练加速结论，需要保留实验范围 caveat。
 - `ActionCodec` 的收益同时混合了 tokenizer design、本体 `VQ/RVQ` 设计、embodiment soft prompts、以及某些 architectural variants；若后续要拆“哪一部分真正贡献最大”，需要继续回 ablation 与主表细分。
+- 若后续把它并入一般 `tokenizer compression` 路线，需要保留“它主要服务 autoregressive VLA optimization，而不是通用动作重建”这一边界。

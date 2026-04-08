@@ -1,9 +1,9 @@
 {
   "mode": "bootstrap",
-  "current_pass": "pass2_reverse_calibration_ready",
+  "current_pass": "pass3_evidence_mining_ready",
   "bootstrap": {
-    "phase": "pass2_reverse_calibration_ready",
-    "next_step": "launch pass2 wave-001"
+    "phase": "pass3_evidence_mining_ready",
+    "next_step": "launch pass3 evidence mining"
   },
   "summary": {
     "paper_pages": 99,
@@ -16,8 +16,8 @@
     "paper_count": 99
   },
   "pass2": {
-    "ready": true,
-    "completed": false,
+    "completed": true,
+    "wave_count": 17,
     "worker_setup": {
       "chief_editor": 1,
       "workers": 2,
@@ -25,5 +25,10 @@
       "wave_size": 6
     }
   },
-  "updated_at": "2026-04-08T13:29:23+08:00"
+  "pass3": {
+    "ready": true,
+    "strategy": "initial evidence mining workflow",
+    "queue": "subagents/pass3/backlog.md"
+  },
+  "updated_at": "2026-04-08T14:31:27+08:00"
 }

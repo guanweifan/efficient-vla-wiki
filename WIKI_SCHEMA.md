@@ -32,7 +32,7 @@
 
 ## 2.1 Execution Principles
 1. `raw/` 永远是事实源；`extracts/` 只是参考层，不得反客为主。
-2. `Pass 1` 求全不求深；`Pass 3` 求关键证据最扎实，不追求平均深挖。
+2. `Pass 1` 求全不求深；`Pass 3` 由 chief-editor 多轮遍历逐步把关键证据打扎实，不追求平均深挖。
 3. 默认主阅读路径始终是：
    - `raw PDF`
    - `pdftotext`
@@ -96,11 +96,50 @@
    - 只有在至少两波证明 worker 仍在做“校正页面”而不是“重写页面”，且 chief editor 收口成本可控后，才考虑提升 worker 数量。
 5. `Pass 3 | Evidence Mining`
    - 回到关键图、关键表、关键 claim 与关键 wording。
+   - `Pass 3` 不是默认一轮完成；它是一个由 `chief-editor` 主导、可持续多轮推进的 evidence mining 阶段。
+   - 这一轮的默认工作单位不是“整篇论文”，而是 `evidence task`，例如：
+     - 一个 headline claim 的拆分
+     - 一张关键表的 operating point 拆分
+     - 一张关键图 / caption 的局部锚定
+     - 一个会被多页复用的 metric / wording 说明
    - 这一轮按信息价值排序，优先补：
      - 高频 claim
      - 关键术语定义
      - 常被引用的图表
      - 明显存在冲突的命题
+   - 正式模式默认采用：
+     - `chief-editor` 串行写入正式 `wiki/`
+     - 可选 `sidecar` 只读辅助取证
+   - `Pass 3` 的常见轮次分工是：
+     - 第 1 轮：铺设 evidence 骨架，让高价值 `papers/*.md` 有稳定 evidence 落点；
+     - 第 2 轮：深挖高价值表格、指标与 operating point；
+     - 第 3 轮：深挖 figure / caption / wording；
+     - 第 4 轮：收口，判断哪些缺口属于 `Pass 3`，哪些应转交 `Pass 3.5 / Pass 4`。
+   - `sidecar` 的职责只包括：
+     - 回原文找页码、table / figure 编号、局部 wording
+     - 提供哪些数字 / setting / metric 不能混写的候选判断
+     - 提供受影响页面候选集
+   - `sidecar` 默认不得直接写正式 `wiki/` 页面。
+   - `Pass 3` 采用双轨推进：
+     - `paper-local hardening`：先把证据补强到对应 `papers/*.md`
+     - `reusable evidence extraction`：当证据会被多处复用时，抽出独立 `wiki/evidence/*` 页面
+   - 只有满足下列条件之一时，才新建 `wiki/evidence/` 页面：
+     - 同一证据会被两个及以上页面复用；
+     - 同一表 / 图 / 定义已经开始承载共享 benchmark、共享 metric 或共享 wording；
+     - 后续 `Pass 4` 明显会依赖它做跨论文建模。
+   - `cross-paper reusable evidence` 必须受控：
+     - 只能记录 source-grounded evidence 与“哪些口径不能混写”
+     - 不得提前滑向主题级 synthesis
+   - `Pass 3` 完成的最低条件是：
+     - 全部 `papers/*.md` 都已显式挂接至少一个 `single-paper evidence` 页面；
+     - 高优先级共享口径已抽成可复用 `wiki/evidence/metrics/*` 页面；
+     - 剩余未解决项只保留为 page-local `待核`，不再存在未入队的高优先级 bundled headline。
+   - 正式早期阶段默认采用：
+     - `chief-editor` 单人串行写入；
+     - `sidecar` 默认关闭，只有在任务退化为纯锚点采集时才按需引入；
+     - 每波控制在 `4` 个 task 左右；
+     - 每波最多 `1` 个 `cross-paper evidence` task。
+   - 正式推进时，不再额外做独立 pilot；改为正式轮次推进，并在每轮结束后做 chief-editor 复盘，再决定下一轮重点。
    - 补足 supporting evidence pages，并把高价值命题从“指针”提升为“锚定证据”。
 6. `Pass 4 | Clustering and Modeling`
    - 以主题而非单篇为中心，聚类共识、分歧与条件边界。
@@ -123,6 +162,12 @@
    - 所有 `synthesis/` 页面
 10. `Pass 1` 的推荐波次是按时间顺序连续切块；早期波次优先采用每波 8 篇、4 个 worker 各处理 2 篇。
 11. 只有在至少一轮已完成波次证明口径稳定、chief editor 收口成本可控后，才把 `Pass 1` 提升到每波 12 篇、4 个 worker 各处理 3 篇。
+12. `Pass 3` 的准备文件放在：
+   - `subagents/pass3/README.md`
+   - `subagents/pass3/task_template.md`
+   - `subagents/pass3/evidence_page_template.md`
+   - `subagents/pass3/backlog.md`
+   - `subagents/pass3/sidecar_prompt.md`
 
 ### 4.2 Incremental Update
 1. 这一模式用于 `raw/` 新增论文后的日常维护，不重跑整库冷启动流程。

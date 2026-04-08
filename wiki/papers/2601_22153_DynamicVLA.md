@@ -6,9 +6,15 @@
 - Primary text fallback: [[extracts/parses/2601_22153_DynamicVLA/pdftotext.txt]]
 
 ## Claim
+- 页面定位：这是一篇 **dynamic object manipulation VLA + execution design** 论文；它的核心不是单纯做小模型，而是同时用 compact backbone、continuous inference 和 `LAAS` 去解决 perception-execution gap。
 - 这篇论文要解决的是：现有 VLA 在静态 manipulation 上已经有较强泛化，但在 dynamic object manipulation 中会因为 perception-execution gap、inter-chunk waiting 和推理延迟，导致观测与执行脱节，难以应对快速运动、突发轨迹变化和长时间闭环交互。
 - 核心主张是：动态操作的主失败模式不是单纯视觉歧义，而是时序失配；因此如果同时做 `compact low-latency VLA backbone`、`Continuous Inference` 和 `Latent-aware Action Streaming (LAAS)`，让推理与执行重叠、并丢弃过时 action，就能显著提升 closed-loop reactivity、dynamic adaptation 与 long-horizon sequencing。
-- 作者提出 `DynamicVLA`，使用 `0.4B` 参数量 backbone，并配套 `DOM` benchmark 与自动化仿真/真实世界数据管线。论文主结果是：在 `DOM` simulation benchmark 上，`DynamicVLA` 在 `Interaction / Perception / Generalization` 九个子维度上都显著优于现有 baseline，总平均 success rate 达到 `47.06%`；其中 `Closed-loop Reactivity / Dynamic Adaptation / Long-horizon Sequencing` 为 `60.5 / 38.5 / 40.5`，`Visual Understanding / Spatial Reasoning / Motion Perception` 为 `51.5 / 48.0 / 33.5`，`Visual Generalization / Motion Generalization / Disturbance Robustness` 为 `59.5 / 65.0 / 26.5`。此外，模型在 `RTX A6000` 上约 `88 Hz`，显存约 `1.8 GB`。来源：[[raw/2601_22153_DynamicVLA.pdf]]，第 1-2 页摘要与引言；第 6-7 页 Table I；第 12 页 implementation details。
+- 作者提出 `DynamicVLA`，使用 `0.4B` 参数量 backbone，并配套 `DOM` benchmark 与自动化仿真/真实世界数据管线。
+- headline 数字需要拆开理解：
+  - `47.06%` 是 `DOM` simulation benchmark 上九个子维度的总平均 success rate；
+  - `60.5 / 38.5 / 40.5`、`51.5 / 48.0 / 33.5`、`59.5 / 65.0 / 26.5` 分别对应不同子维度，不应压成单一“全面更强”指标；
+  - `88 Hz` 与 `1.8 GB` 则是 `RTX A6000` 上的部署口径，而不是全部 real-world 系统的统一控制频率。来源：[[raw/2601_22153_DynamicVLA.pdf]]，第 1-2 页摘要与引言；第 6-7 页 Table I；第 12 页 implementation details。
+- 更稳的主张是：`DynamicVLA` 通过 compact backbone、continuous inference 和 `LAAS` 同时收紧推理延迟与执行时序错位问题；它既是方法论文，也是 benchmark/data pipeline 驱动的系统性方案。
 
 ## Methodology Index
 - DynamicVLA
@@ -44,3 +50,4 @@
 - `88 Hz` 与 `1.8 GB` 来自 `RTX A6000` 上的 inference setting；这更像模型级推理能力，不等于整个真实机器人闭环系统在所有平台上的端到端控制频率。
 - 论文的强点既可以写成“compact low-latency VLA architecture”，也可以写成“CI + LAAS 解决 perception-execution gap 的 execution design”；后续需要决定页面主轴。
 - `DOM` benchmark 与自动化数据采集管线是这篇的重要组成部分；后续若只把它当成模型论文，可能会低估 benchmark/data pipeline 在整体主张中的权重。
+- 若后续把它放进一般 `compact VLA` 路线，需要保留“核心是 dynamic object manipulation 与 execution design，不是单纯缩模型”这一边界。

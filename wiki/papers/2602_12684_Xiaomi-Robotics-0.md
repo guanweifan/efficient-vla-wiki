@@ -6,10 +6,14 @@
 - Primary text fallback: [[extracts/parses/2602_12684_Xiaomi-Robotics-0/pdftotext.txt]]
 
 ## Claim
+- 页面定位：这是一篇 **VLA recipe / deployment system report**；它的核心是把 pre-training、post-training、asynchronous execution 和 rollout alignment 组合成一套可实时部署的完整方案，而不是单一算法模块论文。
 - 这篇论文提出 **Xiaomi-Robotics-0**，目标是在保持大规模 VLA 泛化能力的同时，实现**fast and smooth real-time execution**。作者的基本判断是：VLA 的主要落地难点并不只是精度，而是高推理延迟会让连续 action chunk 难以平滑衔接，导致真实机器人 rollout 出现 jerkiness 和 OOD motion。来源：[[raw/2602_12684_Xiaomi-Robotics-0.pdf]]，第 1-2 页 Abstract、Introduction。
 - 方法上的主张不是单一模块创新，而是一套完整的 **training recipe + deployment strategy**。模型本身由 **Qwen3-VL-4B-Instruct** 作为 VLM 骨干，加上一个基于 **flow-matching** 的 diffusion transformer 动作生成器，整体约 **4.7B 参数**。训练上分为 pre-training 和 post-training 两阶段；post-training 中又专门针对 **asynchronous execution** 设计了 action prefix conditioning、`Λ-shape attention mask` 等机制，以兼顾连续性和反应性。来源：[[raw/2602_12684_Xiaomi-Robotics-0.pdf]]，第 1-4 页 Abstract、Fig. 1、Sec. 2。
-- 论文保留了多组 headline numeric claims：在 **LIBERO** 上取得 **98.7%** 平均成功率；在 **SimplerEnv** 上达到 `85.5% / 74.7% / 79.2%` 等结果；在 **CALVIN** 上将平均 5-task chain completion 从 `4.54 -> 4.75`、`4.67 -> 4.80`；并在真实世界的 **Lego Disassembly** 和 **Towel Folding** 双臂任务中实现高 throughput 与平滑实时执行。这些数字有信息量，但分别对应不同 benchmark、不同 embodiment 和不同评价指标，不应在 `L1` 被压成一个无条件 superiority claim。来源：[[raw/2602_12684_Xiaomi-Robotics-0.pdf]]，第 1-2 页 Abstract、Introduction；第 5-8 页 Table 1、Table 2、Fig. 6。
-- 从当前证据看，Xiaomi-Robotics-0 更像一篇**面向真实部署的完整 VLA recipe / system report**，而不是单一算法论文。其重点在于大规模 cross-embodiment pretraining、异步执行训练、部署时 chunk alignment，以及在 consumer-grade GPU 上把这些组合成可平滑 rollout 的系统。来源：[[raw/2602_12684_Xiaomi-Robotics-0.pdf]]，第 1-4 页 Abstract、Introduction、Sec. 2；第 7-8 页 real-robot experiments。
+- 论文保留了多组 headline numeric claims，但需要拆开理解：
+  - **simulation benchmark claim**：`LIBERO 98.7%`、`SimplerEnv 85.5% / 74.7% / 79.2%` 属于不同 benchmark 与 setting 的任务表现；
+  - **chain-completion claim**：`CALVIN` 的 `4.54 -> 4.75`、`4.67 -> 4.80` 属于另一种连续任务指标；
+  - **real-world deployment claim**：`Lego Disassembly` 与 `Towel Folding` 更强调高 throughput 与平滑实时执行，而不是和前述 benchmark 完全同口径的 success headline。来源：[[raw/2602_12684_Xiaomi-Robotics-0.pdf]]，第 1-2 页 Abstract、Introduction；第 5-8 页 Table 1、Table 2、Fig. 6。
+- 更稳的单篇主命题应写成：Xiaomi-Robotics-0 是一篇 **面向真实部署的完整 VLA recipe / system report**；其重点在于 cross-embodiment pretraining、异步执行训练、chunk alignment 与 consumer-grade GPU rollout 的整体联动，而不是某个单独 acceleration module。来源：[[raw/2602_12684_Xiaomi-Robotics-0.pdf]]，第 1-4 页 Abstract、Introduction、Sec. 2；第 7-8 页 real-robot experiments。
 
 ## Methodology Index
 - real-time VLA execution
@@ -41,3 +45,4 @@
 - 论文同时使用 `Xiaomi-Robotics-0`、`advanced VLA model`、`open-sourced VLA model with real-time execution` 等 framing；后续 taxonomy 需要统一其主定位。
 - 真实机器人部分更强调 throughput 和 smooth rollout，而不是单纯 success rate；后续需要决定在单篇主 claim 中把“实时平滑执行”放多高。
 - 论文是 “report” 风格，覆盖 recipe、数据、模型、部署、VLM benchmark 对齐；后续需要决定哪些属于主线，哪些降为 supporting evidence。
+- 若后续把它与一般方法论文并列，需要显式保留“这是 recipe / system report，不是单模块算法 paper”这一边界。

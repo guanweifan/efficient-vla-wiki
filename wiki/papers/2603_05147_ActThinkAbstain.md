@@ -8,9 +8,14 @@
 
 ## Claim
 
-这篇论文的核心命题是：VLA 的泛化与安全问题不应只靠“统一加重 reasoning”来解决，更合理的方向是先判断当前状态的复杂度，再决定是直接执行、额外思考，还是干脆拒绝执行。论文因此提出一个 complexity-aware adaptive inference 框架，把 VLA backbone 提取的 latent embedding 从“被动特征”改造成任务复杂度检测器，再据此在三条执行路径之间路由：**Act** 对已知且高置信任务直接执行，**Think** 对部分 OOD 或模糊场景触发额外 reasoning，**Abstain** 对严重 physical / semantic anomaly 直接停机。作者 headline claim 是：在 vision-only 配置下，复杂度检测器只用 `5%` 训练数据即可达到约 `80%` F1；完整 pipeline 在 LIBERO / LIBERO-PRO 与真实机器人上都能在保持 ID 任务成功率的同时，通过 Think/Abstain 提升部分 OOD 恢复能力与安全性。
-
-显式 caveat：`80%` F1、模拟 benchmark 上的 success / prevented failures，以及 real-robot 的恢复与拒绝结果不是同一个层面的指标，不能被读成一个统一设置下的总性能数字。论文更稳的主张是：**复杂度检测 + 条件式 Act/Think/Abstain 路由** 能把 generalization、latency 和 safety 放进同一个 inference policy 里，而不是强制所有状态都走重 reasoning。
+- 页面定位：这是一篇 **complexity-aware adaptive inference / safety routing** 论文；它的核心贡献是给 VLA 增加 `Act / Think / Abstain` 条件式执行策略，而不是单纯提出更重的 reasoning recipe。
+- 这篇论文的核心命题是：VLA 的泛化与安全问题不应只靠“统一加重 reasoning”来解决，更合理的方向是先判断当前状态的复杂度，再决定是直接执行、额外思考，还是干脆拒绝执行。
+- 论文因此提出一个 complexity-aware adaptive inference 框架，把 VLA backbone 提取的 latent embedding 从“被动特征”改造成任务复杂度检测器，再据此在三条执行路径之间路由：**Act** 对已知且高置信任务直接执行，**Think** 对部分 OOD 或模糊场景触发额外 reasoning，**Abstain** 对严重 physical / semantic anomaly 直接停机。
+- headline 数字需要拆开理解：
+  - `5%` 训练数据与约 `80%` F1 描述的是复杂度检测器本身的判别质量；
+  - LIBERO / LIBERO-PRO 的 success / prevented failures 描述的是模拟 benchmark 下的 routing 效果；
+  - real-robot 的恢复与拒绝结果则对应物理部署中的 safety behavior。
+- 更稳的主张是：**复杂度检测 + 条件式 Act/Think/Abstain 路由** 能把 generalization、latency 和 safety 放进同一个 inference policy 里，而不是强制所有状态都走重 reasoning。
 
 ## Methodology Index
 

@@ -4,8 +4,10 @@
 - Raw: [[raw/2509_21354_KV-Efficient-VLA.pdf]]
 - Extracts manifest: [[extracts/parses/2509_21354_KV-Efficient-VLA/manifest.json]]
 - Primary text fallback: [[extracts/parses/2509_21354_KV-Efficient-VLA/pdftotext.txt]]
+- Fine-grained locator: [[extracts/parses/2509_21354_KV-Efficient-VLA/pdftotext.bbox.html]]
 
 ## Claim
+- 页面定位：这是一篇 **KV-cache compression / long-horizon inference efficiency** 论文；核心贡献是对历史上下文做 chunked KV compression 与 recurrent gating，而不是新 policy、本体训练或泛 benchmark 报告。
 - 这篇论文要解决的是：VLA 在长时序推理中需要持续保留历史图像 token 的 key-value (`KV`) cache，导致 attention 计算和 KV 存储都随上下文增长而变重，难以满足实时机器人控制。
 - 作者提出 `KV-Efficient VLA`，这是一个面向推理期的 memory compression 模块。它把历史 KV cache 按固定长度切成 chunk，对每个 chunk 做聚合，再用一个轻量 LSTM gate 决定哪些压缩后的 chunk 应该保留、哪些可以丢弃，同时保留最近窗口的原始细粒度 tokens。
 - 论文主张：VLA 的推理瓶颈不只是模型规模，而是历史上下文在 KV cache 中的无界积累；通过 `chunked KV cache + recurrent gating`，可以在不改 downstream control logic 的前提下显著降低 FLOPs、推理延迟和 KV memory。
@@ -14,6 +16,7 @@
   - 平均约 `1.34×` inference speedup。
   - 平均约 `1.87×` KV memory reduction。
   - 理论 cost-model 下 attention-level speedup 约 `1.61×`，memory speedup 约 `2.44×`。
+  - 这些 empirical numbers 分别来自 `OpenVLA / CogACT / HybridVLA` 三个 baseline 的平均；而精度与收敛曲线的直接实验又主要围绕 `HybridVLA` 的 illustrative fine-tuning 展开。
 
 ## Methodology Index
 - VLA inference efficiency

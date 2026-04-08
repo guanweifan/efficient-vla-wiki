@@ -6,9 +6,17 @@
 - Primary text fallback: [[extracts/parses/2602_20200_OptimusVLA/pdftotext.txt]]
 
 ## Claim
+- 页面定位：这是一篇 **dual-memory hierarchical VLA / action-generation efficiency+robustness** 论文；它的核心不是一般视觉 backbone 压缩，而是围绕 action generation 的 prior alignment 与 temporal consistency 重写 memory 结构。
 - 这篇论文要解决的是：层次化 VLA 往往已经拥有很强的 perception 与 language backbone，但 action generation 仍然是效率与鲁棒性的共同瓶颈。一方面，Gaussian noise prior 与目标 action distribution 的 gap 很大，导致需要较多 denoising / function evaluations；另一方面，仅依赖当前 observation 会忽略 task progress 与历史执行一致性，进而造成 jitter 和阶段感知不足。
 - 核心主张是：如果同时给 action generation 引入一个面向全局任务先验的 memory 和一个面向局部时间一致性的 memory，就能在不显著牺牲灵活性的前提下，缩短 generative path、减少 NFE，并提升长时程和真实机器人场景下的稳定性。
-- 作者提出 `OptimusVLA`，一个由 `Global Prior Memory (GPM)` 与 `Local Consistency Memory (LCM)` 共同驱动的 dual-memory VLA framework。论文 headline claim 是：在 simulation 上，`OptimusVLA` 在 `LIBERO` 上达到 `98.6%` average success rate，在 `CALVIN` 上相对 `π0` 提升 `13.5%`，在 `RoboTwin 2.0 Hard` 上达到 `38%` average success rate；在 real-world 上，Generalization 和 Long-horizon suites 分别相对 `π0` 提升 `42.9%` 和 `52.4%`，同时实现 `2.9×` inference speedup。来源：[[raw/2602_20200_OptimusVLA.pdf]]，第 1-3 页摘要、引言与 Fig. 1；第 5-7 页 Tables 1-5；第 6-7 页 Fig. 3-5。
+- 作者提出 `OptimusVLA`，一个由 `Global Prior Memory (GPM)` 与 `Local Consistency Memory (LCM)` 共同驱动的 dual-memory VLA framework。
+- headline 数字需要拆开理解：
+  - `98.6%` 对应 `LIBERO` 的 average success rate；
+  - 相对 `π0` 的 `13.5%` 提升对应 `CALVIN`；
+  - `38%` 对应 `RoboTwin 2.0 Hard` 的 average success rate；
+  - `42.9%` 与 `52.4%` 分别对应 real-world `Generalization` 与 `Long-horizon` suites 相对 `π0` 的提升；
+  - `2.9×` 则是 inference speedup 口径，并与 `NFE` 从 `10` 降到 `3.2 / 3.4` 强相关。来源：[[raw/2602_20200_OptimusVLA.pdf]]，第 1-3 页摘要、引言与 Fig. 1；第 5-7 页 Tables 1-5；第 6-7 页 Fig. 3-5。
+- 更稳的主张是：`OptimusVLA` 证明在 hierarchical VLA 中，把全局任务先验和局部时间一致性分别写入双 memory，可以同时改善 action generation 的稳定性与推理效率，尤其对 long-horizon 与 real-world rollout 更有帮助。
 
 ## Methodology Index
 - OptimusVLA

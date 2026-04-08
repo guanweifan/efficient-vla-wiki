@@ -1,9 +1,9 @@
 {
   "mode": "bootstrap",
-  "current_pass": "pass3_evidence_mining_completed",
+  "current_pass": "pass4_preparing",
   "bootstrap": {
-    "phase": "pass3_evidence_mining_completed",
-    "next_step": "prepare pass4 historical reconciliation clustering and modeling"
+    "phase": "pass4_preparing",
+    "next_step": "fix target theme set and launch pass4 stage1 historical reconciliation"
   },
   "summary": {
     "paper_pages": 99,
@@ -12,23 +12,47 @@
     "shared_wording_pages": 2,
     "synthesis_pages": 0
   },
-  "pass1": {
-    "completed": true,
-    "wave_count": 13,
-    "paper_count": 99
-  },
-  "pass2": {
-    "completed": true,
-    "wave_count": 17
-  },
   "pass3": {
     "completed": true,
-    "round_count": 4,
-    "strategy": "coverage_first_multi_round",
-    "p3_minimum_completed_papers": 99,
-    "single_paper_evidence_pages": 99,
-    "shared_metric_pages": 3,
-    "shared_wording_pages": 2
+    "round_count": 4
   },
-  "updated_at": "2026-04-08T20:07:21+08:00"
+  "pass4": {
+    "ready": true,
+    "target_theme_count": 0,
+    "target_theme_set_fixed": false,
+    "stage1_historical_reconciliation": {
+      "completed": false,
+      "history_chain_pages_completed": 0,
+      "themes_missing_question": 0,
+      "themes_missing_scope": 0,
+      "themes_missing_chronology": 0,
+      "themes_missing_turning_points": 0,
+      "themes_missing_axes": 0
+    },
+    "stage2_clustering_setup": {
+      "completed": false,
+      "themes_with_fixed_axes": 0,
+      "themes_with_exclusion_rules": 0,
+      "themes_missing_route_split": 0,
+      "themes_still_in_misc_bucket": 0,
+      "taxonomy_conflict_count": 0
+    },
+    "stage3_modeling_and_synthesis": {
+      "completed": false,
+      "synthesis_pages_completed": 0,
+      "synthesis_pages_missing_required_sections": 0,
+      "synthesis_pages_missing_evidence_links": 0,
+      "unscoped_comparative_claims": 0,
+      "themes_without_boundary_conditions": 0
+    },
+    "stage4_convergence_closeout": {
+      "completed": false,
+      "cross_layer_link_issues": 0,
+      "orphan_shared_evidence_pages": 0,
+      "taxonomy_conflict_count": 0,
+      "open_pass4_structural_gaps": 0,
+      "index_log_status_sync": false
+    }
+  },
+  "updated_at": "2026-04-08T20:10:57+08:00"
 }

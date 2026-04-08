@@ -36,10 +36,10 @@
    - 不做主题级 synthesis
 
 ## 轮次建议
-1. 第 1 轮：铺设 evidence 骨架，让高价值 `papers/*.md` 有稳定 evidence 落点。
-2. 第 2 轮：以 `coverage track` 为主，推进高价值表格、指标与 operating point。
+1. 第 1 轮：以 `coverage track` 为主铺设全库 evidence 骨架，并把 `papers/*.md` 推进到稳定的 single-paper evidence 落点；若页面已经具备清楚的 headline split 与不可混写项，可在同一轮直接达到 `P3-Minimum`。
+2. 第 2 轮：继续沿 `coverage track` 查漏补缺，同时在 `priority track` 上推进高价值表格、指标与 operating point。
 3. 第 3 轮：在继续覆盖的同时，深挖 figure / caption / wording。
-4. 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交 `Pass 3.5 / Pass 4`。
+4. 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交新的 `Pass 4` 历史整合与主题建模阶段。
 
 ## 当前阶段
 1. 当前已进入 `Pass 3` 正式展开前的就绪态。

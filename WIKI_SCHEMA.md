@@ -115,10 +115,10 @@
      - `chief-editor` 串行写入正式 `wiki/`
      - 可选 `sidecar` 只读辅助取证
    - `Pass 3` 推荐以多轮 chief-editor 遍历推进，而不是以单轮完成为目标。常见轮次分工是：
-     - 第 1 轮：铺设 evidence 骨架，并明确每篇论文后续可被深挖的 evidence 落点；
-     - 第 2 轮：以 `coverage track` 为主，先让每篇论文至少拥有一个真正打透的 evidence unit，同时在 `priority track` 上挑选少量高价值表格、指标与 operating point 深挖；
+     - 第 1 轮：以 `coverage track` 为主铺设全库 evidence 骨架，并把 `papers/*.md` 从 page-level pointer 推进到稳定的 single-paper evidence 落点；若某篇页面已经具备清楚的 headline split 与不可混写项，可在同一轮直接达到 `P3-Minimum`；
+     - 第 2 轮：继续沿 `coverage track` 查漏补缺，同时在 `priority track` 上挑选少量高价值表格、指标与 operating point 深挖；
      - 第 3 轮：在保持 `coverage track` 推进的同时，把重点转向 figure / caption / wording；
-     - 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交 `Pass 3.5 / Pass 4`。
+     - 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交新的 `Pass 4` 历史整合与主题建模阶段。
    - `sidecar` 的职责只包括：
      - 回原文找页码、table / figure 编号、局部 wording
      - 提供哪些数字 / setting / metric 不能混写的候选判断
@@ -155,9 +155,77 @@
      - 若当轮包含 `cross-paper evidence`，则它优先占用 `priority track` 名额。
    - 正式推进时，不再额外做独立 pilot；改为正式轮次推进，并在每轮结束后做 chief-editor 复盘，再决定下一轮重点。
    - 补足 supporting evidence pages，并把高价值命题从“指针”提升为“锚定证据”。
-6. `Pass 4 | Clustering and Modeling`
-   - 以主题而非单篇为中心，聚类共识、分歧与条件边界。
-   - 在 `synthesis/` 中沉淀跨论文结构。
+6. `Pass 4 | Historical Reconciliation, Clustering and Modeling`
+   - `Pass 4` 合并承担原先“历史理解链”与“主题建模”两部分工作，不再额外设置 `Pass 3.5`。
+   - `Pass 4` 默认以已完成的 `papers/ + evidence/` 为输入，不再承担新的大规模 evidence 补挖；若在建模过程中暴露个别证据缺口，可局部回补，但不回退成新的 `Pass 3` 主线。
+   - `Pass 4` 仍由 `chief-editor` 串行推进；`sidecar` 只允许做只读锚点检索，不允许并发写正式 `synthesis/`。
+   - 任何 `Pass 4` 阶段都必须通过显式 gate 才能进入下一阶段；不得用“整体感觉差不多”作为推进依据。
+   - 主题准入 gate：
+     - 只有同时满足以下条件的问题，才可被升格为正式 `Pass 4` 主题：
+       - 能压缩成一句明确的 `theme question`
+       - 至少涉及 `3` 篇论文；若不足 `3` 篇，只能保留为局部观察，不得扩成正式主题页
+       - 至少有 `3` 个可回链的 `papers/evidence` 支点；若 evidence 稀疏，可用 `2` 个 evidence 支点加 `1` 个 `raw` fallback，但必须显式标注
+       - 能明确写出纳入边界与排除边界
+   - 第 1 阶段：`Historical Reconciliation`
+     - 目标：为每个已准入主题形成连续历史理解链。
+     - 每个历史链页面必须包含以下段落：
+       - `## Theme Question`
+       - `## Scope and Exclusions`
+       - `## Chronology`
+       - `## Turning Points`
+       - `## Stable Terms and Comparison Axes`
+       - `## Evidence Base`
+     - 严格验收标准：
+       - `history_chain_pages_completed == target_theme_count`
+       - `themes_missing_question = 0`
+       - `themes_missing_scope = 0`
+       - `themes_missing_chronology = 0`
+       - `themes_missing_turning_points = 0`
+       - `themes_missing_axes = 0`
+       - 若某主题纳入论文数 `>= 4`，则 `## Chronology` 中至少要点名：
+         - `1` 篇源头论文
+         - `1` 篇当前状态论文
+         - `2` 个中间转折点
+       - 若因语料限制无法满足前条，必须在页面中显式写出 `Insufficient historical depth`，否则该主题不得通过阶段 1
+   - 第 2 阶段：`Clustering Setup`
+     - 目标：把历史链转成可建模的主题骨架与比较轴。
+     - 每个主题必须明确：
+       - `included papers`
+       - `excluded or not directly comparable papers`
+       - 至少 `2` 条稳定 comparison axes
+       - 至少 `1` 条 route split / taxonomy split
+     - 严格验收标准：
+       - `themes_with_fixed_axes == target_theme_count`
+       - `themes_with_exclusion_rules == target_theme_count`
+       - `themes_missing_route_split = 0`
+       - `taxonomy_conflict_count = 0`
+       - `themes_still_in_misc_bucket = 0`
+   - 第 3 阶段：`Modeling and Synthesis`
+     - 目标：在 `synthesis/` 中写出真正可用的主题页。
+     - 每个正式主题页必须包含以下段落：
+       - `## Question`
+       - `## Shared Ground`
+       - `## Route Split`
+       - `## Boundary Conditions`
+       - `## Not Directly Comparable`
+       - `## Evidence Links`
+       - `## Open Questions`
+     - 严格验收标准：
+       - `synthesis_pages_completed == target_theme_count`
+       - `synthesis_pages_missing_required_sections = 0`
+       - `synthesis_pages_missing_evidence_links = 0`
+       - `unscoped_comparative_claims = 0`
+       - `themes_without_boundary_conditions = 0`
+   - 第 4 阶段：`Convergence / Closeout`
+     - 目标：确认 `papers / evidence / synthesis` 三层已经达到稳定可维护状态。
+     - 严格验收标准：
+       - `cross_layer_link_issues = 0`
+       - `orphan_shared_evidence_pages = 0`
+       - `taxonomy_conflict_count = 0`
+       - `synthesis_pages_missing_required_sections = 0`
+       - `open_pass4_structural_gaps = 0`
+       - `index_log_status_sync = true`
+     - 只有当剩余问题都已降级为后续维护项，而不再是 `Pass 4` 结构性缺口时，`Pass 4` 才算完成。
 7. `Pass 5 | Audit and Reflect`
    - 执行 lint。
    - 把 `threads/` 中高价值、已核证的结论回写到 `wiki/`。
@@ -182,6 +250,12 @@
    - `subagents/pass3/evidence_page_template.md`
    - `subagents/pass3/backlog.md`
    - `subagents/pass3/sidecar_prompt.md`
+13. `Pass 4` 的准备文件放在：
+   - `subagents/pass4/README.md`
+   - `subagents/pass4/backlog.md`
+   - `subagents/pass4/history_chain_template.md`
+   - `subagents/pass4/synthesis_page_template.md`
+   - `subagents/pass4/sidecar_prompt.md`
 
 ### 4.2 Incremental Update
 1. 这一模式用于 `raw/` 新增论文后的日常维护，不重跑整库冷启动流程。

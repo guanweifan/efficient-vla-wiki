@@ -34,10 +34,10 @@
    - 只能与 `coverage track` 并行存在，不能替代它。
 
 ## 轮次重点
-1. 第 1 轮：优先铺设 evidence 骨架，让高价值 `papers/*.md` 有稳定 evidence 落点。
-2. 第 2 轮：先让尽可能多的论文进入 `P3-Minimum`，同时深挖高价值表格、指标与 operating point。
+1. 第 1 轮：以 `coverage track` 为主铺设全库 evidence 骨架，并把 `papers/*.md` 推进到稳定的 single-paper evidence 落点；若页面已经具备清楚的 headline split 与不可混写项，可在同一轮直接达到 `P3-Minimum`。
+2. 第 2 轮：继续沿 `coverage track` 查漏补缺，同时深挖高价值表格、指标与 operating point。
 3. 第 3 轮：继续推进 `P3-Minimum`，并把重点转向 figure / caption / wording。
-4. 第 4 轮：收口，判断剩余缺口属于继续补证，还是转交 `Pass 3.5 / Pass 4`。
+4. 第 4 轮：收口，判断剩余缺口属于继续补证，还是转交新的 `Pass 4` 历史整合与主题建模阶段。
 
 ## 早期高优先级任务簇
 1. runtime / compute / latency / frequency 口径拆分。

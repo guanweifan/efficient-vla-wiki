@@ -33,6 +33,11 @@
 ## 2.1 Execution Principles
 1. `raw/` 永远是事实源；`extracts/` 只是参考层，不得反客为主。
 2. 每个 `synthesis/` 页面都必须能回落到具体的 `papers/`、`evidence/` 或 `raw/`；不允许空中建模。
+3. 默认主阅读路径在 `Pass 0` 建立后变为：
+   - `raw PDF`
+   - `pdftotext`
+   - `pdftotext -bbox-layout`
+   - 只有在需要章节、表格、图片、caption 或局部锚点时，才调用 `Docling/Marker`
 
 ## 3. Evidence Model
 1. 只回到“某一页”通常只算临时态，不算理想态。
@@ -70,3 +75,43 @@
    - 目标：让该论文稳定参与跨论文比较与主题建模。
    - 进入条件：关键命题已有足够 evidence 支撑
 4. 一篇论文在 `L1` 完成后即可先进入下一篇；不要求第一轮就到 `L2` 或 `L3`。
+
+## 5. Workflow Modes
+### 5.1 Bootstrap Build
+1. 这一模式只用于冷启动建库，或现有 `wiki/` 过薄、需要重新建立全局地图时。
+2. `Pass 0 | Parse Baseline`
+   - 对全量 `raw/*.pdf` 执行 full parse baseline。
+   - 目标是建立可定位、可检索、可回读的 `extracts/` 参考层。
+   - 默认只写 `extracts/`、`extracts/pass0_status.json` 与 `extracts/pass0_index.jsonl`，不默认写 `wiki/` 页面。
+
+## 6. Tooling Policy
+1. 解析层是参考材料，不是 wiki 本体；当前实现目录是 `extracts/parses/<stem>/`。
+2. `Pass 0` 优先通过纯脚本流水线执行，而不是通过会话式 worker 执行。
+3. `Pass 0` 既可用于冷启动全量解析，也可用于新增论文的局部解析；默认只处理目标 PDF，不主动重写无关 parse 结果。
+4. steady-state 工具入口固定为仓库 `.venv/bin`：
+   - `.venv/bin/docling`
+   - `.venv/bin/marker_single`
+5. `uvx` 只用于环境修复、冷启动诊断或确认工具可用性；不作为常规解析入口。
+6. 对新论文，当前默认仍执行 `Docling + Marker` 的 full parse baseline，包括：
+   - `Docling`：`md + json`
+   - `Marker`：`md + meta + figure crops`
+   - `pdftotext`
+   - `pdftotext -bbox-layout`
+   - `pdfinfo` 仅用于运行时提取页数，不默认落盘
+7. `Pass 0` 应优先追求“最大化帮助后续 wiki 搭建”的解析粒度，而不是最小产物。
+8. 当前建议的 `Docling` 持久化产物至少包括：
+   - `md`
+   - `json`
+9. 当前建议的 `Marker` 持久化产物至少包括：
+   - `markdown`
+   - `meta`
+   - figure/image crops
+10. 为保证后续 pass 可直接消费，`extracts/parses/<stem>/` 默认采用可检索布局：
+   - 根目录：`pdftotext.txt`、`pdftotext.bbox.html`、`manifest.json`
+   - `docling/`：`md + json`
+   - `marker/markdown/`：markdown、meta 与提取图片
+11. `Docling` 是 canonical parser，优先承担结构化证据提取。
+12. `Marker` 是 companion parser，优先承担 Markdown 可读性、图像裁剪与交叉校验。
+13. `pdftotext` 与 `bbox-layout` 是精定位兜底层。
+14. `Pass 0` 的脚本需要维护全局状态文件，例如 `extracts/pass0_status.json` 与 `extracts/pass0_index.jsonl`，便于后续 pass 与人工检查。
+15. 默认不保留常规运行日志、`Marker JSON`、`Docling HTML/TXT`、`pdfinfo.txt` 与 `pdfimages.list.txt`；这些属于可再生或低收益产物，应在 parse 后清理。

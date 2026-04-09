@@ -23,6 +23,12 @@
 - `subagent_doc_desync_count = 0`
 - `skill_doc_desync_count = 0`
 - `docset_role_conflicts = 0`
+- `historical_stage_mismatch_count = 0`
+- `historical_docset_desync_count = 0`
+- `historical_low_value_runtime_docs_remaining = 0`
+- `commit_message_style_conflicts = 0`
+- `ambiguous_commit_subjects = 0`
+- `phase_commit_order_conflicts = 0`
 
 ## Stage 4 | Final Closeout
 - `open_pass5_structural_gaps = 0`

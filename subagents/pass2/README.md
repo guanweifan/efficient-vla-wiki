@@ -13,7 +13,7 @@
 ## 角色分工
 ### chief editor
 负责：
-1. 维护 `subagents/pass2/queue.md`
+1. 维护逆序波次切分与阶段记录
 2. 按逆时间顺序切分 wave
 3. 给 worker 下发统一校正规则
 4. 抽查 worker 结果

@@ -55,7 +55,6 @@
 3. 当前 `synthesis_pages_missing_evidence_links = 0`。
 4. 当前 `unscoped_comparative_claims = 0`。
 5. 当前 `themes_without_boundary_conditions = 0`。
-6. 下一步：`Pass 4 Stage 4 | Convergence / Closeout`。
 
 ## Stage 4 结果
 1. `papers / evidence / synthesis` 三层一致性审计已完成，当前 `cross_layer_link_issues = 0`。

@@ -1,9 +1,9 @@
 {
-  "mode": "bootstrap",
-  "current_pass": "pass5_preparing",
+  "mode": "maintenance",
+  "current_pass": "pass5_completed",
   "bootstrap": {
-    "phase": "pass5_preparing",
-    "next_step": "launch pass5 stage1 inventory and retention audit"
+    "phase": "completed",
+    "next_step": "enter incremental maintenance mode"
   },
   "summary": {
     "paper_pages": 99,
@@ -12,13 +12,46 @@
     "shared_wording_pages": 2,
     "synthesis_pages": 5
   },
+  "pass1": {
+    "completed": true,
+    "wave_count": 13,
+    "paper_count": 99
+  },
+  "pass2": {
+    "completed": true,
+    "wave_count": 17,
+    "worker_setup": {
+      "chief_editor": 1,
+      "workers": 2,
+      "papers_per_worker": 3,
+      "wave_size": 6
+    }
+  },
+  "pass3": {
+    "completed": true,
+    "round_count": 4,
+    "strategy": "coverage_first_multi_round",
+    "p3_minimum_completed_papers": 99,
+    "single_paper_evidence_pages": 99,
+    "shared_metric_pages": 3,
+    "shared_wording_pages": 2
+  },
   "pass4": {
     "completed": true,
-    "target_theme_count": 5
+    "target_theme_count": 5,
+    "overview_theme": "efficiency-definition-evolution",
+    "subthemes": [
+      "inference-efficiency-routes",
+      "training-efficiency-routes",
+      "reasoning-efficiency-routes",
+      "deployment-oriented-efficiency"
+    ]
   },
   "pass5": {
     "ready": true,
     "strategy": "chief_editor_serial_audit_and_closeout",
+    "queue": "subagents/pass5/backlog.md",
+    "current_stage": "stage4_final_closeout_completed",
     "scope": {
       "audit_wiki_core": true,
       "audit_index_log_status": true,
@@ -30,15 +63,29 @@
       "build_threads": false
     },
     "stage1_inventory_and_retention_audit": {
-      "completed": false,
-      "doc_inventory_completed": false,
+      "completed": true,
+      "doc_inventory_completed": true,
+      "inventory_path": "subagents/pass5/doc_inventory.md",
       "undecided_docs": 0,
       "low_value_docs_unresolved": 0,
       "obsolete_docs_unresolved": 0,
-      "redundant_docs_unresolved": 0
+      "redundant_docs_unresolved": 0,
+      "deleted_docs": [
+        "subagents/pass2/queue.md"
+      ],
+      "trimmed_docs": [
+        "wiki/index.md",
+        "wiki/log.md",
+        "wiki/status.json",
+        "WIKI_SCHEMA.md",
+        "subagents/pass3/README.md",
+        "subagents/pass4/backlog.md",
+        "subagents/pass5/README.md",
+        "subagents/pass5/backlog.md"
+      ]
     },
     "stage2_wiki_core_audit": {
-      "completed": false,
+      "completed": true,
       "broken_wiki_links": 0,
       "paper_pages_missing_evidence_links": 0,
       "evidence_pages_missing_raw_anchor": 0,
@@ -47,7 +94,7 @@
       "cross_layer_role_conflicts": 0
     },
     "stage3_control_and_docset_convergence": {
-      "completed": false,
+      "completed": true,
       "index_log_status_sync": true,
       "index_log_status_errors": 0,
       "index_log_status_low_value_blocks": 0,
@@ -61,7 +108,14 @@
       "commit_message_style_conflicts": 0,
       "ambiguous_commit_subjects": 0,
       "phase_commit_order_conflicts": 0
+    },
+    "stage4_final_closeout": {
+      "completed": true,
+      "open_pass5_structural_gaps": 0,
+      "open_pass5_doc_gaps": 0,
+      "open_pass5_semantic_gaps": 0,
+      "remaining_issues_are_maintenance_only": true
     }
   },
-  "updated_at": "2026-04-08T21:07:33+08:00"
+  "updated_at": "2026-04-09T10:17:00+08:00"
 }

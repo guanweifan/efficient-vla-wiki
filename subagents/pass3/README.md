@@ -41,9 +41,9 @@
 3. 第 3 轮：在继续覆盖的同时，深挖 figure / caption / wording。
 4. 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交新的 `Pass 4` 历史整合与主题建模阶段。
 
-## 当前阶段
-1. 当前已进入 `Pass 3` 正式展开前的就绪态。
-2. 正式早期轮次默认采用：
+## 正式基线
+1. `Pass 3` 已作为多轮 chief-editor evidence mining 阶段收口完成。
+2. 若后续维护需要复用 `Pass 3` 的方法，默认仍采用：
    - `chief-editor` 单人串行写入
    - `sidecar` 默认关闭
    - 每轮 `4` 个 task 左右

@@ -92,7 +92,6 @@
    - 正式执行准备文件放在：
      - `subagents/pass2/README.md`
      - `subagents/pass2/worker_prompt.md`
-     - `subagents/pass2/queue.md`
    - 只有在至少两波证明 worker 仍在做“校正页面”而不是“重写页面”，且 chief editor 收口成本可控后，才考虑提升 worker 数量。
 5. `Pass 3 | Evidence Mining`
    - 回到关键图、关键表、关键 claim 与关键 wording。
@@ -245,7 +244,7 @@
    - `Pass 5` 默认仍由 `chief-editor` 串行推进；`sidecar` 只允许做只读核查，不允许并发写正式页面。
    - `Pass 5` 分为 4 个阶段：
      - 第 1 阶段：`Inventory and Retention Audit`
-       - 目标：确认哪些文档必须保留，哪些应精炼、合并或删除。
+       - 目标：确认哪些文档必须保留，哪些应精炼、合并或删除，并优先收束 `index / log / status` 的错误、混乱、冗余与低价值块。
        - 审计对象包括 `wiki` 控制文件、schema、subagent 文档、skills 文档与其他 `.md/.json` 说明文件。
        - 严格验收标准：
          - `doc_inventory_completed = true`

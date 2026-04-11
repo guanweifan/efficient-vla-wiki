@@ -1,0 +1,4 @@
+[submodule "external/awesome-efficient-vla"]
+	url = git@github.com:guanweifan/awesome-efficient-vla.git
+	path = external/awesome-efficient-vla
+	branch = main

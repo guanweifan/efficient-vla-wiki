@@ -6,12 +6,12 @@
 - 下一步：`Enter Incremental Maintenance`
 
 ## 当前规模
-- `papers/`：`99`
-- `evidence/claims/`：`99`
-- 共享 evidence 页：`5`
+- `papers/`：`108`
+- `evidence/claims/`：`108`
+- 共享 evidence 页：`6`
 - `metrics/`：`3`
-- `wording/`：`2`
-- `synthesis/`：`5`
+- `wording/`：`3`
+- `synthesis/`：`6`
 
 ## 层级入口
 - `papers/`：单篇论文页
@@ -20,6 +20,7 @@
 
 ## 主题结构
 - 总纲 / 入口：[[wiki/synthesis/efficiency-definition-evolution.md|efficiency-definition-evolution]]
+- survey / 研究地图：[[wiki/synthesis/efficient-vla-research-map.md|efficient-vla-research-map]]
 - 子主题：[[wiki/synthesis/inference-efficiency-routes.md|inference-efficiency-routes]]
 - 子主题：[[wiki/synthesis/training-efficiency-routes.md|training-efficiency-routes]]
 - 子主题：[[wiki/synthesis/reasoning-efficiency-routes.md|reasoning-efficiency-routes]]

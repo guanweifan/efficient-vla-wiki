@@ -23,8 +23,7 @@ INDEX_PATH = EXTRACTS_DIR / "pass0_index.jsonl"
 
 VENV_BIN = ROOT / ".venv" / "bin"
 TOOLS = {
-    "docling": VENV_BIN / "docling",
-    "marker": VENV_BIN / "marker_single",
+    "python": VENV_BIN / "python",
     "pdfinfo": shutil.which("pdfinfo") or "pdfinfo",
     "pdftotext": shutil.which("pdftotext") or "pdftotext",
 }
@@ -161,7 +160,9 @@ def compact_stage(stage: dict[str, Any] | None) -> dict[str, Any]:
 
 def docling_command(pdf: Path, out_dir: Path, use_ocr: bool) -> list[str]:
     cmd = [
-        str(TOOLS["docling"]),
+        str(TOOLS["python"]),
+        "-m",
+        "docling.cli.main",
         str(pdf),
         "--to",
         "md",
@@ -183,7 +184,9 @@ def docling_command(pdf: Path, out_dir: Path, use_ocr: bool) -> list[str]:
 
 def marker_command(pdf: Path, out_dir: Path, output_format: str, disable_image_extraction: bool, use_ocr: bool) -> list[str]:
     cmd = [
-        str(TOOLS["marker"]),
+        str(TOOLS["python"]),
+        "-m",
+        "marker.scripts.convert_single",
         str(pdf),
         "--output_dir",
         str(out_dir),

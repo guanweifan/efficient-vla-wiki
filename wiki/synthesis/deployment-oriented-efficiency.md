@@ -10,7 +10,7 @@
   - `model knob` vs `system knob` vs `network knob`
   - `on-device / edge latency` vs `task-performance benchmark`
   - `mean latency` vs `control frequency` vs `cold-start latency` vs `jitter`
-- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
+- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
 - 当前稳定共识是：如果不说明 hardware、placement、pipeline layer 或 jitter，单个“实时 / 频率更高” headline 没有足够比较意义。
 - 共享 runtime evidence 已经稳定支撑 deployment 主题：部署问题必须同时读 performance 和 system constraint，不能只摘一个 latency 行。
 
@@ -32,6 +32,9 @@
 - `deployment-landscape analysis`
   - 代表：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]
   - 依据：把 model/system/network/placement 统一成可分析设计空间。
+- `system throughput tuning`
+  - 代表：[[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]
+  - 依据：通过 calibration、trajectory shaping、speed adaptation 与硬件约束补偿，把 faster-than-demonstration execution 写成系统级吞吐问题。
 - `real-time rhetoric boundary`
   - 代表：[[wiki/papers/2512_03044_Video2Act.md|Video2Act]]
   - 依据：提醒“实时”必须回到 cold-start、pipeline layer 和具体 deployment setting 才成立。
@@ -54,6 +57,7 @@
 - [[wiki/papers/2512_03044_Video2Act.md|Video2Act]]
 - [[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]
 - [[wiki/papers/2603_03380_LiteVLA-Edge.md|LiteVLA-Edge]]
+- [[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]
 
 ## Open Questions
 - 当前 deployment 主题仍缺少统一把 `memory ceiling`、`network variability` 与 `closed-loop failure mode` 放在同一表述框架里的 evidence 页。

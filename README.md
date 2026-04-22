@@ -1,23 +1,13 @@
 # Efficient VLA Wiki
 
-<p>
-  <a href="README.md">
-    <img alt="中文" src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-1677FF?style=flat-square">
-  </a>
-  <a href="README.en.md">
-    <img alt="English" src="https://img.shields.io/badge/English-69B1FF?style=flat-square">
-  </a>
-  <a href="https://huggingface.co/datasets/guanweifan/efficient-vla-extracts">
-    <img alt="Hugging Face Extracts" src="https://img.shields.io/badge/Extracts-Hugging%20Face-F6C343?style=flat-square">
-  </a>
-  <a href="external/awesome-efficient-vla/README.md">
-    <img alt="Source List" src="https://img.shields.io/badge/Source-awesome--efficient--vla-B31B1B?style=flat-square">
-  </a>
-</p>
+[![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-1677FF.svg)](README.md)
+[![English](https://img.shields.io/badge/English-69B1FF.svg)](README.en.md)
+[![Extracts](https://img.shields.io/badge/Extracts-Hugging%20Face-F6C343.svg)](https://huggingface.co/datasets/guanweifan/efficient-vla-extracts)
+[![Source](https://img.shields.io/badge/Source-awesome--efficient--vla-b31b1b.svg)](https://github.com/guanweifan/awesome-efficient-vla)
 
 一个面向 efficient VLA 论文的本地知识库。将原始论文、解析结果、稳定知识和问题报告放在同一套目录里，适合直接做 query，也适合从当前版本继续维护自己的本地研究工作区。
 
-论文范围建立在 [awesome-efficient-vla](external/awesome-efficient-vla/README.md) 的收集基础上。
+论文范围建立在 [awesome-efficient-vla](https://github.com/guanweifan/awesome-efficient-vla) 的收集基础上。
 
 ## 快速入口
 
@@ -193,7 +183,7 @@ uv run python scripts/release/sync_hf_extracts.py pull
 
 ## 引用
 
-论文范围建立在 [awesome-efficient-vla](external/awesome-efficient-vla/README.md) 之上。引用论文列表或 survey 时，优先引用上游工作：
+论文范围建立在 [awesome-efficient-vla](https://github.com/guanweifan/awesome-efficient-vla) 之上。引用论文列表或 survey 时，优先引用上游工作：
 
 ```bibtex
 @misc{guan2025efficientvisionlanguageactionmodelsembodied,

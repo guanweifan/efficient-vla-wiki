@@ -1,34 +1,5 @@
-# wiki-query example
+# 常用示例
 
-## 示例 1：新问题
+- `请基于当前 wiki，系统梳理一下 Efficient VLA 现在主要有哪些研究方向。希望你先给出一个清楚的整体框架，再分别说明每一类方法主要在解决什么问题、彼此之间有什么联系和区别。这个问题如果已经有相关 query，就在原来的文件上继续补充；如果没有，就新建一个 query 文件。`
 
-用户提问：
-
-`近一年最常用的 VLA baseline 有哪些？`
-
-推荐动作：
-
-1. 先把它标准化成一个 `canonical question`
-2. 先查 `wiki/synthesis/` 中与 baseline、efficiency、deployment 相关的主题页
-3. 再查相关 `wiki/papers/` 与 `wiki/evidence/`
-4. 若 `threads/query/` 中不存在同类问题，则按 `canonical question` 新建一个稳定命名的 thread
-5. 在正文写清主答案，在 `Evidence Notes` 用双链补证据入口
-
-## 示例 2：对已有问题的追问
-
-已有 thread：某个已存在的 `threads/query/qXXXX-*.md`
-
-用户继续问：
-
-`哪些 token prune 方法是 training-free 的？`
-
-推荐动作：
-
-1. 判断它仍然属于 `token pruning tricks` 的同一 canonical question
-2. 更新原文件，不新建新 thread
-3. 在 `Current Answer` 中补“training-free 子类”
-4. 在 `Evidence Notes` 中补充相关：
-   - `[[wiki/evidence/metrics/retention-ratio-vs-speed-performance.md]]`
-   - 若有必要，再补对应 `papers` 或 `claims`
-5. 在 `Update Log` 追加本次追问
-6. 若判断这已经不是 query，而是一个稳定命题应回流到 `wiki/`，则转 `wiki-reflect`
+- `请继续追问已有的 query，不要重新起一个完全无关的新问题。重点补充最近新增论文带来的变化，看看原来的结论哪些需要保留，哪些需要修正，最后把更新后的答案写回对应的 thread。`

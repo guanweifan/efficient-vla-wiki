@@ -21,4 +21,4 @@
 
 ## 边界
 - 当前页只收敛 budget / retention / pruning 口径，不讨论这些方法之间的主题级优劣。
-- 若后续要比较 token pruning、token reuse 与 layer reduction 的路线关系，应留到 `Pass 4`。
+- 若后续要比较 token pruning、token reuse 与 layer reduction 的路线关系，应留到主题建模阶段。

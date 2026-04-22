@@ -19,4 +19,4 @@
 
 ## 边界
 - 当前页只收敛训练成本与性能口径，不讨论哪一路线“更优”。
-- 若如需讨论 data-centric efficiency 如何改变 VLA 训练范式，应留到 `Pass 4`。
+- 若如需讨论 data-centric efficiency 如何改变 VLA 训练范式，应留到主题建模阶段。

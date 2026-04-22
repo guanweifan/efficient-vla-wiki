@@ -1,45 +1,42 @@
 # Wiki Index
 
 ## 当前状态
-- 当前阶段：`Bootstrap Completed`
-- 当前 pass：`Pass 5 | Final Closeout completed`
-- 下一步：`Enter Incremental Maintenance`
+
+- 当前模式：`maintenance`
+- 当前阶段：`incremental maintenance`
+- 默认入口：`wiki-query -> wiki-reflect -> wiki-lint -> wiki-ingest`
 
 ## 当前规模
+
 - `papers/`：`108`
 - `evidence/claims/`：`108`
-- 共享 evidence 页：`6`
-- `metrics/`：`3`
-- `wording/`：`3`
+- 共享 `metrics/`：`3`
+- 共享 `wording/`：`3`
 - `synthesis/`：`6`
 
 ## 层级入口
+
 - `papers/`：单篇论文页
-- `evidence/`：单篇证据与共享口径页
-- `synthesis/`：主题级历史链与建模页
+- `evidence/`：可复用证据页
+- `synthesis/`：跨论文主题页
 
 ## 主题结构
+
 - 总纲 / 入口：[[wiki/synthesis/efficiency-definition-evolution.md|efficiency-definition-evolution]]
-- survey / 研究地图：[[wiki/synthesis/efficient-vla-research-map.md|efficient-vla-research-map]]
-- 子主题：[[wiki/synthesis/inference-efficiency-routes.md|inference-efficiency-routes]]
-- 子主题：[[wiki/synthesis/training-efficiency-routes.md|training-efficiency-routes]]
-- 子主题：[[wiki/synthesis/reasoning-efficiency-routes.md|reasoning-efficiency-routes]]
-- 子主题：[[wiki/synthesis/deployment-oriented-efficiency.md|deployment-oriented-efficiency]]
+- 研究地图：[[wiki/synthesis/efficient-vla-research-map.md|efficient-vla-research-map]]
+- 主题页：[[wiki/synthesis/inference-efficiency-routes.md|inference-efficiency-routes]]
+- 主题页：[[wiki/synthesis/training-efficiency-routes.md|training-efficiency-routes]]
+- 主题页：[[wiki/synthesis/reasoning-efficiency-routes.md|reasoning-efficiency-routes]]
+- 主题页：[[wiki/synthesis/deployment-oriented-efficiency.md|deployment-oriented-efficiency]]
 
-## 冷启动摘要
-- `Pass 1`：完成 `99 / 99` 篇单篇页的 `L1` 建图
-- `Pass 2`：完成整库 reverse calibration，收紧页面定位与 headline 边界
-- `Pass 3`：建立并收口 evidence layer，形成 `papers + evidence` 双层结构
-- `Pass 4`：完成历史整合、主题聚类、主题建模与三层收口
-- `Pass 5`：完成核心审计、文档收口、历史校正与最终 closeout，冷启动正式结束
+## 使用方式
 
-## 冷启动完成结论
-- 冷启动建库已完成，仓库已从“构建态”进入“可维护态”
-- `papers / evidence / synthesis` 三层已收口并可持续维护
-- `index / log / status / schema / subagents` 已与当前仓库状态和历史演化主线对齐
-- 剩余问题已全部降级为后续维护项，而不再是 bootstrap 结构性缺口
+- 跟随当前版本直接做 query：先同步仓库、`raw/` 和 `extracts/`，再从 `wiki/` 写 `threads/query/*.md`
+- 维护自己的本地知识库：按 `wiki-query -> wiki-reflect -> wiki-lint -> wiki-ingest` 推进
+- 只跟进最新论文：默认读取 `external/awesome-efficient-vla/update.md`
 
-## 后续模式
-- 默认进入 `Incremental Update`
-- 需要全局再平衡时进入 `Periodic Maintenance`
-- 每轮显著增量维护后执行一次轻量 `Pass 5`
+## 当前维护重点
+
+- 按增量方式吸收新论文
+- 把稳定 thread 结论写回 `wiki`
+- 保持 `papers / evidence / synthesis` 三层边界清楚

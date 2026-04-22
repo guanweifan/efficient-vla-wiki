@@ -1,423 +1,264 @@
 # WIKI_SCHEMA.md
 
 ## 1. 角色与优先级
-1. 本文件定义 agent 维护 `wiki/` 的内部规范。
-2. 执行顺序：**用户当前明确指令 > `AGENTS.md` > 本文件**。
-3. 当现有 schema 无法稳定支撑 `wiki/` 维护时，agent 应主动更新本文件。
+1. 本文件定义 agent 维护 `wiki/` 的结构规范、证据规则和维护流程。
+2. 优先级始终为：**用户当前明确指令 > `AGENTS.md` > 本文件**。
+3. 当现有 schema 已经不能稳定支撑维护时，agent 应直接更新本文件，使其与当前仓库状态保持一致。
 
 ## 2. Knowledge Model
-1. `raw/` 是唯一证据层；`wiki/` 只能建立在 `raw/` 之上。
-2. `threads/` 是问题与修正来源，不是事实来源。
-3. `extracts/` 是参考层，不是事实层，也不是 wiki 本体。
-4. `extracts/` 中的解析结果只能作为阅读辅助、定位辅助与结构化辅助；不能直接替代对 `raw/` 的核对。
-5. `extracts/` 不是默认主阅读上下文；除非当前任务明确需要结构化辅助，否则不应整份加载 `Docling/Marker` 全量结果。
-6. 先做 evidence，再做 synthesis；先逐篇建立理解，再归纳跨篇结构。
-7. taxonomy 必须自底向上归纳，不得预设外部分类框架。
-8. `wiki/` 是人读的持久知识层；其默认骨架包括：
-   - `wiki/index.md`
-   - `wiki/log.md`
-   - `wiki/status.json`
-   - `wiki/papers/`
-   - `wiki/evidence/`
-   - `wiki/synthesis/`
-9. `papers/` 是默认原子层；`synthesis/` 不应长期绕开 `papers/` 独立生长。
-10. supporting evidence pages 可按需要组织，当前常用类型包括：
-   - `figures`
-   - `tables`
-   - `claims`
-   - `wording`
-11. 当前工作前端是 Obsidian；内部链接默认优先使用 `wikilink`。
-12. 单篇论文的处理深度采用分层推进，而不是默认一次打满。
-13. `papers/` 页面主要承载 source-grounded note；`synthesis/` 页面主要承载跨论文的聚类、冲突与建模。
 
-## 2.1 Execution Principles
-1. `raw/` 永远是事实源；`extracts/` 只是参考层，不得反客为主。
-2. `Pass 1` 求全不求深；`Pass 3` 由 chief-editor 多轮遍历逐步把关键证据打扎实，不追求平均深挖。
-3. 默认主阅读路径始终是：
-   - `raw PDF`
-   - `pdftotext`
-   - `pdftotext -bbox-layout`
-   - 只有在需要章节、表格、图片、caption 或局部锚点时，才调用 `Docling/Marker`
-4. 每个 `synthesis/` 页面都必须能回落到具体的 `papers/`、`evidence/` 或 `raw/`；不允许空中建模。
-5. 新论文进入后，默认动作不是“只新建一个 paper page”，而是：
-   - 建立或补强该论文的 `papers/<stem>.md`
-   - 做 impact analysis
-   - 更新受影响页面
-6. `Pass 5` 不是收尾装饰，而是常规质量控制；每完成一轮显著增量维护或一个主题块后，都应至少执行一次轻量 `lint/reflect`。
+### 2.1 层级边界
+1. `raw/` 是唯一事实来源。
+2. `extracts/` 是阅读辅助层，用于定位、检索和结构化辅助；它不是事实来源。
+3. `wiki/` 是稳定知识层，只收录已经核证、可维护、可复用的内容。
+4. `threads/` 是问题讨论层，用于承载问题、推理、分歧、阶段性判断和未决项；它不是事实来源。
+5. `scripts/release/`、`scripts/release/manifests/`、`docs/` 都属于工具或说明层，不得作为事实来源。
 
-## 3. Evidence Model
-1. 只回到“某一页”通常只算临时态，不算理想态。
-2. 优先提取可验证命题，不优先写泛摘要。
-3. 第一轮单篇处理默认只要求提取：
+### 2.2 `wiki/` 的默认骨架
+1. `wiki/index.md`
+   - 对外展示当前结构、规模和入口。
+2. `wiki/log.md`
+   - 记录显著维护动作、范围和结果。
+3. `wiki/status.json`
+   - 保存机器可读的控制面和摘要状态。
+4. `wiki/papers/`
+   - 单篇论文页，默认原子层。
+5. `wiki/evidence/`
+   - 可复用证据页。
+6. `wiki/synthesis/`
+   - 跨论文的稳定建模页。
+
+### 2.3 页面职责
+1. `papers/`
+   - 承载单篇论文的稳定笔记。
+   - 默认是所有跨论文比较的下层落点。
+2. `evidence/`
+   - 承载会被多个页面复用的图表、claim、metric、wording 或边界说明。
+   - 不承担主题级总结。
+3. `synthesis/`
+   - 承载跨论文的聚类、关系、冲突、比较轴和主题建模。
+   - 必须能回落到 `papers/`、`evidence/` 或 `raw/`。
+
+### 2.4 结构原则
+1. `papers/` 是默认原子层；不要长期绕开 `papers/` 直接堆主题页。
+2. taxonomy 必须自底向上归纳，不预设外部框架。
+3. 若已有页面足以承载信息，就不要新增页面。
+4. 若多个页面重复搬运同一证据，应优先抽取为 `evidence/` 页面。
+5. 若某个内容仍依赖具体问题上下文才能成立，就应留在 `threads/`，不要提前写入 `wiki/`。
+
+## 3. Page Model
+
+### 3.1 `papers/<stem>.md`
+1. 目标：建立单篇论文的稳定落点。
+2. 最低要求：
+   - `Source`
    - `Claim`
    - `Methodology Index`
    - `Data Pointer`
-4. 对重要事实，优先记录：
+3. 可按需要补：
+   - `Evidence Links`
+   - `Pending / 待核点`
+4. 单篇页优先写：
+   - 论文想解决什么问题
+   - 核心方法组件
+   - 后续应回读的图、表、章节、实验段
+5. 单篇页不应提前变成主题综述页。
+
+### 3.2 `wiki/evidence/*`
+1. 目标：沉淀可复用、可回链、不可混写的证据单元。
+2. 常见类型：
+   - `claims`
+   - `metrics`
+   - `wording`
+3. 推荐内容：
+   - `用途`
+   - `Evidence`
+   - `不可混写项`
+   - `影响页面`
+   - `边界`
+4. evidence 页只做最小必要归纳，不做主题级 synthesis。
+
+### 3.3 `wiki/synthesis/*`
+1. 目标：沉淀跨论文的稳定结构。
+2. 当前正式主题页应尽量包含：
+   - `Question`
+   - `Shared Ground`
+   - `Route Split`
+   - `Boundary Conditions`
+   - `Not Directly Comparable`
+   - `Evidence Links`
+   - `Open Questions`
+3. synthesis 页必须显式区分：
+   - 论文原始事实
+   - 跨论文共识
+   - 冲突或不可直接比较项
+   - agent 的归纳
+4. synthesis 页不得只引用其他 synthesis 页；证据链必须能回到下层。
+
+### 3.4 控制文件
+1. `wiki/index.md`
+   - 应反映当前结构和入口，不写过细历史。
+2. `wiki/log.md`
+   - 只记录有维护价值的动作，不写低价值流水账。
+3. `wiki/status.json`
+   - 应至少包含：
+     - `mode`
+     - `current_stage`
+     - `initial_build.status`
+     - `summary`
+     - `updated_at`
+   - 其余字段按当前维护需要保留，不要求为历史阶段保留整套冗余结构。
+
+## 4. Evidence Model
+
+### 4.1 基本规则
+1. 所有事实性表述都必须能回到 `raw/`。
+2. 解析器输出、旧 wiki 页面、thread 结论、文件名和常识都不能单独构成证据闭环。
+3. 无法直接从 `raw/` 支持的内容，不进入 `wiki/` 正文。
+4. 证据不足时必须写明：
+   - `未提及`
+   - `不确定`
+   - `待核`
+
+### 4.2 默认阅读路径
+1. `raw PDF`
+2. `pdftotext`
+3. `pdftotext -bbox-layout`
+4. 仅在需要章节、表格、图片、caption 或局部锚点时，再查 `Docling/Marker`
+
+### 4.3 证据粒度
+1. 只回到“某一页”通常只是临时态，不是理想态。
+2. 对重要事实，优先记录：
    - 页码
    - section / figure / table 编号
    - 局部片段或局部描述
-5. 对图、表、重要 claim 与重要 wording，优先回到具体局部锚点，而不是仅写页码。
-6. 必要时可使用 bbox 或 word 级坐标，尤其是在关键措辞、复杂表格或 parser 冲突场景。
-7. 重要证据默认写成统一格式，例如：`来源：[[raw/2602_00686_LAC.pdf]]，第 3 页，Fig. 2 caption。`
-8. 无法直接从 `raw/` 支持的内容，不进入 `wiki/` 正文。
-9. 解析器输出、旧 wiki 页面或 thread 结论都不能单独构成证据闭环；最终必须落回 `raw/`。
-10. `synthesis/` 页面不得只引用其他 `synthesis/` 页面；证据链必须能落回 `papers/`、`evidence/` 或 `raw/`。
-11. `synthesis/` 应显式区分：
-   - 论文原始事实
-   - 跨论文共识
-   - 分歧
-   - agent 的归纳
-12. 若多个论文不可直接比较，应明确写“不可直接比较”，不要强行并表。
+3. 对关键图、关键表、关键 claim 和关键 wording，优先回到具体局部锚点。
+4. 复杂表格、关键措辞或 parser 冲突场景下，可使用 bbox 或更细粒度定位。
 
-## 4. Workflow Modes
-### 4.1 Bootstrap Build
-1. 这一模式只用于冷启动建库，或现有 `wiki/` 过薄、需要重新建立全局地图时。
-2. `Pass 0 | Parse Baseline`
-   - 对全量 `raw/*.pdf` 执行 full parse baseline。
-   - 目标是建立可定位、可检索、可回读的 `extracts/` 参考层。
-   - 默认只写 `extracts/`、`extracts/pass0_status.json` 与 `extracts/pass0_index.jsonl`，不默认写 `wiki/` 页面。
-3. `Pass 1 | Semantic Scan`
-   - 默认按时间顺序从旧到新遍历。
-   - 对每篇论文先建立 `papers/<stem>.md` 的第一版。
-   - 第一版只要求写清 `Claim`、`Methodology Index`、`Data Pointer`，不默认深挖所有细节。
-4. `Pass 2 | Reverse Calibration`
-   - 默认按时间顺序从新到旧遍历。
-   - 目标不是重写单篇页面，而是用较新的论文校准旧术语、旧问题定义与早期 `Claim` 边界。
-   - 只在必要时回读原 PDF 局部，不默认重读全文。
-   - 正式启动前，优先先做一轮可整体删除的 pilot；通过后再进入全量 `Pass 2`。
-   - 当前推荐的启动配置是：
-     - 1 个 chief editor
-     - 2 个 worker subagent
-     - 每个 worker 3 篇
-   - 正式执行准备文件放在：
-     - `subagents/pass2/README.md`
-     - `subagents/pass2/worker_prompt.md`
-   - 只有在至少两波证明 worker 仍在做“校正页面”而不是“重写页面”，且 chief editor 收口成本可控后，才考虑提升 worker 数量。
-5. `Pass 3 | Evidence Mining`
-   - 回到关键图、关键表、关键 claim 与关键 wording。
-   - `Pass 3` 不是默认一轮完成；它是一个由 `chief-editor` 主导、可持续多轮推进的 evidence mining 阶段。
-   - `Pass 3` 必须同时管理两条主线：
-     - `coverage track`：确保整库每篇论文都获得至少一次真正的 evidence deepening，而不是只停留在 page-level pointer 或 headline split；
-     - `priority track`：优先深挖那些会影响共享口径、后续建模或高频比较的关键论文与关键证据。
-   - `Pass 3` 不能退化成“只反复深挖少数明星论文”；chief-editor 必须持续维护整库覆盖进度。
-   - 这一轮的默认工作单位不是“整篇论文”，而是 `evidence task`，例如：
-     - 一个 headline claim 的拆分
-     - 一张关键表的 operating point 拆分
-     - 一张关键图 / caption 的局部锚定
-     - 一个会被多页复用的 metric / wording 说明
-   - 这一轮按信息价值排序，优先补：
-     - 高频 claim
-     - 关键术语定义
-     - 常被引用的图表
-     - 明显存在冲突的命题
-   - 正式模式默认采用：
-     - `chief-editor` 串行写入正式 `wiki/`
-     - 可选 `sidecar` 只读辅助取证
-   - `Pass 3` 推荐以多轮 chief-editor 遍历推进，而不是以单轮完成为目标。常见轮次分工是：
-     - 第 1 轮：以 `coverage track` 为主铺设全库 evidence 骨架，并把 `papers/*.md` 从 page-level pointer 推进到稳定的 single-paper evidence 落点；若某篇页面已经具备清楚的 headline split 与不可混写项，可在同一轮直接达到 `P3-Minimum`；
-     - 第 2 轮：继续沿 `coverage track` 查漏补缺，同时在 `priority track` 上挑选少量高价值表格、指标与 operating point 深挖；
-     - 第 3 轮：在保持 `coverage track` 推进的同时，把重点转向 figure / caption / wording；
-     - 第 4 轮：收口，判断哪些缺口仍属于 `Pass 3`，哪些应转交新的 `Pass 4` 历史整合与主题建模阶段。
-   - `sidecar` 的职责只包括：
-     - 回原文找页码、table / figure 编号、局部 wording
-     - 提供哪些数字 / setting / metric 不能混写的候选判断
-     - 提供受影响页面候选集
-   - `sidecar` 默认不得直接写正式 `wiki/` 页面。
-   - `Pass 3` 采用双轨推进：
-     - `paper-local hardening`：先把证据补强到对应 `papers/*.md`
-     - `reusable evidence extraction`：当证据会被多处复用时，抽出独立 `wiki/evidence/*` 页面
-   - `Pass 3` 的正式推进还应显式区分：
-     - `coverage wave`：优先保证尚未完成实质 evidence deepening 的论文被推进；
-     - `priority wave`：优先处理高频被引用论文、共享 metric、共享 benchmark 与关键图表；
-     - 两类 wave 可以混合，但任何阶段都不应让 `priority wave` 完全吞没 `coverage wave`。
-   - 只有满足下列条件之一时，才新建 `wiki/evidence/` 页面：
-     - 同一证据会被两个及以上页面复用；
-     - 同一表 / 图 / 定义已经开始承载共享 benchmark、共享 metric 或共享 wording；
-     - 后续 `Pass 4` 明显会依赖它做跨论文建模。
-   - `cross-paper reusable evidence` 必须受控：
-     - 只能记录 source-grounded evidence 与“哪些口径不能混写”
-     - 不得提前滑向主题级 synthesis
-   - `Pass 3` 完成的最低条件是：
-     - 全部 `papers/*.md` 都已完成至少一次真正的 evidence deepening，而不只是停留在 page-level pointer；
-     - 全部 `papers/*.md` 都已显式挂接至少一个 `single-paper evidence` 页面；
-     - 高优先级共享口径已抽成可复用 `wiki/evidence/metrics/*` 页面；
-     - 高频被比较论文的 headline 已经被拆到 table / metric / setting / figure / wording 之一的更细层级；
-     - 剩余未解决项只保留为 page-local `待核`，不再存在未入队的高优先级 bundled headline。
-   - 正式早期阶段默认采用：
-     - `chief-editor` 单人串行写入；
-     - `sidecar` 默认关闭，只有在任务退化为纯锚点采集时才按需引入；
-     - 每波控制在 `4` 个 task 左右；
-     - 每波最多 `1` 个 `cross-paper evidence` task。
-   - 正式早期的推荐配比是：
-     - `3` 个 `coverage track` task
-     - `1` 个 `priority track` task
-     - 若当轮包含 `cross-paper evidence`，则它优先占用 `priority track` 名额。
-   - 正式推进时，不再额外做独立 pilot；改为正式轮次推进，并在每轮结束后做 chief-editor 复盘，再决定下一轮重点。
-   - 补足 supporting evidence pages，并把高价值命题从“指针”提升为“锚定证据”。
-6. `Pass 4 | Historical Reconciliation, Clustering and Modeling`
-   - `Pass 4` 合并承担原先“历史理解链”与“主题建模”两部分工作，不再额外设置 `Pass 3.5`。
-   - `Pass 4` 默认以已完成的 `papers/ + evidence/` 为输入，不再承担新的大规模 evidence 补挖；若在建模过程中暴露个别证据缺口，可局部回补，但不回退成新的 `Pass 3` 主线。
-   - `Pass 4` 仍由 `chief-editor` 串行推进；`sidecar` 只允许做只读锚点检索，不允许并发写正式 `synthesis/`。
-   - 任何 `Pass 4` 阶段都必须通过显式 gate 才能进入下一阶段；不得用“整体感觉差不多”作为推进依据。
-   - 主题准入 gate：
-     - 只有同时满足以下条件的问题，才可被升格为正式 `Pass 4` 主题：
-       - 能压缩成一句明确的 `theme question`
-       - 至少涉及 `3` 篇论文；若不足 `3` 篇，只能保留为局部观察，不得扩成正式主题页
-       - 至少有 `3` 个可回链的 `papers/evidence` 支点；若 evidence 稀疏，可用 `2` 个 evidence 支点加 `1` 个 `raw` fallback，但必须显式标注
-       - 能明确写出纳入边界与排除边界
-   - 第 1 阶段：`Historical Reconciliation`
-     - 目标：为每个已准入主题形成连续历史理解链。
-     - 每个历史链页面必须包含以下段落：
-       - `## Theme Question`
-       - `## Scope and Exclusions`
-       - `## Chronology`
-       - `## Turning Points`
-       - `## Stable Terms and Comparison Axes`
-       - `## Evidence Base`
-     - 严格验收标准：
-       - `history_chain_pages_completed == target_theme_count`
-       - `themes_missing_question = 0`
-       - `themes_missing_scope = 0`
-       - `themes_missing_chronology = 0`
-       - `themes_missing_turning_points = 0`
-       - `themes_missing_axes = 0`
-       - 若某主题纳入论文数 `>= 4`，则 `## Chronology` 中至少要点名：
-         - `1` 篇源头论文
-         - `1` 篇当前状态论文
-         - `2` 个中间转折点
-       - 若因语料限制无法满足前条，必须在页面中显式写出 `Insufficient historical depth`，否则该主题不得通过阶段 1
-   - 第 2 阶段：`Clustering Setup`
-     - 目标：把历史链转成可建模的主题骨架与比较轴。
-     - 每个主题必须明确：
-       - `included papers`
-       - `excluded or not directly comparable papers`
-       - 至少 `2` 条稳定 comparison axes
-       - 至少 `1` 条 route split / taxonomy split
-     - 严格验收标准：
-       - `themes_with_fixed_axes == target_theme_count`
-       - `themes_with_exclusion_rules == target_theme_count`
-       - `themes_missing_route_split = 0`
-       - `taxonomy_conflict_count = 0`
-       - `themes_still_in_misc_bucket = 0`
-   - 第 3 阶段：`Modeling and Synthesis`
-     - 目标：在 `synthesis/` 中写出真正可用的主题页。
-     - 每个正式主题页必须包含以下段落：
-       - `## Question`
-       - `## Shared Ground`
-       - `## Route Split`
-       - `## Boundary Conditions`
-       - `## Not Directly Comparable`
-       - `## Evidence Links`
-       - `## Open Questions`
-     - 严格验收标准：
-       - `synthesis_pages_completed == target_theme_count`
-       - `synthesis_pages_missing_required_sections = 0`
-       - `synthesis_pages_missing_evidence_links = 0`
-       - `unscoped_comparative_claims = 0`
-       - `themes_without_boundary_conditions = 0`
-   - 第 4 阶段：`Convergence / Closeout`
-     - 目标：确认 `papers / evidence / synthesis` 三层已经达到稳定可维护状态。
-     - 这一阶段允许把 `synthesis/` 中已经隐含的层级关系显式写清，例如一个总纲 / 入口页与若干承接它的子主题页。
-     - 主题层级的显式化只能用于收紧结构，不得借机新增正式主题。
-     - 严格验收标准：
-       - `cross_layer_link_issues = 0`
-       - `orphan_shared_evidence_pages = 0`
-       - `taxonomy_conflict_count = 0`
-       - `synthesis_pages_missing_required_sections = 0`
-       - `open_pass4_structural_gaps = 0`
-       - `index_log_status_sync = true`
-     - 只有当剩余问题都已降级为后续维护项，而不再是 `Pass 4` 结构性缺口时，`Pass 4` 才算完成。
-7. `Pass 5 | Audit and Reflect`
-   - `Pass 5` 的职责不是再扩写新知识层，而是证明当前仓库已经从“构建态”进入“可维护态”。
-   - `Pass 5` 的审计范围包括：
-     - `wiki/papers/`
-     - `wiki/evidence/`
-     - `wiki/synthesis/`
-     - `wiki/index.md`
-     - `wiki/log.md`
-     - `wiki/status.json`
-     - `WIKI_SCHEMA.md`
-     - `subagents/pass1-5/`
-     - `skills/*`
-     - 其他除 `AGENTS.md` 之外、仍在仓库中承担说明或控制作用的 `.md/.json` 文档
-   - `Pass 5` 不负责建立 `threads/`；`threads/` 由用户主导。
-   - `Pass 5` 默认仍由 `chief-editor` 串行推进；`sidecar` 只允许做只读核查，不允许并发写正式页面。
-   - `Pass 5` 分为 4 个阶段：
-     - 第 1 阶段：`Inventory and Retention Audit`
-       - 目标：确认哪些文档必须保留，哪些应精炼、合并或删除，并优先收束 `index / log / status` 的错误、混乱、冗余与低价值块。
-       - 审计对象包括 `wiki` 控制文件、schema、subagent 文档、skills 文档与其他 `.md/.json` 说明文件。
-       - 严格验收标准：
-         - `doc_inventory_completed = true`
-         - `undecided_docs = 0`
-         - `low_value_docs_unresolved = 0`
-         - `obsolete_docs_unresolved = 0`
-         - `redundant_docs_unresolved = 0`
-     - 第 2 阶段：`Wiki Core Audit`
-       - 目标：审计 `papers / evidence / synthesis` 三层是否仍然正确、可回链、无结构性冲突。
-       - 严格验收标准：
-         - `broken_wiki_links = 0`
-         - `paper_pages_missing_evidence_links = 0`
-         - `evidence_pages_missing_raw_anchor = 0`
-         - `synthesis_claims_without_evidence = 0`
-         - `unscoped_comparative_claims = 0`
-         - `cross_layer_role_conflicts = 0`
-     - 第 3 阶段：`Control and Docset Convergence`
-       - 目标：收口 `index / log / status / schema / subagent docs / skills docs`，并校正 Git 历史中的阶段表述、控制文件快照与 commit message。
-       - 严格验收标准：
-         - `index_log_status_sync = true`
-         - `index_log_status_errors = 0`
-         - `index_log_status_low_value_blocks = 0`
-         - `schema_desync_count = 0`
-         - `subagent_doc_desync_count = 0`
-         - `skill_doc_desync_count = 0`
-         - `docset_role_conflicts = 0`
-         - `historical_stage_mismatch_count = 0`
-         - `historical_docset_desync_count = 0`
-         - `historical_low_value_runtime_docs_remaining = 0`
-         - `commit_message_style_conflicts = 0`
-         - `ambiguous_commit_subjects = 0`
-         - `phase_commit_order_conflicts = 0`
-     - 第 4 阶段：`Final Closeout`
-       - 目标：确认剩余问题都已降级为维护项，冷启动建库正式结束。
-       - 严格验收标准：
-         - `open_pass5_structural_gaps = 0`
-         - `open_pass5_doc_gaps = 0`
-         - `open_pass5_semantic_gaps = 0`
-         - `remaining_issues_are_maintenance_only = true`
-         - `current_pass = pass5_completed`
-         - `bootstrap.phase = completed`
-   - 不把 `Pass 5` 推迟到“全部完成以后”才做；冷启动过程中也应在关键里程碑后插入轻量检查。
-8. `Pass 1` 在模板稳定后允许并行执行；默认编制是：
-   - 1 个 chief editor
-   - 4 个 worker subagent
-   - 全部使用 `gpt-5.4` + `xhigh`
-9. `Pass 1` 并行时，worker 只负责各自分配到的 `wiki/papers/<stem>.md`；chief editor 负责：
-   - 批次切分
-   - 模板与口径
-   - 抽查与归一化
-   - `wiki/index.md`
-   - `wiki/log.md`
-   - `wiki/status.json`
-   - 所有 `synthesis/` 页面
-10. `Pass 1` 的推荐波次是按时间顺序连续切块；早期波次优先采用每波 8 篇、4 个 worker 各处理 2 篇。
-11. 只有在至少一轮已完成波次证明口径稳定、chief editor 收口成本可控后，才把 `Pass 1` 提升到每波 12 篇、4 个 worker 各处理 3 篇。
-12. `Pass 3` 的准备文件放在：
-   - `subagents/pass3/README.md`
-   - `subagents/pass3/task_template.md`
-   - `subagents/pass3/evidence_page_template.md`
-   - `subagents/pass3/backlog.md`
-   - `subagents/pass3/sidecar_prompt.md`
-13. `Pass 4` 的准备文件放在：
-   - `subagents/pass4/README.md`
-   - `subagents/pass4/backlog.md`
-   - `subagents/pass4/history_chain_template.md`
-   - `subagents/pass4/synthesis_page_template.md`
-   - `subagents/pass4/sidecar_prompt.md`
-14. `Pass 5` 的准备文件放在：
-   - `subagents/pass5/README.md`
-   - `subagents/pass5/backlog.md`
-   - `subagents/pass5/audit_checklist.md`
-   - `subagents/pass5/sidecar_prompt.md`
+### 4.4 写法要求
+1. 优先提取可验证命题，不优先写泛摘要。
+2. 重要证据推荐写成统一格式，例如：
+   - `来源：[[raw/2602_00686_LAC.pdf]]，第 3 页，Fig. 2 caption。`
+3. 若多个论文不可直接比较，必须明确写“不可直接比较”及其原因。
+4. 不把不同 benchmark、metric、setting、deployment layer 的结果压成同一句 superiority claim。
 
-### 4.2 Incremental Update
-1. 这一模式用于 `raw/` 新增论文后的日常维护，不重跑整库冷启动流程。
-2. 新 PDF 进入 `raw/` 后，先对新增论文执行局部 `Pass 0`，只更新对应的 `extracts/` 目录与全局 parse 状态文件。
-3. 对新增论文执行 `L1 | Scan Layer`：
-   - 建立或更新 `papers/<stem>.md`
-   - 提取 `Claim`
-   - 提取 `Methodology Index`
-   - 提取 `Data Pointer`
-4. 对新增论文执行 impact analysis，识别其会影响的已有页面，例如：
-   - 相关 `papers/`
-   - 相关 `evidence/`
-   - 相关 `synthesis/`
-   - `wiki/index.md`
-5. 增量维护的默认动作是定点传播，不是整库重写：
-   - 更新受影响页面
-   - 补链接
-   - 补冲突
-   - 补条件边界
-6. 只有当新增论文实质改变某个命题、图表比较、术语定义或主题边界时，才推进局部 `L2` 或局部 synthesis 更新。
-7. 增量维护结束时，应同步更新 `wiki/log.md` 与 `wiki/status.json`。
-8. 每轮显著增量维护结束后，应至少执行一次轻量 `Pass 5`，检查断链、遗漏回链与口径漂移。
+### 4.5 何时抽 evidence 页
+1. 同一证据会被两个及以上页面复用。
+2. 同一表 / 图 / 定义已经开始承载共享 metric、共享 wording 或共享边界说明。
+3. 某个 bundled claim 已经影响跨论文比较，必须拆开。
+4. 某个证据如果只服务单篇页，就先留在 `papers/`，不要提前抽页。
 
-### 4.3 Periodic Maintenance
-1. 这一模式用于低频全库再平衡，不随每次新增论文自动触发。
+## 5. Maintenance Workflows
+
+### 5.1 总原则
+1. 默认工作流是：先读 `wiki/` 建立上下文，再在关键判断、细节敏感、存在冲突或 `wiki/` 不足时回到 `raw/` 复核。
+2. 默认优先做最小必要更新，不做无边界扩写。
+3. 每次改动都要明确：
+   - 哪些内容写进 `wiki/`
+   - 哪些内容保留在 `threads/`
+   - 哪些内容只是中间过程
+
+### 5.2 Initial Build
+1. 只在两种情况下使用：
+   - 仓库刚建立；
+   - 现有 `wiki/` 过薄，无法支撑维护。
+2. 基本顺序：
+   - 全量 extract build
+   - 建立 `papers/`
+   - 补可复用 `evidence/`
+   - 建立 `synthesis/`
+   - 做 closeout audit
+3. 这一模式用于建立全局地图，不是日常入口。
+
+### 5.3 Incremental Update
+1. 这是默认维护模式。
+2. 适用场景：
+   - `raw/` 新增论文；
+   - 新论文改变了现有页面的边界、比较轴或共享证据。
+3. 基本顺序：
+   - 为新增论文补 `raw/` 与局部 `extracts/`
+   - 建立或补强对应 `papers/<stem>.md`
+   - 做 impact analysis
+   - 只更新受影响的 `evidence/`、`synthesis/`
+   - 同步 `index / log / status`
+4. 默认动作是定点传播，不是整库重写。
+5. 若新增论文只是重复已有模式，可停在 `papers/` 层。
+
+### 5.4 Thread-driven Reflect
+1. 当 `threads/` 中已经出现稳定、可复核、可复用的命题时，才回写到 `wiki/`。
+2. reflect 的默认单位是“可核证命题”，不是整篇 thread。
+3. 基本顺序：
+   - 从 thread 拆命题
+   - 回到 `raw/` 或下层页面复核
+   - 以最小落点回写 `paper / evidence / synthesis`
+   - 未稳定内容继续留在 `threads/`
+
+### 5.5 Lint and Closeout Audit
+1. lint 用于维护态缺陷检查和局部修复。
+2. closeout audit 用于显著维护之后的收口检查。
+3. 重点检查：
+   - 断链
+   - `raw` 锚点缺失
+   - paper 页漏挂 evidence
+   - synthesis 页 Evidence Links 漏挂
+   - `index / log / status` 失配
+   - 页面职责串位
+4. 这两类流程不负责吸收新论文，也不负责凭空生成新知识。
+
+### 5.6 Periodic Maintenance
+1. 这是低频全库再平衡。
 2. 触发条件通常包括：
    - 新增论文积累到一定数量
-   - 同一主题被多次增量修改
+   - 同一主题被多次定点修改
    - `threads/` 反复暴露同类结构缺口
-   - taxonomy、术语边界或关键 synthesis 出现明显漂移
-3. 周期维护可选择性重做：
-   - 局部 `Reverse Calibration`
-   - 局部 `Evidence Mining`
-   - 主题级 `Clustering and Modeling`
-   - 全库 `lint / reflect`
-4. 周期维护的目标是全局一致性，不是重复冷启动。
-5. query support：优先用 `wiki/` 回答；只要结论关键或 `wiki` 不足，就回读 `raw/` 与必要的 `extracts/` 局部结果。
-6. `threads/` 中反复出现的问题，可促使新建或重构 wiki 页面。
-7. `threads/` 中形成的稳定结论，只有在重新核对 `raw/` 后，才可写入 `wiki/`。
-8. reflect 不应只改 narrative page；必要时应同步更新相关 evidence 页面与链接结构。
-9. 论文未明确给出时，不替作者补观点。
-10. 图像、表格或文字存在歧义时，明确标记为“待核”。
-11. parser 之间冲突时，以原 PDF 复核结果为准。
-12. 证据不足时，宁可保留空缺，也不要伪装成稳定知识。
+   - taxonomy、术语边界或关键 synthesis 漂移
+3. 周期维护可以重做局部校正、补证据、重写主题页或全库 lint/reflect。
+4. 目标是恢复全局一致性，不是重复做一次初始建库。
 
-## 5. Tooling Policy
-1. 解析层是参考材料，不是 wiki 本体；当前实现目录是 `extracts/parses/<stem>/`。
-2. `Pass 0` 优先通过纯脚本流水线执行，而不是通过会话式 worker 执行。
-3. `Pass 0` 既可用于冷启动全量解析，也可用于新增论文的局部解析；默认只处理目标 PDF，不主动重写无关 parse 结果。
-4. steady-state 工具入口固定为仓库 `.venv/bin`：
-   - `.venv/bin/docling`
-   - `.venv/bin/marker_single`
-5. `uvx` 只用于环境修复、冷启动诊断或确认工具可用性；不作为常规解析入口。
-6. 对新论文，当前默认仍执行 `Docling + Marker` 的 full parse baseline，包括：
-   - `Docling`：`md + json`
-   - `Marker`：`md + meta + figure crops`
-   - `pdftotext`
-   - `pdftotext -bbox-layout`
-   - `pdfinfo` 仅用于运行时提取页数，不默认落盘
-7. `Pass 0` 应优先追求“最大化帮助后续 wiki 搭建”的解析粒度，而不是最小产物。
-8. 当前建议的 `Docling` 持久化产物至少包括：
-   - `md`
-   - `json`
-9. 当前建议的 `Marker` 持久化产物至少包括：
-   - `markdown`
-   - `meta`
-   - figure/image crops
-10. 为保证后续 pass 可直接消费，`extracts/parses/<stem>/` 默认采用可检索布局：
-   - 根目录：`pdftotext.txt`、`pdftotext.bbox.html`、`manifest.json`
-   - `docling/`：`md + json`
-   - `marker/markdown/`：markdown、meta 与提取图片
-11. `Docling` 是 canonical parser，优先承担结构化证据提取。
-12. `Marker` 是 companion parser，优先承担 Markdown 可读性、图像裁剪与交叉校验。
-13. `pdftotext` 与 `bbox-layout` 是精定位兜底层。
-14. 在 `Pass 1-5` 中，默认主阅读路径不是 `Docling/Marker` 全量文本，而是：
-   - `raw PDF`
-   - `pdftotext`
-   - `pdftotext -bbox-layout`
-   - 在需要章节、表格、图片或局部锚点时再查 `Docling/Marker`
-15. `Docling/Marker` 结果默认按特定需求调用，不应作为首轮语义扫描的唯一输入，也不应替代对 `raw/` 的最终核对。
-16. 后续 pass 默认不得把某篇论文的 `Docling/Marker` 全量输出整份塞入当前主上下文；应只读取与当前问题直接相关的局部片段、表格、caption 或结构化字段。
-17. `Pass 0` 的脚本需要维护全局状态文件，例如 `extracts/pass0_status.json` 与 `extracts/pass0_index.jsonl`，便于后续 pass 与人工检查。
-18. 默认不保留常规运行日志、`Marker JSON`、`Docling HTML/TXT`、`pdfinfo.txt` 与 `pdfimages.list.txt`；这些属于可再生或低收益产物，应在 parse 后清理。
-19. `Pass 1` 使用 subagent 时，worker 默认模型配置可固定为：
-   - `model = gpt-5.4`
-   - `reasoning_effort = xhigh`
-20. `Pass 1` 使用 subagent 时，chief editor 不应把共享文件写权限下放给 worker；共享文件统一由 chief 收口。
-21. `Pass 1` 的 `L1` 页面允许略高于最小模板的信息密度；只要仍停留在单篇层、未越界到 synthesis，且待核点写清，就不必为了“更短”而硬压缩。
-22. `Pass 1` 的 headline 数字主张允许保留在 `Claim` 中，但必须同时保留相应 caveat 或待核点，避免误写成已完全钉实的结构化证据。
-23. 若 worker 接手时发现目标页面已经存在且满足 `L1`，可以选择做轻量审校而不是强行重写；但需明确报告自己实际修改了哪些内容，避免无意义 churn。
+## 6. Tooling Policy
+1. extract build 的当前脚本是：
+   - `scripts/build_extracts.py`
+2. 增量吸收新论文的当前脚本是：
+   - `scripts/ingest_update.py`
+3. 同步与分发相关脚本位于：
+   - `scripts/release/`
+4. `scripts/release/`、`scripts/release/manifests/` 只负责分发和操作元数据，不负责事实。
 
-## 6. Depth Levels
+### 6.1 `extracts/` 的角色
+1. `extracts/` 是参考材料，不是 wiki 本体。
+2. 当前解析目录布局是：
+   - `extracts/parses/<stem>/`
+   - `extracts/meta/extract_build_status.json`
+   - `extracts/meta/extract_build_index.jsonl`
+3. 对单篇论文，常用解析产物包括：
+   - `pdftotext.txt`
+   - `pdftotext.bbox.html`
+   - `manifest.json`
+   - `docling/`
+   - `marker/markdown/`
+
+### 6.2 工具使用原则
+1. `uv run python ...` 是公开文档的默认命令入口。
+2. 不在脚本或文档里写死本机 Python 解释器路径。
+3. extract build 默认只处理目标 PDF，不主动重写无关 parse 结果。
+4. `Docling` 和 `Marker` 默认按需局部读取，不整份灌入上下文。
+5. `pdfinfo`、运行日志等低价值、可再生产物不作为长期保留对象。
+
+## 7. Depth Levels
 1. `L1 | Scan Layer`
-   - 目标：让该论文进入全局地图。
+   - 目标：让论文进入全局地图。
    - 最小产物：`papers/<stem>.md`
    - 最小内容：`Claim`、`Methodology Index`、`Data Pointer`
 2. `L2 | Evidence Layer`
-   - 目标：把高价值命题锚定到具体证据。
-   - 常见产物：`figures`、`tables`、`claims`、`wording`
+   - 目标：把高价值命题钉到具体证据。
+   - 常见产物：`claims`、`metrics`、`wording`
 3. `L3 | Integration Layer`
-   - 目标：让该论文稳定参与跨论文比较与主题建模。
-   - 进入条件：关键命题已有足够 evidence 支撑
-4. 一篇论文在 `L1` 完成后即可先进入下一篇；不要求第一轮就到 `L2` 或 `L3`。
+   - 目标：让论文稳定参与跨论文比较与主题建模。
+4. 一篇论文完成 `L1` 后即可先进入下一篇，不要求第一轮就做到 `L2` 或 `L3`。
+
+## 8. 维护时的硬约束
+1. 不把 parser 输出当事实来源。
+2. 不把 thread 文本直接复制进 wiki 当证据。
+3. 不把 README、仓库名、历史写法或常识印象写成事实。
+4. 不为“可能以后会用到”而预留大量结构。
+5. 不为了统一文风而抹平本应保留的边界、冲突和 caveat。

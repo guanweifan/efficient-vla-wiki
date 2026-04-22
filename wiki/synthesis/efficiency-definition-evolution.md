@@ -4,7 +4,7 @@
 - 高效 VLA 的“效率”如何从粗粒度的“更快/更小”宣传，演化成必须分开讨论 runtime、task performance、training cost、deployment constraint 与 wording boundary 的多轴定义？
 
 ## Shared Ground
-- 本页在 `Pass 4` 主题层中充当总纲 / 入口页；它负责统一“效率”这个问题的比较轴与 wording boundary，其他 `4` 个主题页分别承接 inference、training、reasoning 与 deployment 子主题。
+- 本页在主题建模阶段形成的主题层中充当总纲 / 入口页；它负责统一“效率”这个问题的比较轴与 wording boundary，其他 `4` 个主题页分别承接 inference、training、reasoning 与 deployment 子主题。
 - 当前主题的固定比较轴是：
   - `runtime / latency / throughput / frequency`
   - `task performance / success / Avg. Len.`

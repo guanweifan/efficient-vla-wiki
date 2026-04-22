@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as software and cite the original papers for paper-specific claims."
+title: "efficient-vla-wiki"
+type: software
+abstract: "Evidence-grounded wiki and workflow for efficient VLA literature."
+license: MIT
+authors:
+  - family-names: Guan
+    given-names: Weifan

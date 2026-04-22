@@ -1,6 +1,6 @@
-# Pass 1 L1 推荐模板
+# Paper Page Template
 
-这是 chief-editor 给 worker 的推荐骨架，不是硬模板。  
+这是单篇论文页的推荐骨架，不是硬模板。  
 允许措辞与排版有差异，但最低信息密度应保持一致。
 
 ## 推荐结构

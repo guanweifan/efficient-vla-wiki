@@ -1,4 +1,4 @@
-#!/home/guanweifan/efficient-vla-wiki/.venv/bin/python
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -18,12 +18,21 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = ROOT / "raw"
 EXTRACTS_DIR = ROOT / "extracts"
 PARSES_DIR = EXTRACTS_DIR / "parses"
-STATUS_PATH = EXTRACTS_DIR / "pass0_status.json"
-INDEX_PATH = EXTRACTS_DIR / "pass0_index.jsonl"
+META_DIR = EXTRACTS_DIR / "meta"
+STATUS_PATH = META_DIR / "extract_build_status.json"
+INDEX_PATH = META_DIR / "extract_build_index.jsonl"
 
-VENV_BIN = ROOT / ".venv" / "bin"
+def discover_python() -> str:
+    if sys.executable and Path(sys.executable).exists():
+        return sys.executable
+    local_venv = ROOT / ".venv" / "bin" / "python"
+    if local_venv.exists():
+        return str(local_venv)
+    return shutil.which("python3") or shutil.which("python") or "python3"
+
+
 TOOLS = {
-    "python": VENV_BIN / "python",
+    "python": discover_python(),
     "pdfinfo": shutil.which("pdfinfo") or "pdfinfo",
     "pdftotext": shutil.which("pdftotext") or "pdftotext",
 }
@@ -42,6 +51,7 @@ def rel(path: Path) -> str:
 
 def ensure_dirs() -> None:
     PARSES_DIR.mkdir(parents=True, exist_ok=True)
+    META_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def iter_pdfs() -> list[Path]:
@@ -216,7 +226,7 @@ def paper_manifest(stem: str, pages: int, paper_dir: Path, stage: dict[str, Any]
         "raw_path": f"raw/{stem}.pdf",
         "generated_at": now_iso(),
         "page_count": pages,
-        "kind": "pass0_parse_artifacts",
+        "kind": "extract_build_artifacts",
         "notes": [
             "These files are reference parse artifacts, not raw sources and not wiki facts.",
             "They exist to maximize later retrieval, anchoring, figure/table lookup, and cross-checking during wiki construction.",
@@ -376,7 +386,7 @@ def update_status(status: dict[str, Any], result: ParseResult) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Build parser-derived artifacts from raw PDFs into extracts/.")
     parser.add_argument("--all", action="store_true", help="Parse every PDF in raw/.")
     parser.add_argument("--only", nargs="*", default=[], help="Only parse the given stems.")
     parser.add_argument("--jobs", type=int, default=2, help="Parallel paper workers.")
@@ -394,7 +404,7 @@ def main() -> int:
         wanted = set(args.only)
         pdfs = [pdf for pdf in pdfs if pdf.stem in wanted]
     elif not args.all:
-        parser.error("Pass --all or --only.")
+        parser.error("Use --all or --only.")
 
     if args.compact_extracts:
         for pdf in pdfs:

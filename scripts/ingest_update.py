@@ -17,8 +17,10 @@ from typing import Iterable
 ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = ROOT / "raw"
 EXTRACTS_DIR = ROOT / "extracts"
-DEFAULT_SOURCE = ROOT / "external" / "awesome-efficient-vla" / "update.md"
-PASS0_SCRIPT = ROOT / "scripts" / "pass0_parse.py"
+DEFAULT_SOURCE_CANDIDATES = [
+    ROOT / "external" / "awesome-efficient-vla" / "update.md",
+]
+BUILD_EXTRACTS_SCRIPT = ROOT / "scripts" / "build_extracts.py"
 
 KEY_RE = re.compile(r"^\s*(?:\*\*)?(?P<key>[A-Za-z][A-Za-z0-9 _/-]*)(?:\*\*)?\s*[:：]\s*(?P<value>.+?)\s*$")
 ARXIV_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/(?P<id>\d{4}\.\d{4,5})(?:v\d+)?(?:\.pdf)?")
@@ -83,6 +85,24 @@ def iter_blocks(text: str) -> Iterable[dict[str, object]]:
 def load_records(path: Path) -> list[dict[str, object]]:
     text = path.read_text(encoding="utf-8")
     return list(iter_blocks(text))
+
+
+def resolve_source_path(user_source: Path | None) -> Path:
+    if user_source is not None:
+        path = user_source if user_source.is_absolute() else (ROOT / user_source)
+        path = path.resolve()
+        if not path.exists():
+            raise SystemExit(f"Source file not found: {path}")
+        return path
+
+    for candidate in DEFAULT_SOURCE_CANDIDATES:
+        if candidate.exists():
+            return candidate.resolve()
+
+    raise SystemExit(
+        "No default ingest source found. Pass --source <path> or provide a local update.md-style source "
+        "(for example external/awesome-efficient-vla)."
+    )
 
 
 def existing_raw_map() -> dict[str, Path]:
@@ -195,10 +215,10 @@ def summarize(
     return ordered, duplicates
 
 
-def run_pass0(stems: list[str], jobs: int, force: bool) -> None:
+def run_extract_build(stems: list[str], jobs: int, force: bool) -> None:
     if not stems:
         return
-    cmd = [sys.executable, str(PASS0_SCRIPT), "--only", *stems, "--jobs", str(jobs)]
+    cmd = [sys.executable, str(BUILD_EXTRACTS_SCRIPT), "--only", *stems, "--jobs", str(jobs)]
     if force:
         cmd.append("--force")
     subprocess.run(cmd, cwd=ROOT, check=True)
@@ -222,17 +242,21 @@ def format_human(results: list[IngestResult], duplicates: list[IngestResult]) ->
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE, help="Path to update.md.")
+    parser.add_argument(
+        "--source",
+        type=Path,
+        default=None,
+        help="Path to an update.md-style source file. Defaults to the first known local source that exists.",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Plan only; do not download or parse.")
     parser.add_argument("--json", action="store_true", help="Emit JSON summary.")
     parser.add_argument("--limit", type=int, default=None, help="Only process the first N unique arXiv papers.")
     parser.add_argument("--only-arxiv", nargs="*", default=[], help="Only process the given arXiv ids.")
-    parser.add_argument("--parse-jobs", type=int, default=2, help="Parallel jobs for pass0 parsing.")
-    parser.add_argument("--parse-force", action="store_true", help="Force pass0 re-parse for selected papers.")
+    parser.add_argument("--parse-jobs", type=int, default=2, help="Parallel jobs for building extracts.")
+    parser.add_argument("--parse-force", action="store_true", help="Force re-build for selected extracts.")
     args = parser.parse_args()
 
-    source_path = args.source if args.source.is_absolute() else (ROOT / args.source)
-    source_path = source_path.resolve()
+    source_path = resolve_source_path(args.source)
 
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     raw_map = existing_raw_map()
@@ -278,7 +302,7 @@ def main() -> int:
             item.manifest_path = str((EXTRACTS_DIR / "parses" / item.stem / "manifest.json").relative_to(ROOT))
 
     if parse_queue and not args.dry_run:
-        run_pass0(parse_queue, jobs=args.parse_jobs, force=args.parse_force)
+        run_extract_build(parse_queue, jobs=args.parse_jobs, force=args.parse_force)
 
     for item in results:
         if item.stem is None:

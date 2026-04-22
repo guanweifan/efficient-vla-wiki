@@ -1,11 +1,12 @@
 [project]
 name = "efficient-vla-wiki"
 version = "0.1.0"
-description = "Local PDF parsing environment for raw-to-wiki workflows."
-readme = "AGENTS.md"
+description = "Evidence-grounded wiki and workflow for efficient VLA literature."
+readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
     "docling",
+    "huggingface-hub",
     "marker-pdf",
 ]
 

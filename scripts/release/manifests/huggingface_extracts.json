@@ -1,0 +1,21 @@
+{
+  "status": "not_uploaded",
+  "platform": "huggingface",
+  "repo_type": "dataset",
+  "repo_id": "guanweifan/efficient-vla-extracts",
+  "default_revision": "main",
+  "local_extracts_dir": "extracts",
+  "local_stage_dir": ".hf/staging/efficient-vla-extracts",
+  "local_manifest": "scripts/release/manifests/papers.jsonl",
+  "dataset_card_template": "scripts/release/manifests/huggingface_extracts_README.md",
+  "local_review_status": "license_review_not_started",
+  "upload_policy": [
+    "Do not upload automatically.",
+    "Review redistribution status before publishing parser-derived artifacts.",
+    "Upload the staged dataset directory, not the repository root."
+  ],
+  "notes": [
+    "This file records local settings for the Hugging Face dataset sync workflow.",
+    "Keeping the local directory name as extracts preserves the existing workflow."
+  ]
+}

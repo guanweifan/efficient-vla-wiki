@@ -1,4 +1,4 @@
-# Pass 3 Evidence Page Template
+# Evidence Page Template
 
 ## 用途
 - 说明该 evidence page 解决什么定位问题，为什么值得从单篇页抽出。

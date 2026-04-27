@@ -10,7 +10,7 @@
   - `model knob` vs `system knob` vs `network knob`
   - `on-device / edge latency` vs `task-performance benchmark`
   - `mean latency` vs `control frequency` vs `cold-start latency` vs `jitter`
-- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
+- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2`、`QuantVLA`、`DA-PTQ` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
 - 当前稳定共识是：如果不说明 hardware、placement、pipeline layer 或 jitter，单个“实时 / 频率更高” headline 没有足够比较意义。
 - 共享 runtime evidence 已经稳定支撑 deployment 主题：部署问题必须同时读 performance 和 system constraint，不能只摘一个 latency 行。
 
@@ -26,6 +26,9 @@
 - `edge-native model design`
   - 代表：[[wiki/papers/2507_14049_EdgeVLA.md|EdgeVLA]]、[[wiki/papers/2603_03380_LiteVLA-Edge.md|LiteVLA-Edge]]
   - 依据：通过小模型、on-device design 或 ROS/system integration 把部署目标直接嵌入模型设计。
+- `low-bit deployment substrate`
+  - 代表：[[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]、[[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
+  - 依据：通过 VLA-specific PTQ、校准或 drift-aware mixed precision 降低 memory / inference cost；但若没有 hardware placement / jitter 证据，仍不能直接等同于完整 edge deployment。
 - `representation-for-throughput`
   - 代表：[[wiki/papers/2507_05116_VOTE.md|VOTE]]
   - 依据：通过动作表示或输出接口设计去服务 edge throughput。
@@ -41,6 +44,7 @@
 
 ## Boundary Conditions
 - 如果一篇论文只给 benchmark latency、没有 placement、hardware、jitter 或 memory 层说明，则不能直接与 edge-deployment 主链比较。
+- 低比特量化可以支撑 deployment feasibility，但 memory reduction / speedup 与真实控制频率、jitter、network placement 仍是不同层。
 - `mean latency`、`control frequency`、`cold-start latency`、`jitter` 不在同一层，必须分开阅读。
 - `on-device` 与 `server/cloud placement` 的结果不能直接并表，除非 system knob 和 network knob 被明确控制。
 - 一篇论文若主要优化 inference method、本身不以 deployability 为主问题，只能作为边缘例子。
@@ -58,6 +62,8 @@
 - [[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]
 - [[wiki/papers/2603_03380_LiteVLA-Edge.md|LiteVLA-Edge]]
 - [[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]
+- [[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]
+- [[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
 
 ## Open Questions
 - 当前 deployment 主题仍缺少统一把 `memory ceiling`、`network variability` 与 `closed-loop failure mode` 放在同一表述框架里的 evidence 页。

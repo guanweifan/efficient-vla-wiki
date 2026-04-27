@@ -22,18 +22,24 @@ DEFAULT_SOURCE_CANDIDATES = [
 ]
 BUILD_EXTRACTS_SCRIPT = ROOT / "scripts" / "build_extracts.py"
 
-KEY_RE = re.compile(r"^\s*(?:\*\*)?(?P<key>[A-Za-z][A-Za-z0-9 _/-]*)(?:\*\*)?\s*[:：]\s*(?P<value>.+?)\s*$")
+KEY_RE = re.compile(
+    r"^\s*(?:[-*]\s*)?(?:\*\*)?(?P<key>[A-Za-z][A-Za-z0-9 _/-]*)(?:\*\*)?\s*[:：]\s*(?P<value>.+?)\s*$"
+)
 ARXIV_RE = re.compile(r"arxiv\.org/(?:abs|pdf)/(?P<id>\d{4}\.\d{4,5})(?:v\d+)?(?:\.pdf)?")
 STEM_PREFIX_RE = re.compile(r"^(?P<prefix>\d{4}_\d{4,5})")
 KNOWN_KEYS = {
     "title": "title",
+    "shortname": "shorts",
     "shorts": "shorts",
     "link": "link",
     "code": "code",
+    "coreidea": "idea",
     "idea": "idea",
+    "primarycategory": "category",
     "category": "category",
     "second": "second",
     "tag": "tag",
+    "whythiscategory": "reason",
     "reason": "reason",
 }
 
@@ -47,6 +53,13 @@ def sanitize_alias(value: str) -> str:
     alias = re.sub(r"[^A-Za-z0-9._-]+", "", alias)
     alias = re.sub(r"-{2,}", "-", alias).strip("._-")
     return alias[:80] or "Paper"
+
+
+def clean_value(value: str) -> str:
+    value = value.strip()
+    value = re.sub(r"^\*\*\s*", "", value)
+    value = re.sub(r"\s*\*\*$", "", value)
+    return value.strip()
 
 
 def stem_prefix_from_arxiv(arxiv_id: str) -> str:
@@ -77,7 +90,7 @@ def iter_blocks(text: str) -> Iterable[dict[str, object]]:
             yield current
             current = {}
         current.setdefault("source_lines", []).append(line_no)
-        current[key] = match.group("value").strip()
+        current[key] = clean_value(match.group("value"))
     if current:
         yield current
 

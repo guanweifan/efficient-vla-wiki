@@ -18,7 +18,7 @@
 1. `wiki/index.md`
    - 对外展示当前结构、规模和入口。
 2. `wiki/log.md`
-   - 记录显著维护动作、范围和结果。
+   - 本地维护日志；只记录 `wiki/` 知识层及其 `index/status` 控制面的显著更新。
 3. `wiki/status.json`
    - 保存机器可读的控制面和摘要状态。
 4. `wiki/papers/`
@@ -99,7 +99,9 @@
 1. `wiki/index.md`
    - 应反映当前结构和入口，不写过细历史。
 2. `wiki/log.md`
-   - 只记录有维护价值的动作，不写低价值流水账。
+   - 本地私有维护日志；只记录有维护价值的 `wiki/` 更新，不写低价值流水账。
+   - 不记录外部子模块、release 工具、docs、skills、Git 历史清理等非 wiki 内容。
+   - 若 `wiki/log.md` 已被 `.gitignore` 忽略，则公开维护时不要求同步它，公开控制面以 `wiki/index.md` 与 `wiki/status.json` 为准。
 3. `wiki/status.json`
    - 应至少包含：
      - `mode`
@@ -180,7 +182,7 @@
    - 建立或补强对应 `papers/<stem>.md`
    - 做 impact analysis
    - 只更新受影响的 `evidence/`、`synthesis/`
-   - 同步 `index / log / status`
+   - 同步 `index / status`；若维护者本地启用 `wiki/log.md`，可补记本轮 `wiki/` 更新，但不公开跟踪。
 4. 默认动作是定点传播，不是整库重写。
 5. 若新增论文只是重复已有模式，可停在 `papers/` 层。
 
@@ -201,7 +203,7 @@
    - `raw` 锚点缺失
    - paper 页漏挂 evidence
    - synthesis 页 Evidence Links 漏挂
-   - `index / log / status` 失配
+   - `index / status` 失配；若本地启用 `wiki/log.md`，可同时检查本地日志是否漏记 `wiki/` 更新。
    - 页面职责串位
 4. 这两类流程不负责吸收新论文，也不负责凭空生成新知识。
 

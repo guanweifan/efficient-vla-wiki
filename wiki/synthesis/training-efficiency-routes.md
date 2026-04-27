@@ -41,9 +41,11 @@
 - `teacher-distillation` 方法之间只有在 teacher 依赖、teacher 成本和行为保持目标大致一致时，才有直接比较意义。
 - `data-centric` 方法的收益必须回到 data ratio、synthetic set 或 training reduction 设定，不能和 tokenizer 压缩法直接并表为统一“更省”。
 - 若一篇论文同时宣称训练更便宜和推理更快，两个收益必须分层写；不能用单一 headline 混写。
+- Post-training quantization / calibration 只有在论文明确报告 `training steps / GPU hours / data ratio / adaptation cost` 时，才进入训练成本主链；否则更适合放在 low-bit substrate 或 deployment-oriented compression。
 
 ## Not Directly Comparable
 - 主要目标是 inference latency / deployment 的论文，即使包含 distillation 或 cache，也不能直接与训练效率主链比较。
+- [[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]] 这类 drift-aware PTQ 属于 post-training compression / calibration；它可以影响部署成本，但不能直接作为 training-cost reduction 证据。
 - `Fast-dVLA` 这类桥接工作只能作为边缘例子，不能定义训练效率本身。
 - 没有直接训练成本指标的论文，不能进入本主题主比较。
 
@@ -54,6 +56,7 @@
 - [[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]
 - [[wiki/papers/2511_18082_ActDistill.md|ActDistill]]
 - [[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]
+- [[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
 
 ## Open Questions
 - 当前仍缺少把 `teacher cost` 本身单独量化的统一 evidence 页；这会限制 distillation 路线之间的更细比较。

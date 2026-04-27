@@ -23,16 +23,16 @@
   - [[wiki/synthesis/deployment-oriented-efficiency.md|deployment-oriented-efficiency]]
 - 当前页新增的稳定 survey 视角：
   - `model-and-representation efficiency`
-  - 作用：把 `TinyVLA / SmolVLA / EdgeVLA / RoboMamba / FAST / ActionCodec / QuantVLA` 这类“先改 policy substrate 本身”的工作，从既有四页之间抽出来，作为 efficient VLA 的底层路线来理解。
+  - 作用：把 `TinyVLA / SmolVLA / EdgeVLA / PokeVLA / RoboMamba / FAST / ActionCodec / QuantVLA / DA-PTQ` 这类“先改 policy substrate 本身”的工作，从既有四页之间抽出来，作为 efficient VLA 的底层路线来理解。
 
 ## Route Split
 - `model-and-representation efficiency`
   - 核心问题：如何让 VLA 的 policy substrate 自身更小、更稀、更易量化或更信息高效，而不是先接受一个昂贵底座再事后加速。
   - 代表性小类：
-    - `compact backbone / small VLA design`：[[wiki/papers/2409_12514_TinyVLA.md|TinyVLA]]、[[wiki/papers/2506_01844_SmolVLA.md|SmolVLA]]、[[wiki/papers/2507_14049_EdgeVLA.md|EdgeVLA]]
+    - `compact backbone / small VLA design`：[[wiki/papers/2409_12514_TinyVLA.md|TinyVLA]]、[[wiki/papers/2506_01844_SmolVLA.md|SmolVLA]]、[[wiki/papers/2507_14049_EdgeVLA.md|EdgeVLA]]、[[wiki/papers/2604_20834_PokeVLA.md|PokeVLA]]
     - `action representation / tokenizer / codec`：[[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2602_15397_ActionCodec.md|ActionCodec]]
     - `efficient architecture replacement`：[[wiki/papers/2406_04339_RoboMamba.md|RoboMamba]]、[[wiki/papers/2603_01700_TacMamba.md|TacMamba]]
-    - `low-bit / quantized substrate`：[[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]、[[wiki/papers/2506_07530_BitVLA.md|BitVLA]]、[[wiki/papers/2602_03782_QVLA.md|QVLA]]
+    - `low-bit / quantized substrate`：[[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]、[[wiki/papers/2506_07530_BitVLA.md|BitVLA]]、[[wiki/papers/2602_03782_QVLA.md|QVLA]]、[[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
 - `training-and-adaptation efficiency`
   - 核心问题：如何更便宜地获得一个可用的 VLA，而不是只在部署时才追求省算力。
   - 代表性小类：
@@ -45,14 +45,14 @@
   - 代表性小类：
     - `cache-and-reuse`：[[wiki/papers/2502_02175_VLA-Cache.md|VLA-Cache]]
     - `pruning-and-selection`：[[wiki/papers/2505_21200_FlashVLA.md|FlashVLA]]、[[wiki/papers/2509_05614_SpecPrune-VLA.md|SpecPrune-VLA]]、[[wiki/papers/2511_16449_VLA-Pruner.md|VLA-Pruner]]、[[wiki/papers/2603_22991_VLA-IAP.md|VLA-IAP]]、[[wiki/papers/2603_25766_ETA-VLA.md|ETA-VLA]]、[[wiki/papers/2604_05323_VLA-InfoEntropy.md|VLA-InfoEntropy]]、[[wiki/papers/2604_09244_Tri-Stage-Token-Pruning-Framework.md|Tri-Stage Token Pruning Framework]]
-    - `sampling / decoding compression`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]
+    - `sampling / decoding compression`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]、[[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]、[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]
     - `async / streaming / chunk scheduling`：[[wiki/papers/2511_14148_AsyncVLA.md|AsyncVLA]]、[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_28565_StreamingVLA.md|StreamingVLA]]、[[wiki/papers/2604_04161_AAC.md|AAC]]
 - `reasoning efficiency`
   - 核心问题：如何保留 planning、few-shot adaptation、self-correction 这些 reasoning 收益，同时摆脱 always-on explicit CoT 的高延迟。
   - 代表性小类：
     - `explicit reasoning cost compression`：[[wiki/papers/2505_08243_ECoT-Lite.md|ECoT-Lite]]
     - `dual-system reasoning-action split`：[[wiki/papers/2507_16815_ThinkAct.md|ThinkAct]]
-    - `latent planning / verbalizable latent reasoning`：[[wiki/papers/2601_09708_Fast-ThinkAct.md|Fast-ThinkAct]]、[[wiki/papers/2602_01166_LaRA-VLA.md|LaRA-VLA]]
+    - `latent planning / verbalizable latent reasoning`：[[wiki/papers/2601_09708_Fast-ThinkAct.md|Fast-ThinkAct]]、[[wiki/papers/2602_01166_LaRA-VLA.md|LaRA-VLA]]、[[wiki/papers/2604_18486_OneVL.md|OneVL]]
     - `gated / routed reasoning`：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]
 - `deployment-oriented efficiency`
   - 核心问题：如何让前述效率收益在真实硬件、网络、控制周期与 jitter 约束下仍然成立，而不是只停留在 benchmark latency。
@@ -70,6 +70,7 @@
   - `quantization` 既可能属于 `model-and-representation efficiency`，也可能服务 `deployment-oriented efficiency`；
   - `async / streaming` 既可能是 `inference-time compute allocation`，也可能是 `deployment-oriented efficiency` 的 system trick。
 - `manipulation / driving / navigation` 更适合视为应用场景，而不是 efficient VLA 的顶层 taxonomy；当前多域论文更像是在不同场景里实例化同一批效率路线。
+- VLA-adjacent diffusion-policy / RL acceleration work 可以作为 action-generation efficiency 的边界参考，但不能自动升级为 core VLA architecture 证据；[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]] 就属于这一类。
 - 若一篇论文只提升 task performance、但没有把效率问题写成主问题，或没有明确的成本口径，则不应强行纳入 efficient VLA 主地图。
 
 ## Not Directly Comparable
@@ -125,6 +126,11 @@
 - [[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]
 - [[wiki/papers/2604_05672_A1.md|A1]]
 - [[wiki/papers/2604_09244_Tri-Stage-Token-Pruning-Framework.md|Tri-Stage Token Pruning Framework]]
+- [[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
+- [[wiki/papers/2604_18486_OneVL.md|OneVL]]
+- [[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]
+- [[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]
+- [[wiki/papers/2604_20834_PokeVLA.md|PokeVLA]]
 
 ## Open Questions
 - `model-and-representation efficiency` 当前已经足够稳定到能作为 survey 主路线，但仓库里还缺一页专门承接它的独立子主题页；当前先由本页兼任总地图入口。

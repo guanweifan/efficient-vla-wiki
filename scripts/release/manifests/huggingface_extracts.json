@@ -1,5 +1,5 @@
 {
-  "status": "not_uploaded",
+  "status": "uploaded",
   "platform": "huggingface",
   "repo_type": "dataset",
   "repo_id": "guanweifan/efficient-vla-extracts",

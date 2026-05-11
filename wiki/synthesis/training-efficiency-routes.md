@@ -10,7 +10,7 @@
   - 收益类型：`更快收敛 / 少数据逼近 / cheaper adaptation / 更少 teacher calls`
   - 依赖条件：`teacher / pretrained action expert / synthetic data generator / tokenizer redesign`
   - 与推理侧的关系：`是否伴随 inference tradeoff`
-- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
+- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
 - 这些工作都把“降低训练代价”写成主收益，但降低代价的方式不同：有的压 token，有的压 teacher/adaptation，有的压 data requirement。
 - `Fast-dVLA` 只作为桥接例子存在：它说明训练侧技巧可以服务推理路线，但不能因此把训练与推理混成同一主题。
 
@@ -29,9 +29,15 @@
 - `teacher-distillation`
   - 代表：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]
   - 依据：通过 teacher/student 或 action expert 降低 adaptation 与 supervision 成本。
+- `online-RL adaptation interface`
+  - 代表：[[wiki/papers/2604_23073_RLT.md|RLT]]
+  - 依据：通过 compact RL token 和轻量 actor-critic，把任务特化从 full VLA fine-tuning 转成 sample-efficient online RL。
+- `parameter-efficient adaptation`
+  - 代表：[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
+  - 依据：通过 generalized / specialized experts 在固定 trainable-parameter budget 下增强 VLM-to-VLA adaptation。
 - `data-centric-efficiency`
-  - 代表：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]
-  - 依据：通过 synthetic coreset / data reduction 降低训练需求。
+  - 代表：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]
+  - 依据：通过 synthetic coreset / data reduction，或通过高效 sim-to-real video augmentation 降低训练数据构建与数据增强成本。
 - `train-to-infer bridge`
   - 代表：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]
   - 依据：训练侧 distillation 被回收进推理效率，但仍不能直接替代训练成本主链。
@@ -41,6 +47,7 @@
 - `teacher-distillation` 方法之间只有在 teacher 依赖、teacher 成本和行为保持目标大致一致时，才有直接比较意义。
 - `data-centric` 方法的收益必须回到 data ratio、synthetic set 或 training reduction 设定，不能和 tokenizer 压缩法直接并表为统一“更省”。
 - 若一篇论文同时宣称训练更便宜和推理更快，两个收益必须分层写；不能用单一 headline 混写。
+- online RL task throughput、video diffusion generation time、trainable-parameter ratio 都是训练/适配侧的不同成本口径，不能直接互相替代。
 - Post-training quantization / calibration 只有在论文明确报告 `training steps / GPU hours / data ratio / adaptation cost` 时，才进入训练成本主链；否则更适合放在 low-bit substrate 或 deployment-oriented compression。
 
 ## Not Directly Comparable
@@ -57,6 +64,9 @@
 - [[wiki/papers/2511_18082_ActDistill.md|ActDistill]]
 - [[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]
 - [[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
+- [[wiki/papers/2604_23073_RLT.md|RLT]]
+- [[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]
+- [[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
 
 ## Open Questions
 - 当前仍缺少把 `teacher cost` 本身单独量化的统一 evidence 页；这会限制 distillation 路线之间的更细比较。

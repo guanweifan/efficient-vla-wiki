@@ -30,11 +30,11 @@
   - 代表：[[wiki/papers/2409_12514_TinyVLA.md|TinyVLA]]、[[wiki/papers/2410_05273_HiRT.md|HiRT]]、[[wiki/papers/2505_21200_FlashVLA.md|FlashVLA]]、[[wiki/papers/2506_10100_EfficientVLA.md|EfficientVLA]]
   - 作用：把“更快”和“更强”从单一句子中拆开，要求回到 paired operating point。
 - `training-cost disentanglement`
-  - 代表：[[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]
-  - 作用：把训练时长、GPU 小时、数据比例与推理速度分层阅读。
+  - 代表：[[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
+  - 作用：把训练时长、GPU 小时、数据比例、在线适配样本效率、数据增强成本、可训练参数比例与推理速度分层阅读。
 - `deployment-as-first-class-efficiency`
-  - 代表：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]
-  - 作用：把 placement、jitter、memory ceiling 收编为效率定义本身，而不是附属系统注。
+  - 代表：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]
+  - 作用：把 placement、jitter、memory ceiling、hardware cost/energy、runtime framework 与 edge/cloud network constraint 收编为效率定义本身，而不是附属系统注。
 - `wording-boundary policing`
   - 代表：[[wiki/evidence/wording/training-free-vs-no-retraining.md|training-free-vs-no-retraining]]、[[wiki/evidence/wording/model-agnostic-vs-validated-compatibility.md|model-agnostic-vs-validated-compatibility]]
   - 作用：要求强措辞总是带着已验证 scope 出现。
@@ -64,6 +64,12 @@
 - [[wiki/papers/2506_10100_EfficientVLA.md|EfficientVLA]]
 - [[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]
 - [[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]
+- [[wiki/papers/2604_23073_RLT.md|RLT]]
+- [[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]
+- [[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]
+- [[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]
+- [[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]
+- [[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
 
 ## Open Questions
 - 当前还缺少一页把 `memory footprint`、`energy` 与 `network transport` 进一步并入统一效率定义；这不阻塞当前主题页，但会影响后续 deployment-oriented synthesis 的细化。

@@ -8,8 +8,8 @@
 
 ## 当前规模
 
-- `papers/`：`113`
-- `evidence/claims/`：`113`
+- `papers/`：`122`
+- `evidence/claims/`：`122`
 - 共享 `metrics/`：`3`
 - 共享 `wording/`：`3`
 - `synthesis/`：`6`

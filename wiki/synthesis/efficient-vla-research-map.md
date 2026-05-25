@@ -23,7 +23,7 @@
   - [[wiki/synthesis/deployment-oriented-efficiency.md|deployment-oriented-efficiency]]
 - 当前页新增的稳定 survey 视角：
   - `model-and-representation efficiency`
-  - 作用：把 `TinyVLA / SmolVLA / EdgeVLA / PokeVLA / RoboMamba / FAST / ActionCodec / QuantVLA / DA-PTQ / OneWM-VLA` 这类“先改 policy substrate 或 world-module representation 本身”的工作，从既有四页之间抽出来，作为 efficient VLA 的底层路线来理解。
+  - 作用：把 `TinyVLA / SmolVLA / EdgeVLA / PokeVLA / RoboMamba / FAST / ActionCodec / QuantVLA / DA-PTQ / OneWM-VLA / LoopVLA` 这类“先改 policy substrate 或 world-module representation 本身”的工作，从既有四页之间抽出来，作为 efficient VLA 的底层路线来理解。
 
 ## Route Split
 - `model-and-representation efficiency`
@@ -33,23 +33,26 @@
     - `action representation / tokenizer / codec`：[[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2602_15397_ActionCodec.md|ActionCodec]]
     - `efficient architecture replacement`：[[wiki/papers/2406_04339_RoboMamba.md|RoboMamba]]、[[wiki/papers/2603_01700_TacMamba.md|TacMamba]]
     - `low-bit / quantized substrate`：[[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]、[[wiki/papers/2506_07530_BitVLA.md|BitVLA]]、[[wiki/papers/2602_03782_QVLA.md|QVLA]]、[[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]
-    - `world-module visual bandwidth`：[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]
+    - `dynamic / recurrent computation substrate`：[[wiki/papers/2605_09948_LoopVLA.md|LoopVLA]]
+    - `world-module / visual bandwidth`：[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]、[[wiki/papers/2605_11817_GridS.md|GridS]]
 - `training-and-adaptation efficiency`
   - 核心问题：如何更便宜地获得一个可用的 VLA，而不是只在部署时才追求省算力。
   - 代表性小类：
     - `tokenization-driven training efficiency`：[[wiki/papers/2501_09747_FAST.md|FAST]]
-    - `teacher / action-expert distillation`：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]
+    - `teacher / action-expert distillation`：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]
     - `online RL / lightweight adaptation interface`：[[wiki/papers/2604_23073_RLT.md|RLT]]
     - `parameter-efficient VLA adaptation`：[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
-    - `data-centric efficiency`：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]
-    - `train-to-infer bridge`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]
+    - `data-centric efficiency`：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]
+    - `RL training system / gradient allocation`：[[wiki/papers/2605_13276_D-VLA.md|D-VLA]]、[[wiki/papers/2605_16154_PCM.md|PCM]]
+    - `online agentic adaptation`：[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]
+    - `train-to-infer bridge`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]
 - `inference-time compute allocation`
   - 核心问题：当底座固定后，如何只在真正必要的位置花计算，把单步控制成本降下来。
   - 代表性小类：
     - `cache-and-reuse`：[[wiki/papers/2502_02175_VLA-Cache.md|VLA-Cache]]
-    - `pruning-and-selection / visual bandwidth`：[[wiki/papers/2505_21200_FlashVLA.md|FlashVLA]]、[[wiki/papers/2509_05614_SpecPrune-VLA.md|SpecPrune-VLA]]、[[wiki/papers/2511_16449_VLA-Pruner.md|VLA-Pruner]]、[[wiki/papers/2603_22991_VLA-IAP.md|VLA-IAP]]、[[wiki/papers/2603_25766_ETA-VLA.md|ETA-VLA]]、[[wiki/papers/2604_05323_VLA-InfoEntropy.md|VLA-InfoEntropy]]、[[wiki/papers/2604_09244_Tri-Stage-Token-Pruning-Framework.md|Tri-Stage Token Pruning Framework]]、[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]
-    - `sampling / decoding compression`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]、[[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]、[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]、[[wiki/papers/2604_24622_CF-VLA.md|CF-VLA]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]
-    - `async / streaming / chunk scheduling`：[[wiki/papers/2511_14148_AsyncVLA.md|AsyncVLA]]、[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_28565_StreamingVLA.md|StreamingVLA]]、[[wiki/papers/2604_04161_AAC.md|AAC]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]
+    - `pruning-and-selection / visual bandwidth`：[[wiki/papers/2505_21200_FlashVLA.md|FlashVLA]]、[[wiki/papers/2509_05614_SpecPrune-VLA.md|SpecPrune-VLA]]、[[wiki/papers/2511_16449_VLA-Pruner.md|VLA-Pruner]]、[[wiki/papers/2603_22991_VLA-IAP.md|VLA-IAP]]、[[wiki/papers/2603_25766_ETA-VLA.md|ETA-VLA]]、[[wiki/papers/2604_05323_VLA-InfoEntropy.md|VLA-InfoEntropy]]、[[wiki/papers/2604_09244_Tri-Stage-Token-Pruning-Framework.md|Tri-Stage Token Pruning Framework]]、[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]、[[wiki/papers/2605_11817_GridS.md|GridS]]
+    - `sampling / decoding compression`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]、[[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]、[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]、[[wiki/papers/2604_24622_CF-VLA.md|CF-VLA]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
+    - `async / streaming / chunk scheduling`：[[wiki/papers/2511_14148_AsyncVLA.md|AsyncVLA]]、[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_28565_StreamingVLA.md|StreamingVLA]]、[[wiki/papers/2604_04161_AAC.md|AAC]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
 - `reasoning efficiency`
   - 核心问题：如何保留 planning、few-shot adaptation、self-correction 这些 reasoning 收益，同时摆脱 always-on explicit CoT 的高延迟。
   - 代表性小类：
@@ -65,7 +68,8 @@
     - `representation-for-throughput`：[[wiki/papers/2507_05116_VOTE.md|VOTE]]
     - `system throughput tuning`：[[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]
     - `edge-runtime framework`：[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]
-    - `async control / chunk scheduling / real-time serving`：[[wiki/papers/2512_03044_Video2Act.md|Video2Act]]、[[wiki/papers/2603_19199_FASTER.md|FASTER]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]
+    - `async control / chunk scheduling / real-time serving`：[[wiki/papers/2512_03044_Video2Act.md|Video2Act]]、[[wiki/papers/2603_19199_FASTER.md|FASTER]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
+    - `structured-output serving`：[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
     - `system / placement / network analysis`：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]
 
 ## Boundary Conditions
@@ -77,6 +81,9 @@
 - `manipulation / driving / navigation` 更适合视为应用场景，而不是 efficient VLA 的顶层 taxonomy；当前多域论文更像是在不同场景里实例化同一批效率路线。
 - VLA-adjacent diffusion-policy / RL acceleration work 可以作为 action-generation efficiency 的边界参考，但不能自动升级为 core VLA architecture 证据；[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]] 就属于这一类。
 - world-module visual bandwidth compression 与 policy perception token pruning 相邻但不等价；[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]] 应保留 auxiliary world-module / latent rollout 的边界。
+- differentiable visual resampling、world-module visual compression 与 perception token pruning 都服务 visual bandwidth，但 [[wiki/papers/2605_11817_GridS.md|GridS]]、[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]] 和传统 pruning 的作用对象不同。
+- 训练系统吞吐、梯度 chunk masking、frame-level data selection、offline semantic distillation 与 online agentic adaptation 都属于训练侧效率，但不应相互替代。
+- driving VLA 的 structured output serving 可以帮助暴露 action-output decoding 边界，但不能直接和 manipulation VLA 的 control frequency 并表。
 - 若一篇论文只提升 task performance、但没有把效率问题写成主问题，或没有明确的成本口径，则不应强行纳入 efficient VLA 主地图。
 
 ## Not Directly Comparable
@@ -146,6 +153,18 @@
 - [[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]
 - [[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
 - [[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]
+- [[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]
+- [[wiki/papers/2605_09948_LoopVLA.md|LoopVLA]]
+- [[wiki/papers/2605_11817_GridS.md|GridS]]
+- [[wiki/papers/2605_13276_D-VLA.md|D-VLA]]
+- [[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]
+- [[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]
+- [[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]
+- [[wiki/papers/2605_16154_PCM.md|PCM]]
+- [[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]
+- [[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
+- [[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]
+- [[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
 
 ## Open Questions
 - `model-and-representation efficiency` 当前已经足够稳定到能作为 survey 主路线，但仓库里还缺一页专门承接它的独立子主题页；当前先由本页兼任总地图入口。

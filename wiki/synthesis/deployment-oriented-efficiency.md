@@ -10,7 +10,7 @@
   - `model knob` vs `system knob` vs `network knob`
   - `on-device / edge latency` vs `task-performance benchmark`
   - `mean latency` vs `control frequency` vs `cold-start latency` vs `jitter`
-- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2`、`QuantVLA`、`DA-PTQ`、`AsyncShield`、`DP-Cache / V-AEFusion`、`EdgeFM` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
+- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2`、`QuantVLA`、`DA-PTQ`、`AsyncShield`、`DP-Cache / V-AEFusion`、`EdgeFM`、`Async-VLA-Inference`、`Realtime-VLA FLASH`、`DEFLECT`、`Fast-dDrive` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
 - 当前稳定共识是：如果不说明 hardware、placement、pipeline layer 或 jitter，单个“实时 / 频率更高” headline 没有足够比较意义。
 - 共享 runtime evidence 已经稳定支撑 deployment 主题：部署问题必须同时读 performance 和 system constraint，不能只摘一个 latency 行。
 
@@ -39,11 +39,14 @@
   - 代表：[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]
   - 依据：通过 thin runtime、operator table 与 agent-tuned kernels 处理 edge inference latency、hardware lock-in 和 cross-platform portability。
 - `system throughput tuning`
-  - 代表：[[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]
-  - 依据：通过 calibration、trajectory shaping、speed adaptation 与硬件约束补偿，把 faster-than-demonstration execution 写成系统级吞吐问题。
+  - 代表：[[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]
+  - 依据：通过 calibration、trajectory shaping、speed adaptation、speculative inference 或 fallback，把 faster-than-demonstration execution 和 real-time replanning 写成系统级吞吐问题。
 - `cloud-edge latency and jitter adaptation`
-  - 代表：[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]
-  - 依据：把 cloud VLA 的 delayed intent 通过 edge temporal pose buffer、geometric re-projection 与 safety adapter 接回高频控制闭环。
+  - 代表：[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
+  - 依据：把 delayed intent、observation staleness 或 stale action 通过 edge temporal alignment、delay-robust method comparison 或 offline post-training correction 接回控制闭环。
+- `structured-output serving`
+  - 代表：[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
+  - 依据：在 driving VLA 中把 JSON-like trajectory output、scaffold tokens、shared-prefix rollout 与 serving throughput 绑定为部署侧效率问题。
 - `real-time rhetoric boundary`
   - 代表：[[wiki/papers/2512_03044_Video2Act.md|Video2Act]]
   - 依据：提醒“实时”必须回到 cold-start、pipeline layer 和具体 deployment setting 才成立。
@@ -55,6 +58,8 @@
 - `on-device` 与 `server/cloud placement` 的结果不能直接并表，除非 system knob 和 network knob 被明确控制。
 - framework benchmark speedup、model-hardware leaderboard 与 closed-loop navigation success 是不同层的部署证据；只能在明确 hardware / placement / jitter / task setting 后比较。
 - 一篇论文若主要优化 inference method、本身不以 deployability 为主问题，只能作为边缘例子。
+- delay-robust evaluation、offline stale-action tuning 与 cloud-edge safety adapter 都处理 latency，但分别是对照框架、post-training correction 和 edge runtime adapter。
+- structured driving output 的 serving throughput 不能直接和 manipulation control frequency 合并。
 
 ## Not Directly Comparable
 - 只报告更高 Hz、没有具体 hardware / placement / jitter 说明的论文，不能直接进入本主题主比较。
@@ -74,6 +79,10 @@
 - [[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]
 - [[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]
 - [[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]
+- [[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]
+- [[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]
+- [[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
+- [[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
 
 ## Open Questions
 - 当前 deployment 主题仍缺少统一把 `memory ceiling`、`network variability` 与 `closed-loop failure mode` 放在同一表述框架里的 evidence 页。

@@ -20,7 +20,7 @@ Parser-derived artifacts for the `efficient-vla-wiki` project.
 
 This dataset is the data layer companion to the main repository:
 
-- GitHub: `efficient-vla-wiki`
+- GitHub: [guanweifan/efficient-vla-wiki](https://github.com/guanweifan/efficient-vla-wiki)
 - Dataset repo: `efficient-vla-extracts`
 
 ## What is inside

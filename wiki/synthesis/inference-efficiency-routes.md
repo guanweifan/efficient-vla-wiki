@@ -10,7 +10,7 @@
   - 控制面：`semantic saliency / action-aware / interaction-aware / gated execution / streaming trigger`
   - 代价口径：`latency / speedup / FLOPs / frequency / skip ratio`
   - 适用边界：`training-free` vs `requires adaptation`，以及 `single-family validation` vs `broader validated scope`
-- `VLA-Cache`、`FlashVLA`、`EfficientVLA`、`SpecPrune-VLA`、`VLA-Pruner`、`VLA-IAP`、`ETA-VLA`、`VLA-InfoEntropy`、`GridS`、`AsyncVLA`、`StreamVLA`、`StreamingVLA`、`Fast-dVLA`、`SnapFlow`、`AnchorVLA`、`A1`、`SpanVLA`、`CF-VLA`、`DP-Cache / V-AEFusion`、`BlockVLA`、`Realtime-VLA FLASH`、`DEFLECT`、`Fast-dDrive`、`AsyncShield` 共同表明，推理效率的核心是 inference-time compute allocation，而不是训练阶段成本。
+- `VLA-Cache`、`FlashVLA`、`EfficientVLA`、`SpecPrune-VLA`、`VLA-Pruner`、`VLA-IAP`、`ETA-VLA`、`VLA-InfoEntropy`、`GridS`、`SAFE-Pruner`、`ElegantVLA`、`AsyncVLA`、`StreamVLA`、`StreamingVLA`、`Fast-dVLA`、`SnapFlow`、`AnchorVLA`、`A1`、`SpanVLA`、`CF-VLA`、`DP-Cache / V-AEFusion`、`BlockVLA`、`Realtime-VLA FLASH`、`DEFLECT`、`Fast-dDrive`、`AsyncShield`、`One-Step VLA`、`Flash-WAM` 共同表明，推理效率的核心是 inference-time compute allocation，而不是训练阶段成本。
 - 这些工作都不是单纯追求“更高 speedup”，而是在不同冗余来源和不同控制面上重新分配计算预算。
 - 共享 evidence 页已经稳定支持两个共识：
   - runtime headline 必须和 task 或 operating point 口径一起阅读；
@@ -29,12 +29,15 @@
 - `cache-and-reuse`
   - 代表：[[wiki/papers/2502_02175_VLA-Cache.md|VLA-Cache]]
   - 依据：通过 temporal 或 latent reuse 回收已有计算，而不是直接丢弃 token。
+- `phase-adaptive cross-module reuse`
+  - 代表：[[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]
+  - 依据：通过 learned scheduler 在 Vision-LLM 与 action head 两侧分配 recompute / reuse budget，把 VLA 推理从固定每步全算改成阶段自适应的跨模块计算分配。
 - `pruning-and-selection`
-  - 代表：[[wiki/papers/2509_05614_SpecPrune-VLA.md|SpecPrune-VLA]]、[[wiki/papers/2511_16449_VLA-Pruner.md|VLA-Pruner]]、[[wiki/papers/2603_22991_VLA-IAP.md|VLA-IAP]]、[[wiki/papers/2603_25766_ETA-VLA.md|ETA-VLA]]、[[wiki/papers/2604_05323_VLA-InfoEntropy.md|VLA-InfoEntropy]]、[[wiki/papers/2604_09244_Tri-Stage-Token-Pruning-Framework.md|Tri-Stage Token Pruning Framework]]、[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]、[[wiki/papers/2605_11817_GridS.md|GridS]]
-  - 依据：通过 semantic / action / interaction-aware 规则选择性保留 token、模态或路径；其中新近工作已经开始显式处理 temporal compression、2D/3D modality salience、world-module per-frame visual bandwidth，以及 differentiable coordinate-based visual resampling。
+  - 代表：[[wiki/papers/2509_05614_SpecPrune-VLA.md|SpecPrune-VLA]]、[[wiki/papers/2511_16449_VLA-Pruner.md|VLA-Pruner]]、[[wiki/papers/2603_22991_VLA-IAP.md|VLA-IAP]]、[[wiki/papers/2603_25766_ETA-VLA.md|ETA-VLA]]、[[wiki/papers/2604_05323_VLA-InfoEntropy.md|VLA-InfoEntropy]]、[[wiki/papers/2604_09244_Tri-Stage-Token-Pruning-Framework.md|Tri-Stage Token Pruning Framework]]、[[wiki/papers/2605_07931_OneWM-VLA.md|OneWM-VLA]]、[[wiki/papers/2605_11817_GridS.md|GridS]]、[[wiki/papers/2605_29662_SAFE-Pruner.md|SAFE-Pruner]]
+  - 依据：通过 semantic / action / interaction / future-aware 规则选择性保留 token、模态或路径；其中新近工作已经开始显式处理 temporal compression、2D/3D modality salience、world-module per-frame visual bandwidth、differentiable coordinate-based visual resampling，以及 late-stage attention saliency forecast。
 - `sampling-or-decoding compression`
-  - 代表：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]、[[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]、[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]、[[wiki/papers/2604_24622_CF-VLA.md|CF-VLA]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
-  - 依据：通过 block-wise diffusion、single-step generation、anchored truncated diffusion、warm-start denoising、action bridge + flow-matching expert、coarse-to-fine low-NFE generation、diffusion-step caching、speculative draft-verify-fallback，或 structured-output block diffusion 压缩 action decoding / sampling 开销；其中 [[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]] 目前只作为 VLA-adjacent reference。
+  - 代表：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]、[[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]、[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]、[[wiki/papers/2604_24622_CF-VLA.md|CF-VLA]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]、[[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]、[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
+  - 依据：通过 block-wise diffusion、single-step generation、anchored truncated diffusion、warm-start denoising、action bridge + flow-matching expert、coarse-to-fine low-NFE generation、diffusion-step caching、speculative draft-verify-fallback、high-noise schedule one-step action decoding，或 modality-aware WAM step distillation 压缩 action decoding / sampling 开销；其中 [[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]] 目前只作为 VLA-adjacent reference。
 - `async-or-streaming-control`
   - 代表：[[wiki/papers/2511_14148_AsyncVLA.md|AsyncVLA]]、[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_28565_StreamingVLA.md|StreamingVLA]]、[[wiki/papers/2604_04161_AAC.md|AAC]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
   - 依据：通过 asynchronous regeneration、completion-state gating、streaming overlap、adaptive chunk scheduling、cloud-edge latency realignment、delay-robust method evaluation 或 offline stale-action preference tuning 让 compute allocation 服从控制节奏。
@@ -53,6 +56,8 @@
 - block diffusion、speculative inference、offline delay-robust tuning 与 structured driving output serving 都可降低 action-side 推理成本，但分别作用于 diffusion block、draft verification、stale action preference 和 JSON-like trajectory output。
 - async 方法评测框架与新的 runtime 加速机制不等价；[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]] 更适合作为 delay robustness 对照锚点。
 - [[wiki/papers/2605_09948_LoopVLA.md|LoopVLA]] 的 throughput 收益来自 policy substrate 内部的 recurrent / sufficiency-guided dynamic computation；它可作为 inference compute allocation 的边界例子，但不应和外部 scheduler 或 pruning route 混写。
+- [[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]] 的 scheduler 需要单独保留 learned phase-adaptive reuse 边界，不能和固定 cache 或 shallow pruning 混写。
+- [[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]] 与 [[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]] 都压低 denoising steps，但前者是 continuous action chunk 的 standard flow-matching schedule，后者是 WAM joint video-action step distillation。
 
 ## Not Directly Comparable
 - 训练侧效率工作如 [[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]] 不能进入本主题主比较。
@@ -98,6 +103,10 @@
 - [[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]
 - [[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
 - [[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
+- [[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]
+- [[wiki/papers/2605_29662_SAFE-Pruner.md|SAFE-Pruner]]
+- [[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
+- [[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]
 
 ## Open Questions
 - 目前 `cache-and-reuse` 与 `sampling-or-decoding compression` 在共享 benchmark 上的直接并比仍然不足，后续建模时需要更谨慎处理“更优路线”这种表述。

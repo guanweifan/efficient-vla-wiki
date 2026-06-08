@@ -10,7 +10,7 @@
   - compute policy：`always-on / compressed / gated / routed`
   - 收益口径：`planning / few-shot adaptation / safety / robustness / latency reduction`
   - 代价口径：`execution overhead / skip ratio / route complexity / teacher or supervision dependence`
-- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
+- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
 - 这个主题的稳定共识是：如果不说明 reasoning substrate 和 compute policy，只说“更会想”或“更聪明”，就不足以形成可比结论。
 - 共享 runtime evidence 说明了一个边界：reasoning gain 必须和 execution overhead 一起阅读，不能只摘收益 headline。
 
@@ -32,9 +32,12 @@
 - `latent-planning compression`
   - 代表：[[wiki/papers/2601_09708_Fast-ThinkAct.md|Fast-ThinkAct]]、[[wiki/papers/2602_01166_LaRA-VLA.md|LaRA-VLA]]、[[wiki/papers/2604_18486_OneVL.md|OneVL]]
   - 依据：把 reasoning 从显式 CoT 压到 latent 或 verbalizable substrate；[[wiki/papers/2604_18486_OneVL.md|OneVL]] 进一步用训练期 visual world-model decoder 约束 driving latents，并在推理期通过 prefill 接近 answer-only latency。
+- `visual intermediate reasoning`
+  - 代表：[[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]
+  - 依据：用 compact visual-evidence interface 与 selective routing 替代 long textual CoT，在保留空间证据的同时降低 autoregressive textual reasoning latency。
 - `gated-or-routed reasoning`
-  - 代表：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]
-  - 依据：只在需要时触发 reasoning 成本，把“想不想、想多久”交给 gating 或 routing policy。
+  - 代表：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]、[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]
+  - 依据：只在需要时触发 reasoning 成本，把“想不想、想多久、用文本还是视觉想”交给 gating 或 routing policy。
 - `adaptive parallel deliberation`
   - 代表：[[wiki/papers/2605_01194_VLA-ATTC.md|VLA-ATTC]]
   - 依据：用 uncertainty-based cognitive clutch 触发 test-time deliberation，并用 Relative Action Critic 在并行 action candidates 中做 pairwise selection。
@@ -46,6 +49,8 @@
 - 只报告更低 latency、没有明确 reasoning control mechanism 的论文，不能用来支持“reasoning efficiency”结论。
 - 若 auxiliary decoder / world model 只在训练期提供 latent supervision，推理期是否保留该模块必须单独说明；不能把训练期 supervision 写成推理期 reasoning compute。
 - adaptive TTC 必须同时说明触发条件、candidate sampling 数量和 control-frequency 影响；不能把它写成无成本的 reasoning 提升。
+- visual evidence routing 不是传统 visual token pruning；它改变的是 reasoning substrate 和 evidence exposure policy。
+- WAM 中的 adaptive textual / visual reasoning 需要和 VLA textual CoT compression 分开读，因为其 action-only fallback、video reasoning 和 subtask text update 属于不同执行模式。
 
 ## Not Directly Comparable
 - 纯 pruning / cache / deployment 论文不能直接进入本主题主比较。
@@ -62,6 +67,8 @@
 - [[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]
 - [[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]
 - [[wiki/papers/2605_01194_VLA-ATTC.md|VLA-ATTC]]
+- [[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]
+- [[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]
 
 ## Open Questions
 - 当前关于 latent reasoning 与 gated reasoning 的统一 benchmark 仍然很弱，后续建模时仍需避免过强路线排序。

@@ -12,8 +12,9 @@
   - `deployment constraint / placement / jitter / memory ceiling`
   - `training-free / model-agnostic` 的 wording boundary
 - `TinyVLA`、`HiRT`、`FlashVLA`、`EfficientVLA` 这一条主链共同表明，速度 headline 只有在和同一 operating point 上的任务表现一起阅读时才有意义。
-- `FAST`、`FT-NCFM`、`FrameSkip`、`PCM`、`D-VLA`、`VLA-AD` 与 `Agentic-VLA` 共同表明，训练侧效率已经是独立命题；更少 GPU 小时、更少训练步数、更少数据比例、更少梯度计算或更快在线适配，不能被偷换成推理更快。
-- `VLA-Perf`、`AsyncShield`、`Async-VLA-Inference`、`DEFLECT`、`Realtime-VLA FLASH` 与 `Fast-dDrive` 进一步把 placement、network、jitter、serving throughput 与 stale-action robustness 拉进效率讨论，说明“效率”已经不是纯模型层指标。
+- `FAST`、`FT-NCFM`、`FrameSkip`、`PCM`、`D-VLA`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT` 与 `ForesightFlow` 共同表明，训练侧效率已经是独立命题；更少 GPU 小时、更少训练步数、更少数据比例、更少梯度计算、更快在线适配、更少真实机器人在线数据或避免 separate critic pipeline，不能被偷换成推理更快。
+- `VLA-Perf`、`AsyncShield`、`Async-VLA-Inference`、`DEFLECT`、`Realtime-VLA FLASH`、`Fast-dDrive`、`ActQuant`、`Omega-QVLA`、`ElegantVLA`、`Flash-WAM` 与 `OmniDreams` 进一步把 placement、network、jitter、serving throughput、stale-action robustness、memory footprint、control frequency、per-chunk WAM latency 与 world-model serving 拉进效率讨论，说明“效率”已经不是纯模型层指标。
+- `VisualThink-VLA` 与 `AdaWAM` 进一步说明 reasoning overhead 也需要进入效率定义：不仅要问是否推理，还要问用 textual / visual / latent / WAM substrate 推理、是否按上下文触发、以及延迟和任务收益如何配对。
 - `training-free-vs-no-retraining` 与 `model-agnostic-vs-validated-compatibility` 两个 wording evidence 页共同表明，强措辞必须回到已验证范围，不能再用作松散宣传语。
 
 ## Theme Structure
@@ -27,14 +28,17 @@
 
 ## Route Split
 - `runtime-vs-task-performance disentanglement`
-  - 代表：[[wiki/papers/2409_12514_TinyVLA.md|TinyVLA]]、[[wiki/papers/2410_05273_HiRT.md|HiRT]]、[[wiki/papers/2505_21200_FlashVLA.md|FlashVLA]]、[[wiki/papers/2506_10100_EfficientVLA.md|EfficientVLA]]
-  - 作用：把“更快”和“更强”从单一句子中拆开，要求回到 paired operating point。
+  - 代表：[[wiki/papers/2409_12514_TinyVLA.md|TinyVLA]]、[[wiki/papers/2410_05273_HiRT.md|HiRT]]、[[wiki/papers/2505_21200_FlashVLA.md|FlashVLA]]、[[wiki/papers/2506_10100_EfficientVLA.md|EfficientVLA]]、[[wiki/papers/2605_29662_SAFE-Pruner.md|SAFE-Pruner]]、[[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]
+  - 作用：把“更快”和“更强”从单一句子中拆开，要求回到 paired operating point；token pruning speedup 与 one-step action generation 也必须带着 success / horizon / schedule 条件阅读。
 - `training-cost disentanglement`
-  - 代表：[[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]、[[wiki/papers/2605_13276_D-VLA.md|D-VLA]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2605_16154_PCM.md|PCM]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]、[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]
-  - 作用：把训练时长、GPU 小时、数据比例、在线适配样本效率、数据增强成本、可训练参数比例、训练系统吞吐、梯度计算预算与推理速度分层阅读。
+  - 代表：[[wiki/papers/2501_09747_FAST.md|FAST]]、[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]、[[wiki/papers/2605_13276_D-VLA.md|D-VLA]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2605_16154_PCM.md|PCM]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]、[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]、[[wiki/papers/2605_25477_EXPO-FT.md|EXPO-FT]]、[[wiki/papers/2606_04968_ForesightFlow.md|ForesightFlow]]
+  - 作用：把训练时长、GPU 小时、数据比例、在线适配样本效率、真实机器人在线数据、数据增强成本、可训练参数比例、critic 参数、训练系统吞吐、梯度计算预算与推理速度分层阅读。
+- `reasoning-overhead disentanglement`
+  - 代表：[[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]、[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]
+  - 作用：把 reasoning substrate、routing policy、latency and task benefit 拆开，避免把“会思考”写成无成本收益。
 - `deployment-as-first-class-efficiency`
-  - 代表：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]、[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
-  - 作用：把 placement、jitter、memory ceiling、hardware cost/energy、runtime framework、edge/cloud network constraint、delay robustness 与 structured-output serving 收编为效率定义本身，而不是附属系统注。
+  - 代表：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]、[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]、[[wiki/papers/2605_24011_ActQuant.md|ActQuant]]、[[wiki/papers/2605_28803_QVLA-Omega-QVLA.md|Omega-QVLA]]、[[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]、[[wiki/papers/2606_03159_OmniDreams.md|OmniDreams]]、[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
+  - 作用：把 placement、jitter、memory ceiling、hardware cost/energy、runtime framework、edge/cloud network constraint、delay robustness、structured-output serving、low-bit runtime、WAM per-chunk latency 与 world-model serving 收编为效率定义本身，而不是附属系统注。
 - `wording-boundary policing`
   - 代表：[[wiki/evidence/wording/training-free-vs-no-retraining.md|training-free-vs-no-retraining]]、[[wiki/evidence/wording/model-agnostic-vs-validated-compatibility.md|model-agnostic-vs-validated-compatibility]]
   - 作用：要求强措辞总是带着已验证 scope 出现。
@@ -79,6 +83,17 @@
 - [[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
 - [[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]
 - [[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]
+- [[wiki/papers/2605_24011_ActQuant.md|ActQuant]]
+- [[wiki/papers/2605_25477_EXPO-FT.md|EXPO-FT]]
+- [[wiki/papers/2605_28803_QVLA-Omega-QVLA.md|Omega-QVLA]]
+- [[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]
+- [[wiki/papers/2605_29662_SAFE-Pruner.md|SAFE-Pruner]]
+- [[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]
+- [[wiki/papers/2606_03159_OmniDreams.md|OmniDreams]]
+- [[wiki/papers/2606_04968_ForesightFlow.md|ForesightFlow]]
+- [[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
+- [[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]
+- [[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]
 
 ## Open Questions
 - 当前还缺少一页把 `memory footprint`、`energy` 与 `network transport` 进一步并入统一效率定义；这不阻塞当前主题页，但会影响后续 deployment-oriented synthesis 的细化。

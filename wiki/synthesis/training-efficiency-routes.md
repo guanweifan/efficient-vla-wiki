@@ -10,7 +10,7 @@
   - 收益类型：`更快收敛 / 少数据逼近 / cheaper adaptation / 更少 teacher calls`
   - 依赖条件：`teacher / pretrained action expert / synthetic data generator / tokenizer redesign`
   - 与推理侧的关系：`是否伴随 inference tradeoff`
-- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer`、`D-VLA`、`FrameSkip`、`BlockVLA`、`PCM`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT`、`ForesightFlow` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
+- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer`、`D-VLA`、`FrameSkip`、`BlockVLA`、`PCM`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT`、`ForesightFlow`、`Next Forcing`、`RT-VLA`、`CLP` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
 - 这些工作都把“降低训练代价”写成主收益，但降低代价的方式不同：有的压 token，有的压 teacher/adaptation，有的压 data requirement。
 - `Fast-dVLA`、`One-Step VLA` 与 `Flash-WAM` 只作为桥接例子存在：它们说明训练侧技巧可以服务推理路线，但不能因此把训练与推理混成同一主题。
 
@@ -27,7 +27,7 @@
   - 代表：[[wiki/papers/2501_09747_FAST.md|FAST]]
   - 依据：通过 action tokenizer 压低训练步骤与训练成本。
 - `teacher-distillation`
-  - 代表：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]
+  - 代表：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]、[[wiki/papers/2606_14010_RT-VLA.md|RT-VLA]]
   - 依据：通过 teacher/student、action expert 或 offline semantic guidance 降低 adaptation 与 supervision 成本。
 - `online-RL adaptation interface`
   - 代表：[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]、[[wiki/papers/2605_25477_EXPO-FT.md|EXPO-FT]]
@@ -44,6 +44,9 @@
 - `critic-free / mixed-quality policy improvement`
   - 代表：[[wiki/papers/2606_04968_ForesightFlow.md|ForesightFlow]]
   - 依据：通过 self-guided action-potential flow 使用 mixed-quality rollouts，避免 separate critic pipeline，并把 GPU hours、critic parameters 与 best-of-K latency 分层报告。
+- `dense future-supervision / pre-finetuning compression`
+  - 代表：[[wiki/papers/2606_11187_Next-Forcing.md|Next Forcing]]、[[wiki/papers/2606_20246_CLP.md|CLP]]
+  - 依据：通过 multi-chunk future supervision 或 fine-tuning 前的结构性 layer pruning 降低 world-model training / adaptation cost；这类路线需要继续区分训练收敛、下游 fine-tuning 时间与部署期 latency。
 - `train-to-infer bridge`
   - 代表：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]、[[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]、[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
   - 依据：训练侧 distillation、schedule design 或 AR-to-diffusion adaptation 被回收进推理效率，但仍不能直接替代训练成本主链。
@@ -55,6 +58,7 @@
 - 若一篇论文同时宣称训练更便宜和推理更快，两个收益必须分层写；不能用单一 headline 混写。
 - online RL task throughput、video diffusion generation time、trainable-parameter ratio 都是训练/适配侧的不同成本口径，不能直接互相替代。
 - Post-training quantization / calibration 只有在论文明确报告 `training steps / GPU hours / data ratio / adaptation cost` 时，才进入训练成本主链；否则更适合放在 low-bit substrate 或 deployment-oriented compression。
+- [[wiki/papers/2606_19565_Mix-QVLA.md|Mix-QVLA]] 这类 mixed-precision PTQ 虽按仓库 taxonomy 可归入 compression-oriented training efficiency，但在本页主链中仍需要和真正的 training-cost reduction 分开。
 - frame retention、gradient chunk masking、distributed rollout throughput 与 offline VLM semantic supervision 都是训练侧成本控制，但分别作用于数据、梯度、系统流水线和 teacher-student supervision。
 - language-guided exploration 如果服务在线训练适配，属于 training efficiency；不能因为使用语言就自动并入 inference-time reasoning efficiency。
 - one-step action generation 与 WAM step distillation 如果主要服务推理期 denoising-step reduction，只能作为 `train-to-infer bridge`；不能替代真正的 training-cost evidence。
@@ -87,6 +91,11 @@
 - [[wiki/papers/2606_04968_ForesightFlow.md|ForesightFlow]]
 - [[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
 - [[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]
+- [[wiki/papers/2606_11187_Next-Forcing.md|Next Forcing]]
+- [[wiki/papers/2606_14010_RT-VLA.md|RT-VLA]]
+- [[wiki/papers/2606_14048_WAM4D.md|WAM4D]]
+- [[wiki/papers/2606_19565_Mix-QVLA.md|Mix-QVLA]]
+- [[wiki/papers/2606_20246_CLP.md|CLP]]
 
 ## Open Questions
 - 当前仍缺少把 `teacher cost` 本身单独量化的统一 evidence 页；这会限制 distillation 路线之间的更细比较。

@@ -10,7 +10,7 @@
   - `model knob` vs `system knob` vs `network knob`
   - `on-device / edge latency` vs `task-performance benchmark`
   - `mean latency` vs `control frequency` vs `cold-start latency` vs `jitter`
-- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2`、`QuantVLA`、`DA-PTQ`、`ActQuant`、`Omega-QVLA`、`AsyncShield`、`DP-Cache / V-AEFusion`、`EdgeFM`、`Async-VLA-Inference`、`Realtime-VLA FLASH`、`ElegantVLA`、`Flash-WAM`、`DEFLECT`、`Fast-dDrive`、`OmniDreams` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
+- `EdgeVLA`、`VOTE`、`Video2Act`、`VLA-Perf`、`LiteVLA-Edge`、`Realtime-VLA V2`、`QuantVLA`、`DA-PTQ`、`ActQuant`、`Omega-QVLA`、`AsyncShield`、`DP-Cache / V-AEFusion`、`EdgeFM`、`Async-VLA-Inference`、`Realtime-VLA FLASH`、`ElegantVLA`、`Flash-WAM`、`DEFLECT`、`Fast-dDrive`、`OmniDreams`、`vla.cpp`、`Mix-QVLA`、`MemoryWAM` 共同表明：部署可行性已经不再是“附录里的系统注”，而是决定方法是否成立的一等设计对象。
 - 当前稳定共识是：如果不说明 hardware、placement、pipeline layer 或 jitter，单个“实时 / 频率更高” headline 没有足够比较意义。
 - 共享 runtime evidence 已经稳定支撑 deployment 主题：部署问题必须同时读 performance 和 system constraint，不能只摘一个 latency 行。
 
@@ -27,8 +27,8 @@
   - 代表：[[wiki/papers/2507_14049_EdgeVLA.md|EdgeVLA]]、[[wiki/papers/2603_03380_LiteVLA-Edge.md|LiteVLA-Edge]]
   - 依据：通过小模型、on-device design 或 ROS/system integration 把部署目标直接嵌入模型设计。
 - `low-bit deployment substrate`
-  - 代表：[[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]、[[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]、[[wiki/papers/2605_24011_ActQuant.md|ActQuant]]、[[wiki/papers/2605_28803_QVLA-Omega-QVLA.md|Omega-QVLA]]
-  - 依据：通过 VLA-specific PTQ、校准、drift-aware mixed precision、action-guided sub-4-bit PTQ 或 full-stack W4A4 quantization 降低 memory / inference cost；但若没有 hardware placement / jitter 证据，仍不能直接等同于完整 edge deployment。
+  - 代表：[[wiki/papers/2602_20309_QuantVLA.md|QuantVLA]]、[[wiki/papers/2604_11572_DA-PTQ.md|DA-PTQ]]、[[wiki/papers/2605_24011_ActQuant.md|ActQuant]]、[[wiki/papers/2605_28803_QVLA-Omega-QVLA.md|Omega-QVLA]]、[[wiki/papers/2606_19565_Mix-QVLA.md|Mix-QVLA]]
+  - 依据：通过 VLA-specific PTQ、校准、drift-aware mixed precision、action-guided sub-4-bit PTQ、task-evidence-aware mixed precision 或 full-stack W4A4 quantization 降低 memory / inference cost；但若没有 hardware placement / jitter 证据，仍不能直接等同于完整 edge deployment。
 - `representation-for-throughput`
   - 代表：[[wiki/papers/2507_05116_VOTE.md|VOTE]]
   - 依据：通过动作表示或输出接口设计去服务 edge throughput。
@@ -36,11 +36,11 @@
   - 代表：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]
   - 依据：把 model/system/network/placement 或 model-hardware-CET 统一成可分析设计空间。
 - `edge-runtime framework`
-  - 代表：[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]、[[wiki/papers/2605_24011_ActQuant.md|ActQuant]]
-  - 依据：通过 thin runtime、operator table、agent-tuned kernels 或 native C/C++ low-bit runtime 处理 edge inference latency、hardware lock-in 和 cross-platform portability。
+  - 代表：[[wiki/papers/2604_27476_EdgeFM.md|EdgeFM]]、[[wiki/papers/2605_24011_ActQuant.md|ActQuant]]、[[wiki/papers/2606_08094_vla.cpp.md|vla.cpp]]
+  - 依据：通过 thin runtime、operator table、agent-tuned kernels、native C/C++ low-bit runtime 或 ggml / llama.cpp-style VLA runtime 处理 edge inference latency、hardware lock-in 和 cross-platform portability。
 - `system throughput tuning`
-  - 代表：[[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]、[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
-  - 依据：通过 calibration、trajectory shaping、speed adaptation、speculative inference、fallback、phase-adaptive compute reuse 或 WAM step distillation，把 faster-than-demonstration execution、control frequency、real-time replanning 和 per-chunk inference 写成系统级吞吐问题。
+  - 代表：[[wiki/papers/2603_26360_Realtime-VLA-V2.md|Realtime-VLA V2]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]、[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]、[[wiki/papers/2606_07895_TBD-VLA.md|TBD-VLA]]、[[wiki/papers/2606_10040_Efficient-WAM-Efficient-WAM-RT.md|Efficient-WAM]]、[[wiki/papers/2606_20562_MemoryWAM.md|MemoryWAM]]
+  - 依据：通过 calibration、trajectory shaping、speed adaptation、speculative inference、fallback、phase-adaptive compute reuse、WAM step distillation、real-time chunking、compact future imagination 或 persistent memory，把 faster-than-demonstration execution、control frequency、real-time replanning、long-history context 和 per-chunk inference 写成系统级吞吐问题。
 - `cloud-edge latency and jitter adaptation`
   - 代表：[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]
   - 依据：把 delayed intent、observation staleness 或 stale action 通过 edge temporal alignment、delay-robust method comparison 或 offline post-training correction 接回控制闭环。
@@ -64,6 +64,7 @@
 - delay-robust evaluation、offline stale-action tuning 与 cloud-edge safety adapter 都处理 latency，但分别是对照框架、post-training correction 和 edge runtime adapter。
 - structured driving output 的 serving throughput 不能直接和 manipulation control frequency 合并。
 - low-bit PTQ 的 memory reduction、native runtime latency、full-stack action-head quantization 与 real-world robot success 需要分开；[[wiki/papers/2605_24011_ActQuant.md|ActQuant]] 和 [[wiki/papers/2605_28803_QVLA-Omega-QVLA.md|Omega-QVLA]] 不能互相替代。
+- portable runtime、low-bit quantization 和 persistent memory 都可能服务 deployment，但作用层不同：runtime 解决执行栈和硬件可移植性，quantization 解决 model memory / BitOps，persistent memory 解决 long-history context 成本。
 - WAM real-time inference 与 AV simulator serving 需要保留 pipeline layer：[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]] 作用于 joint video-action denoising，[[wiki/papers/2606_03159_OmniDreams.md|OmniDreams]] 作用于 closed-loop world-model sensor generation。
 
 ## Not Directly Comparable
@@ -93,6 +94,12 @@
 - [[wiki/papers/2605_29438_ElegantVLA.md|ElegantVLA]]
 - [[wiki/papers/2606_03159_OmniDreams.md|OmniDreams]]
 - [[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]
+- [[wiki/papers/2606_07895_TBD-VLA.md|TBD-VLA]]
+- [[wiki/papers/2606_08094_vla.cpp.md|vla.cpp]]
+- [[wiki/papers/2606_10040_Efficient-WAM-Efficient-WAM-RT.md|Efficient-WAM]]
+- [[wiki/papers/2606_14010_RT-VLA.md|RT-VLA]]
+- [[wiki/papers/2606_19565_Mix-QVLA.md|Mix-QVLA]]
+- [[wiki/papers/2606_20562_MemoryWAM.md|MemoryWAM]]
 
 ## Open Questions
 - 当前 deployment 主题仍缺少统一把 `memory ceiling`、`network variability` 与 `closed-loop failure mode` 放在同一表述框架里的 evidence 页。

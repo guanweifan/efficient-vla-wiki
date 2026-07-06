@@ -10,7 +10,7 @@
   - compute policy：`always-on / compressed / gated / routed`
   - 收益口径：`planning / few-shot adaptation / safety / robustness / latency reduction`
   - 代价口径：`execution overhead / skip ratio / route complexity / teacher or supervision dependence`
-- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM`、`BLUE`、`AVA-VLA` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
+- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM`、`BLUE`、`AVA-VLA`、`Reasoning-aware Speculative Decoding` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
 - 这个主题的稳定共识是：如果不说明 reasoning substrate 和 compute policy，只说“更会想”或“更聪明”，就不足以形成可比结论。
 - 共享 runtime evidence 说明了一个边界：reasoning gain 必须和 execution overhead 一起阅读，不能只摘收益 headline。
 
@@ -41,6 +41,9 @@
 - `adaptive parallel deliberation`
   - 代表：[[wiki/papers/2605_01194_VLA-ATTC.md|VLA-ATTC]]
   - 依据：用 uncertainty-based cognitive clutch 触发 test-time deliberation，并用 Relative Action Critic 在并行 action candidates 中做 pairwise selection。
+- `speculative reasoning acceleration`
+  - 代表：[[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
+  - 依据：把 autonomous-driving VLA 的 chain-of-causation reasoning 拆成 routine draft reasoner 与 full visual target verification，直接压低 autoregressive reasoning latency；该路线需要和普通 action decoding speculative inference 分开读。
 
 ## Boundary Conditions
 - 如果一篇论文没有明确的 reasoning substrate 或 compute policy，就不能和本主题主链直接比较。
@@ -49,6 +52,7 @@
 - 只报告更低 latency、没有明确 reasoning control mechanism 的论文，不能用来支持“reasoning efficiency”结论。
 - 若 auxiliary decoder / world model 只在训练期提供 latent supervision，推理期是否保留该模块必须单独说明；不能把训练期 supervision 写成推理期 reasoning compute。
 - adaptive TTC 必须同时说明触发条件、candidate sampling 数量和 control-frequency 影响；不能把它写成无成本的 reasoning 提升。
+- speculative reasoning 必须说明被加速的是 reasoning token 还是 action head；不能把 reasoning draft acceptance 直接写成 action-generation 加速。
 - visual evidence routing 不是传统 visual token pruning；它改变的是 reasoning substrate 和 evidence exposure policy。
 - WAM 中的 adaptive textual / visual reasoning 需要和 VLA textual CoT compression 分开读，因为其 action-only fallback、video reasoning 和 subtask text update 属于不同执行模式。
 - autonomous-driving VLA 中的 language-use gate 需要和 manipulation CoT compression 分开读，因为其收益依赖 frame-level driving route / action setting。
@@ -73,6 +77,7 @@
 - [[wiki/papers/2606_08684_BLUE.md|BLUE]]
 - [[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
 
+- [[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
 ## Open Questions
 - 当前关于 latent reasoning 与 gated reasoning 的统一 benchmark 仍然很弱，后续建模时仍需避免过强路线排序。
 - 一些论文把 safety / abstention 作为主要收益，一些把 latency / planning 作为主要收益；这两类收益之间的共同比较轴仍有限。

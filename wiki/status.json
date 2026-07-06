@@ -5,8 +5,8 @@
     "status": "completed"
   },
   "summary": {
-    "paper_pages": 164,
-    "single_paper_evidence_pages": 164,
+    "paper_pages": 174,
+    "single_paper_evidence_pages": 174,
     "shared_metric_pages": 3,
     "shared_wording_pages": 3,
     "synthesis_pages": 6
@@ -20,5 +20,5 @@
     ],
     "default_update_source": "external/awesome-efficient-vla/update.md"
   },
-  "updated_at": "2026-06-22T09:45:12+08:00"
+  "updated_at": "2026-07-06T10:59:02+08:00"
 }

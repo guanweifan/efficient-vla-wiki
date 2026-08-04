@@ -10,7 +10,7 @@
   - compute policy：`always-on / compressed / gated / routed`
   - 收益口径：`planning / few-shot adaptation / safety / robustness / latency reduction`
   - 代价口径：`execution overhead / skip ratio / route complexity / teacher or supervision dependence`
-- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM`、`BLUE`、`AVA-VLA`、`Reasoning-aware Speculative Decoding` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
+- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM`、`BLUE`、`AVA-VLA`、`Reasoning-aware Speculative Decoding`、`X-Mind`、`CoTinyVLA` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
 - 这个主题的稳定共识是：如果不说明 reasoning substrate 和 compute policy，只说“更会想”或“更聪明”，就不足以形成可比结论。
 - 共享 runtime evidence 说明了一个边界：reasoning gain 必须和 execution overhead 一起阅读，不能只摘收益 headline。
 
@@ -33,8 +33,11 @@
   - 代表：[[wiki/papers/2601_09708_Fast-ThinkAct.md|Fast-ThinkAct]]、[[wiki/papers/2602_01166_LaRA-VLA.md|LaRA-VLA]]、[[wiki/papers/2604_18486_OneVL.md|OneVL]]、[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
   - 依据：把 reasoning 从显式 CoT 压到 latent 或 verbalizable substrate；[[wiki/papers/2604_18486_OneVL.md|OneVL]] 进一步用训练期 visual world-model decoder 约束 driving latents，并在推理期通过 prefill 接近 answer-only latency；[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]] 则把 early exit 加到 latent reasoning depth 上。
 - `visual intermediate reasoning`
-  - 代表：[[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]
-  - 依据：用 compact visual-evidence interface 与 selective routing 替代 long textual CoT，在保留空间证据的同时降低 autoregressive textual reasoning latency。
+  - 代表：[[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]、[[wiki/papers/2606_28758_X-Mind.md|X-Mind]]
+  - 依据：用 compact visual-evidence interface、selective routing 或 abstract future sketch 替代 long textual CoT；X-Mind 进一步把 recurrent block diffusion 展开到 LLM layers，在一次 backbone forward 中完成 visual refinement。
+- `reasoning distillation into compact policy`
+  - 代表：[[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
+  - 依据：由大 teacher 生成 episode-level Plan 与 chunk-level Think supervision，再让 sub-billion student 联合预测 reasoning tokens 与动作；student 推理成本和 teacher 数据生成成本必须分层。
 - `gated-or-routed reasoning`
   - 代表：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]、[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]、[[wiki/papers/2606_08684_BLUE.md|BLUE]]、[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
   - 依据：只在需要时触发 reasoning 成本，把“想不想、想多久、用文本还是视觉想”交给 gating、routing 或 early-exit policy。
@@ -56,6 +59,8 @@
 - visual evidence routing 不是传统 visual token pruning；它改变的是 reasoning substrate 和 evidence exposure policy。
 - WAM 中的 adaptive textual / visual reasoning 需要和 VLA textual CoT compression 分开读，因为其 action-only fallback、video reasoning 和 subtask text update 属于不同执行模式。
 - autonomous-driving VLA 中的 language-use gate 需要和 manipulation CoT compression 分开读，因为其收益依赖 frame-level driving route / action setting。
+- [[wiki/papers/2606_28758_X-Mind.md|X-Mind]] 的一次 backbone forward 内仍包含跨层 recurrent refinement；不能把“single forward”简化成没有迭代计算。
+- [[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]] 的 compact student 依赖 35B teacher 产生分层 reasoning supervision，部署侧小模型收益不能掩盖离线 teacher 成本。
 
 ## Not Directly Comparable
 - 纯 pruning / cache / deployment 论文不能直接进入本主题主比较。
@@ -78,6 +83,8 @@
 - [[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
 
 - [[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
+- [[wiki/papers/2606_28758_X-Mind.md|X-Mind]]
+- [[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
 ## Open Questions
 - 当前关于 latent reasoning 与 gated reasoning 的统一 benchmark 仍然很弱，后续建模时仍需避免过强路线排序。
 - 一些论文把 safety / abstention 作为主要收益，一些把 latency / planning 作为主要收益；这两类收益之间的共同比较轴仍有限。

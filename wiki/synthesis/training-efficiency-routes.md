@@ -10,7 +10,7 @@
   - 收益类型：`更快收敛 / 少数据逼近 / cheaper adaptation / 更少 teacher calls`
   - 依赖条件：`teacher / pretrained action expert / synthetic data generator / tokenizer redesign`
   - 与推理侧的关系：`是否伴随 inference tradeoff`
-- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer`、`D-VLA`、`FrameSkip`、`BlockVLA`、`PCM`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT`、`ForesightFlow`、`Next Forcing`、`RT-VLA`、`CLP`、`FOCA`、`ROAD-VLA`、`FORCE`、`VLM2VLA Parameter Redundancy`、`DTR` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
+- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer`、`D-VLA`、`FrameSkip`、`BlockVLA`、`PCM`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT`、`ForesightFlow`、`Next Forcing`、`RT-VLA`、`CLP`、`FOCA`、`ROAD-VLA`、`FORCE`、`VLM2VLA Parameter Redundancy`、`DTR`、`SIEVE`、`LoRA Fine-Tuning for VLA`、`ExToken`、`CoTinyVLA`、`Enfold` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
 - 这些工作都把“降低训练代价”写成主收益，但降低代价的方式不同：有的压 token，有的压 teacher/adaptation，有的压 data requirement。
 - `Fast-dVLA`、`One-Step VLA` 与 `Flash-WAM` 只作为桥接例子存在：它们说明训练侧技巧可以服务推理路线，但不能因此把训练与推理混成同一主题。
 
@@ -27,17 +27,17 @@
   - 代表：[[wiki/papers/2501_09747_FAST.md|FAST]]
   - 依据：通过 action tokenizer 压低训练步骤与训练成本。
 - `teacher-distillation`
-  - 代表：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]、[[wiki/papers/2606_14010_RT-VLA.md|RT-VLA]]
-  - 依据：通过 teacher/student、action expert 或 offline semantic guidance 降低 adaptation 与 supervision 成本。
+  - 代表：[[wiki/papers/2510_09607_VITA-VLA.md|VITA-VLA]]、[[wiki/papers/2511_18082_ActDistill.md|ActDistill]]、[[wiki/papers/2605_16241_VLA-AD.md|VLA-AD]]、[[wiki/papers/2606_14010_RT-VLA.md|RT-VLA]]、[[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]、[[wiki/papers/2607_26657_Enfold-Enfold-Flash.md|Enfold]]
+  - 依据：通过 teacher/student、action expert、hierarchical CoT supervision、future-processing generator states 或 offline semantic guidance 降低 adaptation 与 supervision 成本；teacher / generator 自身成本需要单独保留。
 - `online-RL adaptation interface`
-  - 代表：[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]、[[wiki/papers/2605_25477_EXPO-FT.md|EXPO-FT]]、[[wiki/papers/2606_25800_ROAD-VLA.md|ROAD-VLA]]、[[wiki/papers/2606_26006_FORCE.md|FORCE]]
+  - 代表：[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]、[[wiki/papers/2605_25477_EXPO-FT.md|EXPO-FT]]、[[wiki/papers/2606_25800_ROAD-VLA.md|ROAD-VLA]]、[[wiki/papers/2606_26006_FORCE.md|FORCE]]、[[wiki/papers/2607_12931_ExToken.md|ExToken]]
   - 依据：通过 compact RL token、轻量 actor-critic、language-guided exploration、experience memory、action-space self-distillation、value-calibrated warm-up，或 human-in-the-loop online RL fine-tuning，把任务特化从 full VLA fine-tuning 转成 sample-efficient online adaptation。
 - `parameter-efficient adaptation`
-  - 代表：[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]
-  - 依据：通过 generalized / specialized experts 在固定 trainable-parameter budget 下增强 VLM-to-VLA adaptation。
+  - 代表：[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]、[[wiki/papers/2607_10172_LoRA-Fine-Tuning-for-VLA.md|LoRA Fine-Tuning for VLA]]
+  - 依据：通过 expert allocation 或 LoRA rank / module allocation 在固定 trainable-parameter budget 下增强 VLM-to-VLA adaptation；静态参数与静态显存不包含 activation memory。
 - `data-centric-efficiency`
-  - 代表：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2606_20867_FOCA.md|FOCA]]
-  - 依据：通过 synthetic coreset / data reduction、高效 sim-to-real video augmentation、frame-level supervision allocation，或 future-oriented latent supervision 降低训练数据构建与数据增强成本。
+  - 代表：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2606_20867_FOCA.md|FOCA]]、[[wiki/papers/2607_06442_SIEVE.md|SIEVE]]
+  - 依据：通过 synthetic coreset / data reduction、高效 sim-to-real video augmentation、frame-level supervision allocation、future-oriented latent supervision，或 structure-aware trajectory selection 降低训练数据构建与数据增强成本。
 - `RL-training-system-and-gradient-allocation`
   - 代表：[[wiki/papers/2605_13276_D-VLA.md|D-VLA]]、[[wiki/papers/2605_16154_PCM.md|PCM]]
   - 依据：通过分布式训练流水线或 actor-update gradient chunk masking 降低 embodied RL 训练 wall-clock、吞吐和显存成本。
@@ -63,6 +63,8 @@
 - language-guided exploration 如果服务在线训练适配，属于 training efficiency；不能因为使用语言就自动并入 inference-time reasoning efficiency。
 - one-step action generation 与 WAM step distillation 如果主要服务推理期 denoising-step reduction，只能作为 `train-to-infer bridge`；不能替代真正的 training-cost evidence。
 - mixed-quality policy improvement 要区分 training GPU hours、critic parameters 与 best-of-K inference latency，不能把它们压成单一“更省训练”结论。
+- [[wiki/papers/2607_06442_SIEVE.md|SIEVE]] 的 `50% demonstrations / 50% training steps` 结论依赖其选择预算与训练设置；[[wiki/papers/2607_12931_ExToken.md|ExToken]] 的 interaction/sample efficiency 也不能改写成 wall-clock training speedup。
+- [[wiki/papers/2607_28405_QuantWAMs.md|QuantWAMs]] 属于 post-training quantization；其 calibration 与 block-level kernel 结果不能作为训练成本下降证据。
 
 ## Not Directly Comparable
 - 主要目标是 inference latency / deployment 的论文，即使包含 distillation 或 cache，也不能直接与训练效率主链比较。
@@ -103,6 +105,12 @@
 - [[wiki/papers/2606_26006_FORCE.md|FORCE]]
 - [[wiki/papers/2606_27755_DTR-GateProbe.md|DTR / GateProbe]]
 - [[wiki/papers/2606_31382_VLM2VLA-Parameter-Redundancy.md|VLM2VLA Parameter Redundancy]]
+- [[wiki/papers/2607_06442_SIEVE.md|SIEVE]]
+- [[wiki/papers/2607_10172_LoRA-Fine-Tuning-for-VLA.md|LoRA Fine-Tuning for VLA]]
+- [[wiki/papers/2607_12931_ExToken.md|ExToken]]
+- [[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
+- [[wiki/papers/2607_26657_Enfold-Enfold-Flash.md|Enfold]]
+- [[wiki/papers/2607_28405_QuantWAMs.md|QuantWAMs]]
 ## Open Questions
 - 当前仍缺少把 `teacher cost` 本身单独量化的统一 evidence 页；这会限制 distillation 路线之间的更细比较。
 - 训练侧收益和长期下游泛化之间的关系，仍多依赖单篇论文叙述，后续可能需要更细 evidence 补充。

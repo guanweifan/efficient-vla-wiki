@@ -10,7 +10,7 @@
   - 收益类型：`更快收敛 / 少数据逼近 / cheaper adaptation / 更少 teacher calls`
   - 依赖条件：`teacher / pretrained action expert / synthetic data generator / tokenizer redesign`
   - 与推理侧的关系：`是否伴随 inference tradeoff`
-- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer`、`D-VLA`、`FrameSkip`、`BlockVLA`、`PCM`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT`、`ForesightFlow`、`Next Forcing`、`RT-VLA`、`CLP`、`FOCA`、`ROAD-VLA`、`FORCE`、`VLM2VLA Parameter Redundancy`、`DTR`、`SIEVE`、`LoRA Fine-Tuning for VLA`、`ExToken`、`CoTinyVLA`、`Enfold` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
+- `FAST`、`VITA-VLA`、`FT-NCFM`、`ActDistill`、`RLT`、`VLA-GSE`、`Efficient Video Transfer`、`D-VLA`、`FrameSkip`、`BlockVLA`、`PCM`、`VLA-AD`、`Agentic-VLA`、`EXPO-FT`、`ForesightFlow`、`Next Forcing`、`RT-VLA`、`CLP`、`FOCA`、`ROAD-VLA`、`FORCE`、`VLM2VLA Parameter Redundancy`、`DTR`、`SIEVE`、`LoRA Fine-Tuning for VLA`、`ExToken`、`CoTinyVLA`、`Enfold`、`PILOT` 共同表明，训练效率已经不是 inference efficiency 的附属注脚，而是独立问题。
 - 这些工作都把“降低训练代价”写成主收益，但降低代价的方式不同：有的压 token，有的压 teacher/adaptation，有的压 data requirement。
 - `Fast-dVLA`、`One-Step VLA` 与 `Flash-WAM` 只作为桥接例子存在：它们说明训练侧技巧可以服务推理路线，但不能因此把训练与推理混成同一主题。
 
@@ -36,8 +36,8 @@
   - 代表：[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]、[[wiki/papers/2607_10172_LoRA-Fine-Tuning-for-VLA.md|LoRA Fine-Tuning for VLA]]
   - 依据：通过 expert allocation 或 LoRA rank / module allocation 在固定 trainable-parameter budget 下增强 VLM-to-VLA adaptation；静态参数与静态显存不包含 activation memory。
 - `data-centric-efficiency`
-  - 代表：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2606_20867_FOCA.md|FOCA]]、[[wiki/papers/2607_06442_SIEVE.md|SIEVE]]
-  - 依据：通过 synthetic coreset / data reduction、高效 sim-to-real video augmentation、frame-level supervision allocation、future-oriented latent supervision，或 structure-aware trajectory selection 降低训练数据构建与数据增强成本。
+  - 代表：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2606_20867_FOCA.md|FOCA]]、[[wiki/papers/2607_06442_SIEVE.md|SIEVE]]、[[wiki/papers/2608_06994_PILOT.md|PILOT]]
+  - 依据：通过 synthetic coreset / data reduction、高效 sim-to-real video augmentation、frame-level supervision allocation、future-oriented latent supervision、structure-aware trajectory selection，或 motion-semantic representation 在低数据比例下保持任务表现，降低训练数据构建与数据增强成本。
 - `RL-training-system-and-gradient-allocation`
   - 代表：[[wiki/papers/2605_13276_D-VLA.md|D-VLA]]、[[wiki/papers/2605_16154_PCM.md|PCM]]
   - 依据：通过分布式训练流水线或 actor-update gradient chunk masking 降低 embodied RL 训练 wall-clock、吞吐和显存成本。
@@ -64,6 +64,7 @@
 - one-step action generation 与 WAM step distillation 如果主要服务推理期 denoising-step reduction，只能作为 `train-to-infer bridge`；不能替代真正的 training-cost evidence。
 - mixed-quality policy improvement 要区分 training GPU hours、critic parameters 与 best-of-K inference latency，不能把它们压成单一“更省训练”结论。
 - [[wiki/papers/2607_06442_SIEVE.md|SIEVE]] 的 `50% demonstrations / 50% training steps` 结论依赖其选择预算与训练设置；[[wiki/papers/2607_12931_ExToken.md|ExToken]] 的 interaction/sample efficiency 也不能改写成 wall-clock training speedup。
+- [[wiki/papers/2608_06994_PILOT.md|PILOT]] 的 `10%` 数据结果是同一论文、同一 LIBERO setting 下的任务表现对照，不等价于训练 wall-clock、GPU hours 或数据采集成本按同一比例下降。
 - [[wiki/papers/2607_28405_QuantWAMs.md|QuantWAMs]] 属于 post-training quantization；其 calibration 与 block-level kernel 结果不能作为训练成本下降证据。
 
 ## Not Directly Comparable
@@ -111,6 +112,7 @@
 - [[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
 - [[wiki/papers/2607_26657_Enfold-Enfold-Flash.md|Enfold]]
 - [[wiki/papers/2607_28405_QuantWAMs.md|QuantWAMs]]
+- [[wiki/papers/2608_06994_PILOT.md|PILOT]]
 ## Open Questions
 - 当前仍缺少把 `teacher cost` 本身单独量化的统一 evidence 页；这会限制 distillation 路线之间的更细比较。
 - 训练侧收益和长期下游泛化之间的关系，仍多依赖单篇论文叙述，后续可能需要更细 evidence 补充。

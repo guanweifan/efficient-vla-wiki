@@ -10,7 +10,7 @@
   - compute policy：`always-on / compressed / gated / routed`
   - 收益口径：`planning / few-shot adaptation / safety / robustness / latency reduction`
   - 代价口径：`execution overhead / skip ratio / route complexity / teacher or supervision dependence`
-- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM`、`BLUE`、`AVA-VLA`、`Reasoning-aware Speculative Decoding`、`X-Mind`、`CoTinyVLA` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
+- `ECoT-Lite`、`ThinkAct`、`Fast-ThinkAct`、`LaRA-VLA`、`OneVL`、`StreamVLA`、`ActThinkAbstain`、`VLA-ATTC`、`VisualThink-VLA`、`AdaWAM`、`BLUE`、`AVA-VLA`、`Reasoning-aware Speculative Decoding`、`X-Mind`、`CoTinyVLA`、`PILOT`、`RIFT`、`Adaptive-WAM`、`FlashDrive` 共同表明：reasoning 不是“越多越好”，而是必须控制何时推理、以什么 substrate 推理、付出多大执行代价。
 - 这个主题的稳定共识是：如果不说明 reasoning substrate 和 compute policy，只说“更会想”或“更聪明”，就不足以形成可比结论。
 - 共享 runtime evidence 说明了一个边界：reasoning gain 必须和 execution overhead 一起阅读，不能只摘收益 headline。
 
@@ -33,25 +33,27 @@
   - 代表：[[wiki/papers/2601_09708_Fast-ThinkAct.md|Fast-ThinkAct]]、[[wiki/papers/2602_01166_LaRA-VLA.md|LaRA-VLA]]、[[wiki/papers/2604_18486_OneVL.md|OneVL]]、[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
   - 依据：把 reasoning 从显式 CoT 压到 latent 或 verbalizable substrate；[[wiki/papers/2604_18486_OneVL.md|OneVL]] 进一步用训练期 visual world-model decoder 约束 driving latents，并在推理期通过 prefill 接近 answer-only latency；[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]] 则把 early exit 加到 latent reasoning depth 上。
 - `visual intermediate reasoning`
-  - 代表：[[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]、[[wiki/papers/2606_28758_X-Mind.md|X-Mind]]
-  - 依据：用 compact visual-evidence interface、selective routing 或 abstract future sketch 替代 long textual CoT；X-Mind 进一步把 recurrent block diffusion 展开到 LLM layers，在一次 backbone forward 中完成 visual refinement。
+  - 代表：[[wiki/papers/2605_30011_VisualThink-VLA.md|VisualThink-VLA]]、[[wiki/papers/2606_28758_X-Mind.md|X-Mind]]、[[wiki/papers/2608_06994_PILOT.md|PILOT]]、[[wiki/papers/2608_11521_RIFT.md|RIFT]]
+  - 依据：用 compact visual-evidence interface、selective routing、abstract future sketch、motion-semantic transition，或一次 backbone pass 产生的 future-position KV 替代 long textual CoT / iterative rollout；这些 future representation 的训练依赖与在线成本必须分别保留。
 - `reasoning distillation into compact policy`
   - 代表：[[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
   - 依据：由大 teacher 生成 episode-level Plan 与 chunk-level Think supervision，再让 sub-billion student 联合预测 reasoning tokens 与动作；student 推理成本和 teacher 数据生成成本必须分层。
 - `gated-or-routed reasoning`
-  - 代表：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]、[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]、[[wiki/papers/2606_08684_BLUE.md|BLUE]]、[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
-  - 依据：只在需要时触发 reasoning 成本，把“想不想、想多久、用文本还是视觉想”交给 gating、routing 或 early-exit policy。
+  - 代表：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]、[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]、[[wiki/papers/2606_08684_BLUE.md|BLUE]]、[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]、[[wiki/papers/2608_06008_Adaptive-WAM.md|Adaptive-WAM]]
+  - 依据：只在需要时触发 reasoning 成本，把“想不想、想多久、用文本还是视觉想”交给 gating、routing 或 early-exit policy；Adaptive-WAM 路由的是 video-DiT planning depth，而不是 textual CoT。
 - `adaptive parallel deliberation`
   - 代表：[[wiki/papers/2605_01194_VLA-ATTC.md|VLA-ATTC]]
   - 依据：用 uncertainty-based cognitive clutch 触发 test-time deliberation，并用 Relative Action Critic 在并行 action candidates 中做 pairwise selection。
 - `speculative reasoning acceleration`
-  - 代表：[[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
-  - 依据：把 autonomous-driving VLA 的 chain-of-causation reasoning 拆成 routine draft reasoner 与 full visual target verification，直接压低 autoregressive reasoning latency；该路线需要和普通 action decoding speculative inference 分开读。
+  - 代表：[[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]、[[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]]
+  - 依据：把 autonomous-driving VLA 的 chain-of-causation reasoning 拆成 routine draft 与 full visual target verification，或以 diffusion draft 做 speculative reasoning，压低 reasoning latency；该路线需要和普通 action decoding speculative inference 分开读。
 
 ## Boundary Conditions
 - 如果一篇论文没有明确的 reasoning substrate 或 compute policy，就不能和本主题主链直接比较。
 - `latent-planning` 与 `gated reasoning` 虽都减少开销，但一个改 substrate、一个改触发策略，必须分 route 阅读。
 - `safety`、`robustness`、`few-shot adaptation` 这类收益只有在论文明确把它们与 reasoning mechanism 绑定时才可作为本主题证据。
+- future latent、future-position KV、visual sketch 与 textual CoT 都可承载 planning context，但其可解释性、监督来源与在线生成成本不同；不能因为都指向“未来”就视为同一 reasoning substrate。
+- [[wiki/papers/2608_06008_Adaptive-WAM.md|Adaptive-WAM]] 的 early exit 由轨迹质量评分触发，不是安全证书；[[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]] 的 headline 来自多项算法与系统优化叠加，不能单独归因于 speculative reasoning。
 - 只报告更低 latency、没有明确 reasoning control mechanism 的论文，不能用来支持“reasoning efficiency”结论。
 - 若 auxiliary decoder / world model 只在训练期提供 latent supervision，推理期是否保留该模块必须单独说明；不能把训练期 supervision 写成推理期 reasoning compute。
 - adaptive TTC 必须同时说明触发条件、candidate sampling 数量和 control-frequency 影响；不能把它写成无成本的 reasoning 提升。
@@ -85,6 +87,10 @@
 - [[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
 - [[wiki/papers/2606_28758_X-Mind.md|X-Mind]]
 - [[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
+- [[wiki/papers/2608_06008_Adaptive-WAM.md|Adaptive-WAM]]
+- [[wiki/papers/2608_06994_PILOT.md|PILOT]]
+- [[wiki/papers/2608_11521_RIFT.md|RIFT]]
+- [[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]]
 ## Open Questions
 - 当前关于 latent reasoning 与 gated reasoning 的统一 benchmark 仍然很弱，后续建模时仍需避免过强路线排序。
 - 一些论文把 safety / abstention 作为主要收益，一些把 latency / planning 作为主要收益；这两类收益之间的共同比较轴仍有限。

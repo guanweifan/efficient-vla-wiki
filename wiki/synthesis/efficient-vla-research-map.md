@@ -12,6 +12,7 @@
   - `运行时效率`：`inference-time compute allocation`、`reasoning efficiency`
   - `落地侧效率`：`deployment-oriented efficiency`
 - 当前稳定共识是：一个成熟的 efficient VLA 工作通常不会只落在单一点上，而是至少会把其中两层串起来；但分类时仍应按其**首要瓶颈**与**主 headline 所服务的问题**来定位。
+- 最新一批工作进一步显示，同一个 future representation、cache 或 scheduler 可以同时服务表示、推理与部署；总地图仍按首要瓶颈归位，并把跨层收益留给子主题页拆解。
 
 ## Theme Structure
 - 结构角色：survey / research map companion page。
@@ -43,6 +44,7 @@
     - `online RL / lightweight adaptation interface`：[[wiki/papers/2604_23073_RLT.md|RLT]]、[[wiki/papers/2605_25477_EXPO-FT.md|EXPO-FT]]、[[wiki/papers/2606_25800_ROAD-VLA.md|ROAD-VLA]]、[[wiki/papers/2606_26006_FORCE.md|FORCE]]、[[wiki/papers/2607_12931_ExToken.md|ExToken]]
     - `parameter-efficient VLA adaptation`：[[wiki/papers/2605_06175_VLA-GSE.md|VLA-GSE]]、[[wiki/papers/2607_10172_LoRA-Fine-Tuning-for-VLA.md|LoRA Fine-Tuning for VLA]]
     - `data-centric efficiency`：[[wiki/papers/2511_16233_FT-NCFM.md|FT-NCFM]]、[[wiki/papers/2605_02757_Efficient-Video-Transfer.md|Efficient Video Transfer]]、[[wiki/papers/2605_13757_FrameSkip.md|FrameSkip]]、[[wiki/papers/2606_20867_FOCA.md|FOCA]]、[[wiki/papers/2607_06442_SIEVE.md|SIEVE]]
+      - 新增：[[wiki/papers/2608_06994_PILOT.md|PILOT]] 以 motion-semantic representation 给出 `10%` 数据比例下的同 setting 任务表现对照；该结果不等价于 wall-clock training cost 同比例下降。
     - `RL training system / gradient allocation`：[[wiki/papers/2605_13276_D-VLA.md|D-VLA]]、[[wiki/papers/2605_16154_PCM.md|PCM]]
     - `critic-free / mixed-quality policy improvement`：[[wiki/papers/2606_04968_ForesightFlow.md|ForesightFlow]]
     - `online agentic adaptation`：[[wiki/papers/2605_22896_Agentic-VLA.md|Agentic-VLA]]
@@ -57,6 +59,7 @@
     - `sampling / decoding compression`：[[wiki/papers/2603_25661_Fast-dVLA.md|Fast-dVLA]]、[[wiki/papers/2604_05656_SnapFlow.md|SnapFlow]]、[[wiki/papers/2604_01567_AnchorVLA.md|AnchorVLA]]、[[wiki/papers/2604_05672_A1.md|A1]]、[[wiki/papers/2604_19710_SpanVLA.md|SpanVLA]]、[[wiki/papers/2604_19730_FASTER.md|FASTER (value-guided sampling)]]、[[wiki/papers/2604_24622_CF-VLA.md|CF-VLA]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2605_13382_BlockVLA.md|BlockVLA]]、[[wiki/papers/2605_13778_Realtime-VLA-FLASH.md|Realtime-VLA FLASH]]、[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]、[[wiki/papers/2606_05737_One-Step-VLA.md|One-Step VLA]]、[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]]、[[wiki/papers/2606_06491_TempoVLA.md|TempoVLA]]、[[wiki/papers/2606_07895_TBD-VLA.md|TBD-VLA]]、[[wiki/papers/2606_08242_Light-WAM.md|Light-WAM]]、[[wiki/papers/2606_08962_Cache.md|C³ache]]、[[wiki/papers/2606_14255_ReactVLA.md|ReactVLA]]、[[wiki/papers/2606_22540_PolicyTrim.md|PolicyTrim]]、[[wiki/papers/2607_12287_Temporal-Redundancy-Reduction.md|Temporal Redundancy Reduction]]
     - `parallel candidate allocation`：[[wiki/papers/2605_08638_KeyStone.md|KeyStone]]
     - `async / streaming / chunk scheduling`：[[wiki/papers/2511_14148_AsyncVLA.md|AsyncVLA]]、[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_28565_StreamingVLA.md|StreamingVLA]]、[[wiki/papers/2604_04161_AAC.md|AAC]]、[[wiki/papers/2604_24086_AsyncShield.md|AsyncShield]]、[[wiki/papers/2605_08168_Async-VLA-Inference.md|Async-VLA-Inference]]、[[wiki/papers/2605_19294_DEFLECT.md|DEFLECT]]、[[wiki/papers/2606_09811_AHA-WAM.md|AHA-WAM]]、[[wiki/papers/2606_12105_DAM-VLA.md|DAM-VLA]]、[[wiki/papers/2607_12659_Jetson-PI.md|Jetson-PI]]、[[wiki/papers/2607_14695_Reflex.md|Reflex]]、[[wiki/papers/2607_24008_FutureRTC.md|FutureRTC]]、[[wiki/papers/2608_00391_Actuation-Slack-Refresh.md|Actuation-Slack Refresh]]、[[wiki/papers/2608_00569_CloudEdgeVLA.md|CloudEdgeVLA]]
+    - `new allocation controls`：[[wiki/papers/2608_04404_Faster-WAM-Future-Conditioning.md|Faster-WAM (Future Conditioning)]]、[[wiki/papers/2608_06008_Adaptive-WAM.md|Adaptive-WAM]]、[[wiki/papers/2608_06434_EMS.md|EMS]]、[[wiki/papers/2608_07361_Planning-Token-Pruning.md|Planning-Token Pruning]]、[[wiki/papers/2608_08725_WA-SpecDec.md|WA-SpecDec]]、[[wiki/papers/2608_09492_TempoWAM.md|TempoWAM]]、[[wiki/papers/2608_10824_Gated-VLA-Cache.md|Gated VLA-Cache]]、[[wiki/papers/2608_11521_RIFT.md|RIFT]]、[[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]]、[[wiki/papers/2608_14379_ReflexVLA.md|ReflexVLA]]；分别作用于 future context、depth、model、layer、verification、chunk、cache 或完整 pipeline。
 - `reasoning efficiency`
   - 核心问题：如何保留 planning、few-shot adaptation、self-correction 这些 reasoning 收益，同时摆脱 always-on explicit CoT 的高延迟。
   - 代表性小类：
@@ -66,6 +69,7 @@
     - `reasoning distillation into compact policy`：[[wiki/papers/2607_25487_CoTinyVLA.md|CoTinyVLA]]
     - `gated / routed reasoning`：[[wiki/papers/2602_01100_StreamVLA.md|StreamVLA]]、[[wiki/papers/2603_05147_ActThinkAbstain.md|ActThinkAbstain]]、[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]]、[[wiki/papers/2606_08684_BLUE.md|BLUE]]、[[wiki/papers/2606_15099_AVA-VLA.md|AVA-VLA]]
     - `speculative reasoning acceleration`：[[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
+    - `future-representation / speculative reasoning`：[[wiki/papers/2608_06994_PILOT.md|PILOT]]、[[wiki/papers/2608_11521_RIFT.md|RIFT]]、[[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]]；需区分 motion-semantic latent、future-position KV 与 diffusion draft。
     - `adaptive parallel deliberation`：[[wiki/papers/2605_01194_VLA-ATTC.md|VLA-ATTC]]
 - `deployment-oriented efficiency`
   - 核心问题：如何让前述效率收益在真实硬件、网络、控制周期与 jitter 约束下仍然成立，而不是只停留在 benchmark latency。
@@ -78,6 +82,7 @@
     - `closed-loop-aware low-bit deployment`：[[wiki/papers/2607_28405_QuantWAMs.md|QuantWAMs]]
     - `structured-output serving`：[[wiki/papers/2605_23163_Fast-dDrive.md|Fast-dDrive]]、[[wiki/papers/2606_31160_Reasoning-aware-Speculative-Decoding-FlatRoPE-AARL.md|Reasoning-aware Speculative Decoding]]
     - `system / placement / network analysis`：[[wiki/papers/2602_18397_VLA-Perf.md|VLA-Perf]]、[[wiki/papers/2604_24447_DP-Cache-V-AEFusion.md|DP-Cache / V-AEFusion]]、[[wiki/papers/2606_03159_OmniDreams.md|OmniDreams]]
+    - `runtime / full-pipeline co-design`：[[wiki/papers/2608_03682_PhyAI.md|PhyAI]]、[[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]]、[[wiki/papers/2608_14379_ReflexVLA.md|ReflexVLA]]
 
 ## Boundary Conditions
 - 分类时默认问的是：**这篇论文主要在压哪一层成本**。如果一篇论文同时涉及多层，应按其 headline 与问题设定所服务的首要瓶颈来定位，而不是把所有技术元素都升格成主类。
@@ -93,6 +98,7 @@
 - driving VLA 的 structured output serving 可以帮助暴露 action-output decoding 边界，但不能直接和 manipulation VLA 的 control frequency 并表。
 - WAM / world-model 相关论文需要分清角色：[[wiki/papers/2606_07089_AdaWAM.md|AdaWAM]] 主要是 adaptive reasoning，[[wiki/papers/2606_05254_Flash-WAM.md|Flash-WAM]] 主要是 joint video-action denoising compression，[[wiki/papers/2606_03159_OmniDreams.md|OmniDreams]] 主要是 closed-loop AV simulator / serving infrastructure。
 - 新一批论文进一步要求区分 `减少关键路径`、`减少总计算` 与 `抵抗延迟`：[[wiki/papers/2608_00391_Actuation-Slack-Refresh.md|Actuation-Slack Refresh]] 会把 dense refresh 移出关键路径但增加总计算，[[wiki/papers/2607_24008_FutureRTC.md|FutureRTC]] 与 [[wiki/papers/2608_00569_CloudEdgeVLA.md|CloudEdgeVLA]] 主要改善异步或 stale-condition 鲁棒性，并不等价于模型本身提速。
+- 当前批次还要求分开 `decoder 实测 / 端到端投影`、`TFLOPs / wall-clock latency`、`WAM 调用次数 / per-call runtime`、`单项优化 / 组合栈 headline`；这些口径不能因为都服务“实时”而合并。
 - 若一篇论文只提升 task performance、但没有把效率问题写成主问题，或没有明确的成本口径，则不应强行纳入 efficient VLA 主地图。
 
 ## Not Directly Comparable
@@ -236,6 +242,18 @@
 - [[wiki/papers/2608_00391_Actuation-Slack-Refresh.md|Actuation-Slack Refresh]]
 - [[wiki/papers/2608_00569_CloudEdgeVLA.md|CloudEdgeVLA]]
 - [[wiki/papers/2608_02365_Faster-WAM-DoT.md|Faster-WAM]]
+- [[wiki/papers/2608_03682_PhyAI.md|PhyAI]]
+- [[wiki/papers/2608_04404_Faster-WAM-Future-Conditioning.md|Faster-WAM (Future Conditioning)]]
+- [[wiki/papers/2608_06008_Adaptive-WAM.md|Adaptive-WAM]]
+- [[wiki/papers/2608_06434_EMS.md|EMS]]
+- [[wiki/papers/2608_06994_PILOT.md|PILOT]]
+- [[wiki/papers/2608_07361_Planning-Token-Pruning.md|Planning-Token Pruning]]
+- [[wiki/papers/2608_08725_WA-SpecDec.md|WA-SpecDec]]
+- [[wiki/papers/2608_09492_TempoWAM.md|TempoWAM]]
+- [[wiki/papers/2608_10824_Gated-VLA-Cache.md|Gated VLA-Cache]]
+- [[wiki/papers/2608_11521_RIFT.md|RIFT]]
+- [[wiki/papers/2608_12932_FlashDrive.md|FlashDrive]]
+- [[wiki/papers/2608_14379_ReflexVLA.md|ReflexVLA]]
 ## Open Questions
 - `model-and-representation efficiency` 当前已经足够稳定到能作为 survey 主路线，但仓库里还缺一页专门承接它的独立子主题页；当前先由本页兼任总地图入口。
 - 多数论文仍然分别优化 `model size / training cost / runtime / deployment` 中的一层，真正同时显式建模五层 tradeoff 的工作仍少。
